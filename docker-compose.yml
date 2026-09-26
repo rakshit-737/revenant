@@ -1,15 +1,27 @@
-# OPTIONAL. REVENANT runs fully in-memory (networkx) with no external services.
-# This compose file is provided only for users who want to persist the
-# provenance graph in Neo4j (a documented TODO connector, Grade B). The core
-# engine and all tests run WITHOUT this.
+# OPTIONAL. REVENANT runs fully in-memory; nothing here is needed for the CLI,
+# the tests or the benchmarks.
+#
+#   docker compose up neo4j            # then: revenant analyze ... --format cypher | cypher-shell -u neo4j -p revenantlab
+#   docker compose up api              # UI on http://127.0.0.1:8000, evidence mounted read-only
 services:
+  api:
+    image: python:3.12-slim
+    working_dir: /app
+    command: sh -c "pip install -q -e '.[evtx,api]' && revenant serve --host 0.0.0.0 --port 8000"
+    environment:
+      - REVENANT_EVIDENCE_ROOT=/evidence
+    volumes:
+      - ./:/app
+      - ${EVIDENCE_DIR:-./tests/fixtures}:/evidence:ro
+    ports:
+      - "127.0.0.1:8000:8000"   # published on localhost only: the API has no auth
   neo4j:
     image: neo4j:5-community
     environment:
-      - NEO4J_AUTH=neo4j/revenantlab
+      - NEO4J_AUTH=neo4j/revenantlab   # lab-only default; change before any shared use
     ports:
-      - "7474:7474"   # HTTP browser
-      - "7687:7687"   # Bolt
+      - "127.0.0.1:7474:7474"
+      - "127.0.0.1:7687:7687"
     volumes:
       - neo4j-data:/data
 

@@ -7,25 +7,36 @@ forensic timelines from artifacts you are authorized to analyze. It:
 
 - reads and reconstructs artifacts; it **never mutates source evidence**;
 - generates **no offensive/exploit code** and targets no third-party systems;
-- ships only **synthetic, benign** sample data.
+- ships only synthetic fixtures plus one field-trimmed public OTRF log capture
+  (text logs, no binaries). Benchmark corpora are *downloaded* public event
+  logs (OTRF Security-Datasets, EVTX-ATTACK-SAMPLES). They contain attacker
+  command lines as text but no executable malware, and some endpoint AV
+  products quarantine them anyway. Leave AV enabled: REVENANT records
+  unreadable artefacts instead of failing.
 
 Do not use it against systems or data you are not authorized to examine.
 
 ## Safe defaults
 
-- Runs fully **in-memory** (networkx / pure-Python fallback). No Neo4j, Docker,
-  or network service is required at runtime.
-- No secrets, credentials, or external calls in the core engine.
-- Minimal dependencies (`pydantic`, `networkx`); `pytest` for tests.
+- The core engine runs **in-memory** (networkx / pure-Python fallback). Neo4j,
+  the API and PDF export are optional extras.
+- Evidence XML is parsed with **defusedxml** (entity-expansion / XXE safe).
+- The API only reads beneath `REVENANT_EVIDENCE_ROOT`, refuses path traversal,
+  and binds to `127.0.0.1` by default. It has no authentication: never expose
+  it on a network.
+- The UI's two CDN scripts are pinned with Subresource Integrity hashes.
+- The custody store is append-only (SQLite triggers), and offline edits are
+  detected by the hash chain.
 
 ## Supply-chain / CI
 
-The CI workflow (`.github/workflows/ci.yml`) runs on every push/PR:
+The CI workflow (`.github/workflows/ci.yml`) runs on every push and PR:
 
-- **SAST** via `bandit`
-- **dependency vulnerability scan** via `pip-audit`
-- **secret scan** via `gitleaks`
-- the full test suite on Python 3.10-3.12 plus a CLI smoke test.
+- `ruff` lint and the test suite on Python 3.10-3.13, plus a CLI smoke test on
+  the real OTRF fixture;
+- **SAST** via `bandit` (blocking at medium severity and above);
+- **dependency vulnerability scan** via `pip-audit`;
+- **secret scan** via `gitleaks`.
 
 ## Reporting a vulnerability
 
