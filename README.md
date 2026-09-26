@@ -208,7 +208,7 @@ is one field-trimmed OTRF capture used as a test fixture (MIT, attributed).
 | Spec component | Status |
 |---|---|
 | Ingest + per-event SHA-256 + custody | OTRF JSON, `.evtx` (python-evtx + defusedxml), plaso `json_line`/`l2tcsv`, Volatility 3 JSON, auth.log. Append-only SQLite ledger with UPDATE/DELETE triggers and offline verification |
-| Normaliser | Pydantic actor-action-object schema. 20 Sysmon and 23 Security/System/PowerShell event ids. Clock-offset estimation for each capture (ADR 0007) |
+| Normaliser | Pydantic actor-action-object schema. 21 Sysmon and 23 Security/System/PowerShell event ids. Clock-offset estimation for each capture (ADR 0007) |
 | Provenance graph | networkx with an in-memory fallback. Export to JSON, Cypher, or live Neo4j |
 | Causal rule engine | Indexed, O(n log n), with PID-reuse guard and GUID/PID/image/logon tiers, calibrated per rule (ADR 0002) |
 | Cross-artefact fusion | Sysmon 1 ↔ 4688, 5 ↔ 4689, logons, network, memory `pslist`, prefetch |

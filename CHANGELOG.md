@@ -12,7 +12,7 @@ Moves the project from synthetic scenarios to real public DFIR data.
 - **Real-artefact connectors** (`revenant.parsers`): OTRF/Mordor JSON lines,
   raw `.evtx` (python-evtx + defusedxml), plaso `json_line` and `l2tcsv`,
   Volatility 3 JSON (`pslist`/`pstree`/`netscan`/`cmdline`), Linux auth.log.
-  Coverage covers 20 Sysmon and 23 Security/System/PowerShell event ids, NTFS
+  Covers 21 Sysmon and 23 Security/System/PowerShell event ids, NTFS
   `$SI`/`$FN`, prefetch/amcache and browser history. Unmapped records and
   unreadable files are counted and reported.
 - **Per-capture clock-offset estimation** for collector-local time fields
