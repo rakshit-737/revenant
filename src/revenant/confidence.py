@@ -3,7 +3,8 @@
 A chain's confidence blends four signals, each in [0,1]:
 
 * reliability   - mean source-reliability weight of its events
-* corroboration - how many *distinct* source artifacts back the chain
+* corroboration - how many *distinct* source artifacts back the chain,
+                  counting cross-artefact corroborations found by fusion
 * temporal_fit  - mean temporal tightness of its causal edges
 * edge_strength - mean rule confidence of its edges
 
@@ -17,7 +18,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .graph import ProvenanceGraph
-from .models import ConfidenceGrade, ProvenanceChain
+from .models import ConfidenceGrade, IncidentStory, ProvenanceChain
 
 WEIGHTS = {
     "reliability": 0.3,
@@ -55,13 +56,16 @@ def _corroboration_factor(distinct_sources: int) -> float:
     return table.get(distinct_sources, 1.0)
 
 
-def score_chain(chain: ProvenanceChain, graph: ProvenanceGraph) -> ConfidenceBreakdown:
+def score_chain(chain: ProvenanceChain | IncidentStory, graph: ProvenanceGraph) -> ConfidenceBreakdown:
     events = [graph.get_event(eid) for eid in chain.event_ids]
     events = [e for e in events if e is not None]
 
     if events:
         reliability = sum(e.source_reliability.weight for e in events) / len(events)
-        distinct_sources = len({e.source_artifact for e in events})
+        sources: set[str] = set()
+        for e in events:
+            sources |= graph.sources_for(e.event_id)
+        distinct_sources = len(sources)
     else:
         reliability = 0.0
         distinct_sources = 0
@@ -69,7 +73,6 @@ def score_chain(chain: ProvenanceChain, graph: ProvenanceGraph) -> ConfidenceBre
 
     if chain.edges:
         edge_strength = sum(e.confidence for e in chain.edges) / len(chain.edges)
-        # tightness recomputed from windows already folded into edge conf; use conf spread
         temporal_fit = sum(
             1.0 / (1.0 + e.time_delta_s / 600.0) for e in chain.edges
         ) / len(chain.edges)
@@ -97,7 +100,7 @@ def score_chain(chain: ProvenanceChain, graph: ProvenanceGraph) -> ConfidenceBre
     )
 
 
-def apply_score(chain: ProvenanceChain, graph: ProvenanceGraph) -> ProvenanceChain:
+def apply_score(chain, graph: ProvenanceGraph):
     b = score_chain(chain, graph)
     chain.confidence_score = b.score
     chain.grade = b.grade
