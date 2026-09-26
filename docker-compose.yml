@@ -1,0 +1,17 @@
+# OPTIONAL. REVENANT runs fully in-memory (networkx) with no external services.
+# This compose file is provided only for users who want to persist the
+# provenance graph in Neo4j (a documented TODO connector, Grade B). The core
+# engine and all tests run WITHOUT this.
+services:
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      - NEO4J_AUTH=neo4j/revenantlab
+    ports:
+      - "7474:7474"   # HTTP browser
+      - "7687:7687"   # Bolt
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  neo4j-data:
