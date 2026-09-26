@@ -113,6 +113,12 @@ def map_windows_event(
     rid = _get(rec, "RecordNumber", "EventRecordID")
     if rid is not None:
         attrs["record_id"] = _s(rid)
+    # when the record was *written* to its channel (collector clock). Event
+    # times such as Sysmon 3 UtcTime can legitimately run backwards against
+    # record order; write times cannot, unless the clock was manipulated.
+    logged = _get(rec, "TimeCreated", "EventTime")
+    if logged is not None:
+        attrs["logged_at"] = _s(logged)
 
     mapped = _map_sysmon(rec, eid, attrs, include_noisy) if kind == SYSMON else None
     if kind == SECURITY:

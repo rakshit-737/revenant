@@ -132,23 +132,42 @@ def detect_clock_change(events: list[Event], min_jump_s: float = 300.0) -> list[
     return out
 
 
+def _written_at(e: Event):
+    """Channel write time when known (``logged_at``), else the event time."""
+    raw = e.attributes.get("logged_at")
+    if raw:
+        try:
+            return parse_ts(raw)
+        except ValueError:
+            pass
+    return e.timestamp
+
+
 def detect_record_order(events: list[Event], slack_s: float = 60.0) -> list[TamperingIndicator]:
+    """Record numbers increase while *write* time goes backwards: clock rollback.
+
+    Uses the channel write time, not the event time: Sysmon reports network
+    connections late (EID 3 ``UtcTime`` can precede earlier records by hours),
+    which is normal and must not be mistaken for tampering.
+    """
     by_channel: dict[tuple[str, str], list[tuple[int, Event]]] = defaultdict(list)
     for e in events:
         rid = e.attributes.get("record_id")
         if rid and rid.isdigit():
-            by_channel[(e.attributes.get("host", ""), e.attributes.get("channel", e.source_artifact))].append((int(rid), e))
+            key = (e.attributes.get("host", ""), e.attributes.get("channel", e.source_artifact))
+            by_channel[key].append((int(rid), e))
     out: list[TamperingIndicator] = []
     for (host, ch), recs in by_channel.items():
         recs.sort(key=lambda x: x[0])
-        latest = None
+        latest, latest_t = None, None
         for _, e in recs:
-            if latest is not None and (latest.timestamp - e.timestamp).total_seconds() > slack_s:
-                out.append(_ind("record_order", f"{host}/{ch}: record {e.attributes['record_id']} is "
-                                f"{int((latest.timestamp - e.timestamp).total_seconds())}s older than an earlier record",
+            t = _written_at(e)
+            if latest_t is not None and (latest_t - t).total_seconds() > slack_s:
+                out.append(_ind("record_order", f"{host}/{ch}: record {e.attributes['record_id']} was written "
+                                f"{int((latest_t - t).total_seconds())}s before an earlier-numbered record",
                                 [latest.event_id, e.event_id], "medium"))
-            if latest is None or e.timestamp > latest.timestamp:
-                latest = e
+            if latest_t is None or t > latest_t:
+                latest, latest_t = e, t
     return out
 
 

@@ -205,3 +205,15 @@ def test_audit_tamper_clock_and_record_order():
     r1 = ev(100, EventType.LOGON, "user:a", "host:ws1", source="security", record_id="10", channel="security")
     r2 = ev(0, EventType.LOGON, "user:a", "host:ws1", source="security", record_id="11", channel="security")
     assert detect_record_order([r1, r2])
+
+
+def test_record_order_uses_write_time_not_late_sysmon_event_time():
+    """Sysmon 3 reports connections late: event time goes back, write time does not."""
+    a = ev(3600, EventType.PROCESS_START, "process:1:a", "process:2:b", record_id="100", channel="sysmon",
+           logged_at="2024-03-02 11:00:00.100")
+    late = ev(0, EventType.NETWORK_CONNECT, "process:2:b", "ip:1.2.3.4:443", record_id="101", channel="sysmon",
+              logged_at="2024-03-02 11:00:01.000")
+    assert detect_record_order([a, late]) == []
+    rolled = ev(0, EventType.NETWORK_CONNECT, "process:2:b", "ip:1.2.3.4:443", record_id="102", channel="sysmon",
+                logged_at="2024-03-02 09:00:00.000")
+    assert detect_record_order([a, late, rolled])
