@@ -1,0 +1,1 @@
+{"summary": {"events": 100, "edges": 50, "stories": 0, "corroborations": 0, "indicators": 0, "ledger_records": 102, "ledger_ok": true, "timings_s": {"ingest": 0.001, "fusion": 0.0007, "rules": 0.0098, "antiforensics": 0.0009, "stories": 0.0046, "chains": 0.0025}, "load_stats": {}}, "stories": [], "events": [], "indicators": [], "artefacts": []}

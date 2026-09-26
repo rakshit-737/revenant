@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REVENANT — static demo</title>
+<script src="https://cdn.jsdelivr.net/npm/vis-timeline@7.7.3/standalone/umd/vis-timeline-graph2d.min.js" integrity="sha384-MLX+7yEEPNEznaIWwQi2pBMODSBP6Qo6BOVpzjFWB0UkfEzEYsvHOo7ISLfcQeiI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js" integrity="sha384-yxKDWWf0wwdUj/gPeuL11czrnKFQROnLgY8ll7En9NYoXibgg3C6NK/UDHNtUgWJ" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#f7f7f8;--panel:#fff;--ink:#1b1f24;--muted:#5d6570;--line:#d9dce1;--accent:#8a1c1c;--hi:#c2410c;--ok:#15803d}
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--panel:#1b1e23;--ink:#e6e8eb;--muted:#9aa3ad;--line:#2d323a;--accent:#f87171;--hi:#fb923c;--ok:#4ade80}}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:1.05rem;margin:0 1rem 0 0;letter-spacing:.08em}
+header small{color:var(--muted)}
+select,button{font:inherit;padding:.3rem .5rem;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--ink)}
+.note{padding:.4rem 1rem;background:color-mix(in srgb,var(--hi) 12%,transparent);color:var(--ink);font-size:12.5px;border-bottom:1px solid var(--line)}
+main{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:.75rem;padding:.75rem;height:calc(100vh - 92px)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:auto;min-height:0}
+#left{display:flex;flex-direction:column}
+#stories .s{padding:.55rem .7rem;border-bottom:1px solid var(--line);cursor:pointer}
+#stories .s:hover,#stories .s.active{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.badge{display:inline-block;font-size:11px;padding:0 .35rem;border-radius:3px;border:1px solid var(--line);margin:1px 2px 0 0}
+.grade-CONFIRMED,.grade-HIGH{color:var(--ok)}.grade-LOW{color:var(--hi)}
+#right{display:grid;grid-template-rows:auto 1fr auto;gap:.75rem;min-height:0}
+#timeline{min-height:180px}
+#graph{min-height:260px}
+#detail{padding:.6rem .8rem;max-height:30vh;overflow:auto;font-size:13px}
+#detail code{word-break:break-all;font-size:12px}
+.summary{padding:.6rem .8rem;border-bottom:1px solid var(--line);color:var(--muted);font-size:13px}
+@media (max-width:800px){main{grid-template-columns:1fr;height:auto}#right{grid-template-rows:auto 320px auto}}
+</style>
+</head>
+<body>
+<header>
+  <h1>REVENANT</h1><small>evidence-graph timeline reconstruction &middot; static demo</small>
+  <span style="flex:1"></span>
+  <select id="scenario" aria-label="Synthetic scenario"></select>
+</header>
+<div class="note">
+  Static, pre-computed demo built from REVENANT's synthetic scenarios (no server). The live
+  tool (<code>revenant serve</code>) also analyses real artefacts. Select a scenario, click a
+  story or the full timeline, then click an event for its evidence and SHA-256.
+</div>
+<main>
+  <section id="left" class="panel">
+    <div class="summary" id="summary">Loading…</div>
+    <div id="stories"></div>
+  </section>
+  <section id="right">
+    <div id="timeline" class="panel"></div>
+    <div id="graph" class="panel"></div>
+    <div id="detail" class="panel">Select a story or the full timeline, then click an event.</div>
+  </section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+let caseData = null, timeline = null, network = null;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const label = e => `${e.type}: ${(e.object.split(/[\\/]/).pop() || e.object).slice(0, 40)}`;
+
+async function json(url){ const r = await fetch(url); if(!r.ok) throw new Error(r.statusText); return r.json(); }
+
+async function init(){
+  const idx = await json("cases/index.json");
+  $("#scenario").innerHTML = idx.map(s => `<option value="${esc(s.name)}">${esc(s.name)} (${s.events} events, ${s.stories} stories)</option>`).join("");
+  $("#scenario").value = idx.find(s => s.stories > 0)?.name || idx[0].name;
+  $("#scenario").onchange = () => load($("#scenario").value);
+  load($("#scenario").value);
+}
+
+async function load(name){
+  caseData = await json(`cases/${name}.json`);
+  const s = caseData.summary;
+  $("#summary").innerHTML = `<b>${esc(name)}</b><br>${s.events} events &middot; ${s.edges} causal edges &middot; ` +
+    `${s.corroborations} corroborations &middot; ${s.stories} stories &middot; ${s.indicators} indicators &middot; ` +
+    `custody ${s.ledger_ok ? "verified" : "BROKEN"}`;
+  const rows = caseData.stories.map((st, i) =>
+    `<div class="s" data-i="${i}"><b>#${i + 1}</b> suspicion ${st.suspicion.toFixed(2)} &middot; ` +
+    `<span class="grade-${st.grade}">${st.grade}</span> (${st.confidence.toFixed(2)})<br>` +
+    st.techniques.map(t => `<span class="badge">${esc(t)}</span>`).join("") +
+    `<br><small>${st.event_ids.length} events${st.tampering_flags.length ? " &middot; tamper flags " + st.tampering_flags.length : ""}</small></div>`);
+  rows.push(`<div class="s" data-i="-1"><b>Full timeline</b><br><small>all ${caseData.events.length} events, ungrouped</small></div>`);
+  $("#stories").innerHTML = rows.join("");
+  document.querySelectorAll("#stories .s").forEach(el => el.onclick = () => show(+el.dataset.i, el));
+  const first = document.querySelector("#stories .s");
+  show(caseData.stories.length ? 0 : -1, caseData.stories.length ? first : document.querySelector('#stories .s:last-child'));
+}
+
+function show(i, el){
+  document.querySelectorAll("#stories .s").forEach(x => x.classList.remove("active"));
+  el && el.classList.add("active");
+  const byId = Object.fromEntries(caseData.events.map(e => [e.id, e]));
+  let evs, edges;
+  if (i === -1){ evs = caseData.events; edges = []; }
+  else { const st = caseData.stories[i]; evs = st.event_ids.map(id => byId[id]).filter(Boolean); edges = st.edges; }
+  const items = new vis.DataSet(evs.map(e => ({id: e.id, start: e.time, content: esc(label(e)),
+    style: e.techniques.length ? "border-color:#c2410c;background:#fed7aa;color:#1b1f24" : ""})));
+  if (timeline) timeline.destroy();
+  timeline = new vis.Timeline($("#timeline"), items, {stack: true, maxHeight: 260, zoomKey: "ctrlKey"});
+  timeline.on("select", p => p.items[0] && detail(byId[p.items[0]]));
+  const nodes = new vis.DataSet(evs.map(e => ({id: e.id, label: label(e), shape: "box",
+    color: e.techniques.length ? {background: "#fed7aa", border: "#c2410c"} : undefined, font: {size: 11}})));
+  const ne = new vis.DataSet(edges.map((e, k) => ({id: k, from: e.src, to: e.dst, arrows: "to",
+    label: e.relation, title: `${e.rule} (conf ${e.confidence}, dt ${e.dt_s}s)`, font: {size: 9}})));
+  if (network) network.destroy();
+  network = new vis.Network($("#graph"), {nodes, edges: ne}, {layout: {hierarchical: {direction: "LR", sortMethod: "directed"}},
+    physics: false, interaction: {hover: true}});
+  network.on("click", p => p.nodes[0] && detail(byId[p.nodes[0]]));
+  if (i === -1){ $("#detail").innerHTML = "Full event timeline (no single story selected). Click an event."; }
+  else {
+    const st = caseData.stories[i];
+    $("#detail").innerHTML = `<b>Story ${esc(st.id)}</b> &middot; stages ${esc(st.stages.join(" → ") || "n/a")}<br>` +
+      `confidence breakdown: ${esc(JSON.stringify(st.confidence_breakdown))}<br>` +
+      (st.tampering_flags.length ? `<b>tampering:</b><ul>${st.tampering_flags.map(f => `<li>${esc(f)}</li>`).join("")}</ul>` : "");
+  }
+}
+
+function detail(e){
+  if (!e) return;
+  $("#detail").innerHTML = `<b>${esc(e.type)}</b> ${esc(e.time)} [${esc(e.host)}]<br>` +
+    `<b>${esc(e.actor)}</b> ${esc(e.action)} <i>${esc(e.object)}</i><br>` +
+    (e.command_line ? `<code>${esc(e.command_line)}</code><br>` : "") +
+    `techniques: ${esc(e.techniques.join(", ") || "none")} &middot; suspicion ${e.suspicion}<br>` +
+    `source ${esc(e.source)}/${esc(e.reliability)}` +
+    (e.corroborated_by.length ? ` &middot; corroborated by ${esc(e.corroborated_by.join(", "))}` : "") +
+    `<br>event <code>${esc(e.id)}</code> sha256 <code>${esc(e.hash)}</code>`;
+}
+init().catch(err => { $("#summary").textContent = "Error: " + err.message; });
+</script>
+</body>
+</html>

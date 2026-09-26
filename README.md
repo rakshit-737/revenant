@@ -1,9 +1,12 @@
 # REVENANT
 
 [![CI](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml/badge.svg)](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml)
+[![docs](https://github.com/rakshit-737/revenant/actions/workflows/docs.yml/badge.svg)](https://rakshit-737.github.io/revenant/)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.14-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-research%20prototype-orange)
+
+**Documentation:** <https://rakshit-737.github.io/revenant/> · [Live demo](https://rakshit-737.github.io/revenant/demo/)
 
 **Forensic timeline reconstruction for DFIR.** REVENANT reads real Windows and Linux
 artefacts (Sysmon, Security, PowerShell, raw `.evtx`, plaso, Volatility 3, auth.log),

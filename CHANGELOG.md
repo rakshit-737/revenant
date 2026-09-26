@@ -4,6 +4,26 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.0] - 2026-09-26
+
+First stable release. No engine behaviour changes from 0.2.0; this release adds the
+documentation site, container image and release automation.
+
+### Added
+- **Documentation site** (MkDocs Material) published to GitHub Pages via
+  `.github/workflows/docs.yml` (`mkdocs build --strict`): Home, Getting started,
+  Architecture, Datasets, Benchmarks, CLI & API reference (mkdocstrings), Threat model,
+  Security, ADRs, Changelog, Limitations/Roadmap.
+- **Static, server-less demo** under `/demo/` — the timeline + causal-graph UI over
+  pre-computed synthetic scenarios (no API needed).
+- **`Dockerfile`** (slim, non-root, multi-stage) and a **release workflow**
+  (`.github/workflows/release.yml`): on a `v*` tag it builds the wheel/sdist, pushes the
+  image to `ghcr.io/rakshit-737/revenant`, and creates a GitHub Release with notes from
+  this changelog and the distributions attached.
+
+### Changed
+- `pyproject` uses the SPDX `license = "MIT"` form.
+
 ## [0.2.0] - 2026-09-26
 
 Moves the project from synthetic scenarios to real public DFIR data.

@@ -16,3 +16,6 @@ venv/
 # profiler dumps
 *.out
 *.prof
+
+# mkdocs build output
+site/

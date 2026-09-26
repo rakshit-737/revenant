@@ -1,0 +1,85 @@
+site_name: REVENANT
+site_description: Evidence-graph forensic timeline reconstruction with confidence grading (lab-only DFIR).
+site_url: https://rakshit-737.github.io/revenant/
+repo_url: https://github.com/rakshit-737/revenant
+repo_name: rakshit-737/revenant
+edit_uri: edit/main/docs/
+copyright: MIT licensed. All benchmark data is public; see Datasets.
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: red
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: red
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.instant
+    - content.code.copy
+    - toc.follow
+    - search.suggest
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["src"]
+          options:
+            show_root_heading: true
+            show_source: false
+            docstring_style: numpy
+            members_order: source
+            filters: ["!^_"]
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Architecture: architecture.md
+  - Datasets: datasets.md
+  - Benchmarks & results: benchmarks.md
+  - CLI & API reference: reference.md
+  - Threat model: threat-model.md
+  - Security: security.md
+  - ADRs:
+      - Overview: adr/index.md
+      - 0001 Rules not ML for causal claims: adr/0001-rules-not-ml-for-causal-claims.md
+      - 0002 Indexed rule engine: adr/0002-indexed-rule-engine.md
+      - 0003 Entity keys: adr/0003-entity-keys.md
+      - 0004 Stories not paths: adr/0004-stories-not-paths.md
+      - 0005 Custody ledger: adr/0005-custody-ledger.md
+      - 0006 Benchmark methodology: adr/0006-benchmark-methodology.md
+      - 0007 Timestamp normalisation: adr/0007-timestamp-normalisation.md
+  - Changelog: changelog.md
+  - Limitations & roadmap: limitations.md
+  - Live demo: demo/index.html

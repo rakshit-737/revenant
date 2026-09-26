@@ -2,27 +2,27 @@
 
 ```mermaid
 flowchart LR
-  subgraph Evidence[Evidence: read-only]
-    OTRF[OTRF / Mordor JSON] --> P
-    EVTX[.evtx via python-evtx] --> P
-    PL[plaso json_line / l2tcsv] --> P
-    VOL[Volatility 3 JSON] --> P
-    AUTH[auth.log] --> P
+  subgraph Evidence["Evidence: read-only"]
+    OTRF["OTRF / Mordor JSON"] --> P
+    EVTX[".evtx via python-evtx"] --> P
+    PL["plaso json_line / l2tcsv"] --> P
+    VOL["Volatility 3 JSON"] --> P
+    AUTH["auth.log"] --> P
   end
-  P[parsers/*<br/>map to Event + SHA-256] --> L[(custody ledger<br/>hash chain → SQLite)]
-  P --> G[(provenance graph<br/>networkx or in-memory)]
-  G --> F[fusion<br/>corroborations]
-  F --> R[rule engine<br/>GUID → PID → cross-entity → fallback]
-  R --> AF[anti-forensics scan]
-  R --> AT[ATT&CK heuristics + rarity]
-  AT --> S[story reconstructor]
+  P["parsers/*<br/>map to Event + SHA-256"] --> L[("custody ledger<br/>hash chain to SQLite")]
+  P --> G[("provenance graph<br/>networkx or in-memory")]
+  G --> F["fusion<br/>corroborations"]
+  F --> R["rule engine<br/>GUID to PID to cross-entity to fallback"]
+  R --> AF["anti-forensics scan"]
+  R --> AT["ATT&CK heuristics + rarity"]
+  AT --> S["story reconstructor"]
   AF --> S
-  S --> C[confidence scorer<br/>calibrated edges]
-  C --> OUT{outputs}
-  OUT --> MD[Markdown / HTML / PDF report]
-  OUT --> JS[JSON]
-  OUT --> CY[Cypher → Neo4j]
-  OUT --> API[FastAPI + vis-timeline UI]
+  S --> C["confidence scorer<br/>calibrated edges"]
+  C --> OUT{"outputs"}
+  OUT --> MD["Markdown / HTML / PDF report"]
+  OUT --> JS["JSON"]
+  OUT --> CY["Cypher to Neo4j"]
+  OUT --> API["FastAPI + vis-timeline UI"]
 ```
 
 ## Module map
