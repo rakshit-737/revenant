@@ -1,0 +1,4 @@
+Mar  2 10:10:01 labsrv sshd[2201]: Failed password for invalid user admin from 198.51.100.23 port 51122 ssh2
+Mar  2 10:10:09 labsrv sshd[2203]: Accepted password for bob from 198.51.100.23 port 51130 ssh2
+Mar  2 10:11:40 labsrv sudo:      bob : TTY=pts/0 ; PWD=/home/bob ; USER=root ; COMMAND=/usr/bin/cat /etc/shadow
+Mar  2 10:12:00 labsrv CRON[2301]: pam_unix(cron:session): session opened for user root by (uid=0)

@@ -1,5 +1,5 @@
 from revenant import pipeline
-from revenant.antiforensics import detect_hash_mismatch, detect_log_gaps, scan
+from revenant.antiforensics import detect_hash_mismatch, detect_log_gaps
 from revenant.generators import intrusion_scenario, timestomp_scenario
 from revenant.normalize import normalize_batch
 

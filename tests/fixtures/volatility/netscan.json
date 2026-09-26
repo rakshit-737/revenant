@@ -1,0 +1,4 @@
+[
+ {"Offset": 9, "Proto": "TCPv4", "LocalAddr": "10.0.0.5", "LocalPort": 50100, "ForeignAddr": "203.0.113.7", "ForeignPort": 443, "State": "ESTABLISHED", "PID": 4321, "Owner": "powershell.exe", "Created": "2024-03-02T10:15:30+00:00"},
+ {"Offset": 10, "Proto": "TCPv4", "LocalAddr": "0.0.0.0", "LocalPort": 135, "ForeignAddr": "*", "ForeignPort": 0, "State": "LISTENING", "PID": 900, "Owner": "svchost.exe", "Created": "2024-03-02T09:00:00+00:00"}
+]

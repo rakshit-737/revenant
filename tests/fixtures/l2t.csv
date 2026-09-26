@@ -1,0 +1,4 @@
+date,time,timezone,MACB,source,sourcetype,type,user,host,short,desc,version,filename,inode,notes,format,extra
+03/02/2024,10:15:10,UTC,.A..,PE,Prefetch,Last Time Executed,-,LAB-WS01,POWERSHELL.EXE,Prefetch [POWERSHELL.EXE] was executed,2,\Windows\Prefetch\POWERSHELL.EXE-1234.pf,-,-,prefetch,-
+03/02/2024,10:15:20,UTC,M...,REG,Registry Key,Content Modification Time,-,LAB-WS01,HKCU\Software\Microsoft\Windows\CurrentVersion\Run,Run key,2,NTUSER.DAT,-,-,winreg,-
+03/02/2024,10:14:00,UTC,.A..,WEBHIST,Chrome History,Last Visited Time,alice,LAB-WS01,https://lab.example.test/,visited https://lab.example.test/invoice.docm,2,History,-,-,chrome_history,-

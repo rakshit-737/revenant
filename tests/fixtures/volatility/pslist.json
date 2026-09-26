@@ -1,0 +1,5 @@
+[
+ {"PID": 1200, "PPID": 900, "ImageFileName": "WINWORD.EXE", "Offset(V)": 1, "CreateTime": "2024-03-02T10:14:30+00:00", "ExitTime": null, "__children": []},
+ {"PID": 4321, "PPID": 1200, "ImageFileName": "powershell.exe", "Offset(V)": 2, "CreateTime": "2024-03-02T10:15:01.500000+00:00", "ExitTime": null, "__children": []},
+ {"PID": 5000, "PPID": 4321, "ImageFileName": "rundll32.exe", "Offset(V)": 3, "CreateTime": "2024-03-02T10:16:00+00:00", "ExitTime": "2024-03-02T10:16:05+00:00", "__children": []}
+]

@@ -14,6 +14,7 @@ def _graph_from(records):
 
 def test_graph_add_edge_requires_known_nodes():
     import pytest
+
     from revenant.models import CausalEdge
     g = ProvenanceGraph()
     with pytest.raises(KeyError):

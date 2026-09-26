@@ -43,7 +43,6 @@ def test_ledger_chain_verifies_and_detects_tamper():
         ledger.record_ingest(finalize_event(_ev()))
     assert ledger.verify()
     # tamper with a middle record's digest
-    ledger.records  # snapshot copy, not live
     ledger._records[1] = ledger._records[1].model_copy(update={"digest": "0" * 64})
     assert not ledger.verify()
 
