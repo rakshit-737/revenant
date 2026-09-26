@@ -1,0 +1,732 @@
+{
+  "benchmark": "causal_edges_vs_sysmon_guid",
+  "environment": {
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel"
+  },
+  "corpora": [
+    {
+      "corpus": "otrf_atomic",
+      "datasets": 119,
+      "events": 394091,
+      "evaluable_effects": 66225,
+      "evaluable_by_type": {
+        "dns_query": 105,
+        "file_delete": 450,
+        "file_read": 280,
+        "file_time_change": 137,
+        "file_write": 1671,
+        "network_connect": 206,
+        "pipe": 350,
+        "process_access": 10609,
+        "process_start": 321,
+        "registry_set": 52090,
+        "remote_thread": 6
+      },
+      "methods": {
+        "v01_exact_ref_join": {
+          "tp": 15604,
+          "fp": 14502,
+          "fn": 50621,
+          "n_eval": 66225,
+          "precision": 0.5183,
+          "recall": 0.2356,
+          "f1": 0.324,
+          "false_edge_rate": 0.4817
+        },
+        "pid_nearest": {
+          "tp": 55998,
+          "fp": 2497,
+          "fn": 10227,
+          "n_eval": 66225,
+          "precision": 0.9573,
+          "recall": 0.8456,
+          "f1": 0.898,
+          "false_edge_rate": 0.0427
+        },
+        "revenant": {
+          "tp": 63268,
+          "fp": 2955,
+          "fn": 2957,
+          "n_eval": 66225,
+          "precision": 0.9554,
+          "recall": 0.9553,
+          "f1": 0.9554,
+          "false_edge_rate": 0.0446
+        }
+      },
+      "by_effect_type": {
+        "pid_nearest": {
+          "dns_query": {
+            "n_eval": 105,
+            "precision": 0.973,
+            "recall": 0.6857,
+            "f1": 0.8045
+          },
+          "file_delete": {
+            "n_eval": 450,
+            "precision": 0.9938,
+            "recall": 0.7067,
+            "f1": 0.826
+          },
+          "file_read": {
+            "n_eval": 280,
+            "precision": 0.9483,
+            "recall": 0.9179,
+            "f1": 0.9328
+          },
+          "file_time_change": {
+            "n_eval": 137,
+            "precision": 0.9926,
+            "recall": 0.9781,
+            "f1": 0.9853
+          },
+          "file_write": {
+            "n_eval": 1671,
+            "precision": 0.9928,
+            "recall": 0.9054,
+            "f1": 0.9471
+          },
+          "network_connect": {
+            "n_eval": 206,
+            "precision": 0.9191,
+            "recall": 0.6068,
+            "f1": 0.731
+          },
+          "pipe": {
+            "n_eval": 350,
+            "precision": 0.9609,
+            "recall": 0.7714,
+            "f1": 0.8558
+          },
+          "process_access": {
+            "n_eval": 10609,
+            "precision": 0.9266,
+            "recall": 0.9039,
+            "f1": 0.9151
+          },
+          "process_start": {
+            "n_eval": 321,
+            "precision": 0.8356,
+            "recall": 0.7757,
+            "f1": 0.8045
+          },
+          "registry_set": {
+            "n_eval": 52090,
+            "precision": 0.9637,
+            "recall": 0.8344,
+            "f1": 0.8944
+          },
+          "remote_thread": {
+            "n_eval": 6,
+            "precision": 1.0,
+            "recall": 0.8333,
+            "f1": 0.9091
+          }
+        },
+        "revenant": {
+          "dns_query": {
+            "n_eval": 105,
+            "precision": 0.9524,
+            "recall": 0.9524,
+            "f1": 0.9524
+          },
+          "file_delete": {
+            "n_eval": 450,
+            "precision": 0.8778,
+            "recall": 0.8778,
+            "f1": 0.8778
+          },
+          "file_read": {
+            "n_eval": 280,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_time_change": {
+            "n_eval": 137,
+            "precision": 0.9927,
+            "recall": 0.9927,
+            "f1": 0.9927
+          },
+          "file_write": {
+            "n_eval": 1671,
+            "precision": 0.9856,
+            "recall": 0.9856,
+            "f1": 0.9856
+          },
+          "network_connect": {
+            "n_eval": 206,
+            "precision": 0.9612,
+            "recall": 0.9612,
+            "f1": 0.9612
+          },
+          "pipe": {
+            "n_eval": 350,
+            "precision": 0.9371,
+            "recall": 0.9371,
+            "f1": 0.9371
+          },
+          "process_access": {
+            "n_eval": 10609,
+            "precision": 0.9273,
+            "recall": 0.9273,
+            "f1": 0.9273
+          },
+          "process_start": {
+            "n_eval": 321,
+            "precision": 0.8785,
+            "recall": 0.8785,
+            "f1": 0.8785
+          },
+          "registry_set": {
+            "n_eval": 52090,
+            "precision": 0.961,
+            "recall": 0.961,
+            "f1": 0.961
+          },
+          "remote_thread": {
+            "n_eval": 6,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          }
+        }
+      },
+      "revenant_calibration_handset": {
+        "ece": 0.2455,
+        "n": 67853,
+        "bins": [
+          {
+            "bin": "0.4-0.5",
+            "n": 6545,
+            "mean_confidence": 0.4988,
+            "accuracy": 0.6989
+          },
+          {
+            "bin": "0.5-0.6",
+            "n": 1409,
+            "mean_confidence": 0.515,
+            "accuracy": 0.8169
+          },
+          {
+            "bin": "0.6-0.7",
+            "n": 11261,
+            "mean_confidence": 0.697,
+            "accuracy": 0.9397
+          },
+          {
+            "bin": "0.7-0.8",
+            "n": 48526,
+            "mean_confidence": 0.7482,
+            "accuracy": 0.9992
+          },
+          {
+            "bin": "0.8-0.9",
+            "n": 112,
+            "mean_confidence": 0.8,
+            "accuracy": 0.9375
+          }
+        ]
+      },
+      "revenant_rule_accuracy": {
+        "process_dns_query": {
+          "n": 81,
+          "accuracy": 1.0
+        },
+        "process_file_other": {
+          "n": 740,
+          "accuracy": 1.0
+        },
+        "process_file_write": {
+          "n": 1595,
+          "accuracy": 1.0
+        },
+        "process_image_fallback_dns_query": {
+          "n": 31,
+          "accuracy": 0.8387
+        },
+        "process_image_fallback_file_other": {
+          "n": 141,
+          "accuracy": 0.6028
+        },
+        "process_image_fallback_file_write": {
+          "n": 147,
+          "accuracy": 0.8367
+        },
+        "process_image_fallback_net_connect": {
+          "n": 70,
+          "accuracy": 0.8857
+        },
+        "process_image_fallback_pipe": {
+          "n": 69,
+          "accuracy": 0.6812
+        },
+        "process_image_fallback_process_access": {
+          "n": 265,
+          "accuracy": 0.7057
+        },
+        "process_image_fallback_registry_set": {
+          "n": 6991,
+          "accuracy": 0.7096
+        },
+        "process_image_fallback_spawn": {
+          "n": 26,
+          "accuracy": 0.7692
+        },
+        "process_net_connect": {
+          "n": 148,
+          "accuracy": 1.0
+        },
+        "process_pipe": {
+          "n": 289,
+          "accuracy": 1.0
+        },
+        "process_process_access": {
+          "n": 10930,
+          "accuracy": 0.9366
+        },
+        "process_registry_set": {
+          "n": 46031,
+          "accuracy": 1.0
+        },
+        "process_spawn": {
+          "n": 299,
+          "accuracy": 0.8896
+        }
+      },
+      "revenant_rule_time_s": 53.455
+    },
+    {
+      "corpus": "otrf_apt29_day1",
+      "datasets": 1,
+      "events": 128095,
+      "evaluable_effects": 79607,
+      "evaluable_by_type": {
+        "dns_query": 72,
+        "file_delete": 367,
+        "file_read": 179,
+        "file_time_change": 205,
+        "file_write": 1283,
+        "network_connect": 467,
+        "pipe": 225,
+        "process_access": 15553,
+        "process_start": 327,
+        "registry_set": 60927,
+        "remote_thread": 2
+      },
+      "methods": {
+        "v01_exact_ref_join": {
+          "tp": 10057,
+          "fp": 10057,
+          "fn": 69550,
+          "n_eval": 79607,
+          "precision": 0.5,
+          "recall": 0.1263,
+          "f1": 0.2017,
+          "false_edge_rate": 0.5
+        },
+        "pid_nearest": {
+          "tp": 79607,
+          "fp": 0,
+          "fn": 0,
+          "n_eval": 79607,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_edge_rate": 0.0
+        },
+        "revenant": {
+          "tp": 79607,
+          "fp": 0,
+          "fn": 0,
+          "n_eval": 79607,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "false_edge_rate": 0.0
+        }
+      },
+      "by_effect_type": {
+        "pid_nearest": {
+          "dns_query": {
+            "n_eval": 72,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_delete": {
+            "n_eval": 367,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_read": {
+            "n_eval": 179,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_time_change": {
+            "n_eval": 205,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_write": {
+            "n_eval": 1283,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "network_connect": {
+            "n_eval": 467,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "pipe": {
+            "n_eval": 225,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "process_access": {
+            "n_eval": 15553,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "process_start": {
+            "n_eval": 327,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "registry_set": {
+            "n_eval": 60927,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "remote_thread": {
+            "n_eval": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          }
+        },
+        "revenant": {
+          "dns_query": {
+            "n_eval": 72,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_delete": {
+            "n_eval": 367,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_read": {
+            "n_eval": 179,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_time_change": {
+            "n_eval": 205,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "file_write": {
+            "n_eval": 1283,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "network_connect": {
+            "n_eval": 467,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "pipe": {
+            "n_eval": 225,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "process_access": {
+            "n_eval": 15553,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "process_start": {
+            "n_eval": 327,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "registry_set": {
+            "n_eval": 60927,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          },
+          "remote_thread": {
+            "n_eval": 2,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0
+          }
+        }
+      },
+      "revenant_calibration_handset": {
+        "ece": 0.2736,
+        "n": 79607,
+        "bins": [
+          {
+            "bin": "0.4-0.5",
+            "n": 29,
+            "mean_confidence": 0.4957,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.5-0.6",
+            "n": 188,
+            "mean_confidence": 0.588,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.6-0.7",
+            "n": 17778,
+            "mean_confidence": 0.6865,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.7-0.8",
+            "n": 61556,
+            "mean_confidence": 0.7384,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.8-0.9",
+            "n": 56,
+            "mean_confidence": 0.8,
+            "accuracy": 1.0
+          }
+        ]
+      },
+      "revenant_rule_accuracy": {
+        "process_dns_query": {
+          "n": 67,
+          "accuracy": 1.0
+        },
+        "process_file_other": {
+          "n": 751,
+          "accuracy": 1.0
+        },
+        "process_file_write": {
+          "n": 1283,
+          "accuracy": 1.0
+        },
+        "process_image_fallback_dns_query": {
+          "n": 5,
+          "accuracy": 1.0
+        },
+        "process_image_fallback_net_connect": {
+          "n": 18,
+          "accuracy": 1.0
+        },
+        "process_image_fallback_registry_set": {
+          "n": 1,
+          "accuracy": 1.0
+        },
+        "process_image_fallback_spawn": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "process_net_connect": {
+          "n": 449,
+          "accuracy": 1.0
+        },
+        "process_pipe": {
+          "n": 225,
+          "accuracy": 1.0
+        },
+        "process_process_access": {
+          "n": 15555,
+          "accuracy": 1.0
+        },
+        "process_registry_set": {
+          "n": 60926,
+          "accuracy": 1.0
+        },
+        "process_spawn": {
+          "n": 325,
+          "accuracy": 1.0
+        }
+      },
+      "revenant_rule_time_s": 156.641
+    }
+  ],
+  "calibration_cross_corpus": {
+    "fit_otrf_atomic_test_otrf_apt29_day1": {
+      "table": {
+        "process_dns_query": {
+          "n": 81,
+          "confidence": 0.988
+        },
+        "process_file_other": {
+          "n": 740,
+          "confidence": 0.9987
+        },
+        "process_file_write": {
+          "n": 1595,
+          "confidence": 0.9994
+        },
+        "process_image_fallback_dns_query": {
+          "n": 31,
+          "confidence": 0.8182
+        },
+        "process_image_fallback_file_other": {
+          "n": 141,
+          "confidence": 0.6014
+        },
+        "process_image_fallback_file_write": {
+          "n": 147,
+          "confidence": 0.8322
+        },
+        "process_image_fallback_net_connect": {
+          "n": 70,
+          "confidence": 0.875
+        },
+        "process_image_fallback_pipe": {
+          "n": 69,
+          "confidence": 0.6761
+        },
+        "process_image_fallback_process_access": {
+          "n": 265,
+          "confidence": 0.7041
+        },
+        "process_image_fallback_registry_set": {
+          "n": 6991,
+          "confidence": 0.7096
+        },
+        "process_image_fallback_spawn": {
+          "n": 26,
+          "confidence": 0.75
+        },
+        "process_net_connect": {
+          "n": 148,
+          "confidence": 0.9933
+        },
+        "process_pipe": {
+          "n": 289,
+          "confidence": 0.9966
+        },
+        "process_process_access": {
+          "n": 10930,
+          "confidence": 0.9365
+        },
+        "process_registry_set": {
+          "n": 46031,
+          "confidence": 1.0
+        },
+        "process_spawn": {
+          "n": 299,
+          "confidence": 0.887
+        }
+      },
+      "test": {
+        "ece": 0.013,
+        "n": 79607,
+        "bins": [
+          {
+            "bin": "0.7-0.8",
+            "n": 3,
+            "mean_confidence": 0.7365,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.8-0.9",
+            "n": 348,
+            "mean_confidence": 0.8854,
+            "accuracy": 1.0
+          },
+          {
+            "bin": "0.9-1.0",
+            "n": 79256,
+            "mean_confidence": 0.9875,
+            "accuracy": 1.0
+          }
+        ]
+      }
+    },
+    "fit_otrf_apt29_day1_test_otrf_atomic": {
+      "table": {
+        "process_dns_query": {
+          "n": 67,
+          "confidence": 0.9855
+        },
+        "process_file_other": {
+          "n": 751,
+          "confidence": 0.9987
+        },
+        "process_file_write": {
+          "n": 1283,
+          "confidence": 0.9992
+        },
+        "process_net_connect": {
+          "n": 449,
+          "confidence": 0.9978
+        },
+        "process_pipe": {
+          "n": 225,
+          "confidence": 0.9956
+        },
+        "process_process_access": {
+          "n": 15555,
+          "confidence": 0.9999
+        },
+        "process_registry_set": {
+          "n": 60926,
+          "confidence": 1.0
+        },
+        "process_spawn": {
+          "n": 325,
+          "confidence": 0.9969
+        }
+      },
+      "test": {
+        "ece": 0.0349,
+        "n": 67853,
+        "bins": [
+          {
+            "bin": "0.4-0.5",
+            "n": 6545,
+            "mean_confidence": 0.4988,
+            "accuracy": 0.6989
+          },
+          {
+            "bin": "0.5-0.6",
+            "n": 1195,
+            "mean_confidence": 0.5,
+            "accuracy": 0.7841
+          },
+          {
+            "bin": "0.9-1.0",
+            "n": 60113,
+            "mean_confidence": 0.9999,
+            "accuracy": 0.9879
+          }
+        ]
+      }
+    }
+  }
+}

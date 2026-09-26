@@ -1,0 +1,223 @@
+{
+  "benchmark": "scale_apt29_day1",
+  "environment": {
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel"
+  },
+  "end_to_end": {
+    "events": 128095,
+    "raw_rows": 196081,
+    "mapping_coverage": 0.6533,
+    "load_s_cached": 2.77,
+    "stage_s": {
+      "ingest": 14.9797,
+      "fusion": 7.285,
+      "rules": 28.0202,
+      "antiforensics": 31.15,
+      "stories": 26.3879
+    },
+    "analysis_s": 108.35,
+    "events_per_s": 1182.3,
+    "edges": 93974,
+    "corroborations": 1475,
+    "stories": 50,
+    "indicators": 209,
+    "hosts_in_top10_stories": [
+      "nashua",
+      "scranton"
+    ],
+    "top_stories": [
+      {
+        "techniques": [
+          "T1021.003",
+          "T1059.001",
+          "T1071.001"
+        ],
+        "suspicion": 0.9363,
+        "confidence": 0.9084,
+        "grade": "CONFIRMED",
+        "events": 13,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1003.001",
+          "T1055",
+          "T1059.001",
+          "T1070.006",
+          "T1071.001"
+        ],
+        "suspicion": 0.9996,
+        "confidence": 0.692,
+        "grade": "HIGH",
+        "events": 64,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1071.001"
+        ],
+        "suspicion": 0.7748,
+        "confidence": 0.8989,
+        "grade": "CONFIRMED",
+        "events": 14,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1569.002"
+        ],
+        "suspicion": 0.7782,
+        "confidence": 0.8475,
+        "grade": "HIGH",
+        "events": 10,
+        "hosts": [
+          "nashua"
+        ]
+      },
+      {
+        "techniques": [
+          "T1547.001"
+        ],
+        "suspicion": 0.7528,
+        "confidence": 0.8773,
+        "grade": "CONFIRMED",
+        "events": 3,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1082"
+        ],
+        "suspicion": 0.7382,
+        "confidence": 0.852,
+        "grade": "CONFIRMED",
+        "events": 33,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1082"
+        ],
+        "suspicion": 0.7344,
+        "confidence": 0.8548,
+        "grade": "CONFIRMED",
+        "events": 7,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1059.001"
+        ],
+        "suspicion": 0.7345,
+        "confidence": 0.735,
+        "grade": "HIGH",
+        "events": 3,
+        "hosts": [
+          "scranton"
+        ]
+      },
+      {
+        "techniques": [
+          "T1569.002"
+        ],
+        "suspicion": 0.6727,
+        "confidence": 0.8589,
+        "grade": "CONFIRMED",
+        "events": 3,
+        "hosts": [
+          "nashua"
+        ]
+      },
+      {
+        "techniques": [
+          "T1569.002"
+        ],
+        "suspicion": 0.6727,
+        "confidence": 0.8589,
+        "grade": "CONFIRMED",
+        "events": 3,
+        "hosts": [
+          "nashua"
+        ]
+      }
+    ]
+  },
+  "rule_engine_scaling": {
+    "v01_pairwise": [
+      {
+        "n": 500,
+        "seconds": 1.371,
+        "edges": 24
+      },
+      {
+        "n": 1000,
+        "seconds": 5.498,
+        "edges": 36
+      },
+      {
+        "n": 2000,
+        "seconds": 24.089,
+        "edges": 36
+      },
+      {
+        "n": 4000,
+        "seconds": 127.812,
+        "edges": 50
+      }
+    ],
+    "v02_indexed": [
+      {
+        "n": 500,
+        "seconds": 0.281,
+        "edges": 13
+      },
+      {
+        "n": 1000,
+        "seconds": 0.221,
+        "edges": 323
+      },
+      {
+        "n": 2000,
+        "seconds": 0.527,
+        "edges": 1101
+      },
+      {
+        "n": 4000,
+        "seconds": 0.996,
+        "edges": 1600
+      },
+      {
+        "n": 16000,
+        "seconds": 11.51,
+        "edges": 6561
+      },
+      {
+        "n": 64000,
+        "seconds": 20.411,
+        "edges": 41108
+      },
+      {
+        "n": 128095,
+        "seconds": 49.705,
+        "edges": 94922
+      }
+    ],
+    "loglog_slope_v01": 2.176,
+    "loglog_slope_v02": 1.033,
+    "v01_extrapolated_full_capture_s": 241256.5
+  }
+}
