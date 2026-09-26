@@ -16,15 +16,14 @@ from pathlib import Path
 from typing import Any
 from xml.etree.ElementTree import Element  # nosec B405 - type only
 
+# defusedxml blocks entity-expansion / external-entity attacks in hostile XML:
+# evidence files are untrusted input by definition, so it is a hard requirement.
+from defusedxml.ElementTree import fromstring as _fromstring
+
 from ..models import Event
 from .otrf import LoadStats
 from .timeutil import parse_ts
 from .windows import SYSMON, channel_kind, map_windows_event
-
-try:  # defusedxml hardens against entity-expansion in hostile XML
-    from defusedxml.ElementTree import fromstring as _fromstring
-except ImportError:  # pragma: no cover - fallback when defusedxml is absent
-    from xml.etree.ElementTree import fromstring as _fromstring  # nosec B405
 
 
 def _local(tag: str) -> str:

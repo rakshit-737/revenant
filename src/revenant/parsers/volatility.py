@@ -77,10 +77,14 @@ def pslist_events(rows: list[dict[str, Any]], host: str = "", cmdlines: dict[str
     return out
 
 
+# listening sockets have an unspecified foreign address (a comparison, not a bind)
+_UNSPECIFIED = ("*", "0.0.0.0", "::")  # nosec B104
+
+
 def netscan_events(rows: list[dict[str, Any]], host: str = "") -> list[Event]:
     out: list[Event] = []
     for r in rows:
-        if not r.get("Created") or not r.get("ForeignAddr") or str(r.get("ForeignAddr")) in ("*", "0.0.0.0", "::"):
+        if not r.get("Created") or str(r.get("ForeignAddr") or "*") in _UNSPECIFIED:
             continue
         attrs = {"host": norm_host(host), "state": r.get("State"), "proto": r.get("Proto"),
                  "src_ip": r.get("LocalAddr"), "plugin": "netscan"}

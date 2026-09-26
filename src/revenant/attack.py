@@ -96,9 +96,9 @@ def _script(pattern: str) -> Callable[[Event], bool]:
     return lambda ev: ev.event_type == EventType.SCRIPT_BLOCK and bool(rx.search(ev.attributes.get("script", "")))
 
 
-def _logon_type(t: str, extra: Callable[[Event], bool] | None = None) -> Callable[[Event], bool]:
+def _logon_type(t: str, also: Callable[[Event], bool] | None = None) -> Callable[[Event], bool]:
     return lambda ev: (ev.event_type == EventType.LOGON and ev.attributes.get("logon_type") == t
-                       and (extra is None or extra(ev)))
+                       and (also is None or also(ev)))
 
 
 def _parent_child(parents: tuple[str, ...], children: tuple[str, ...]) -> Callable[[Event], bool]:
