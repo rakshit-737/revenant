@@ -1,0 +1,1573 @@
+{
+ "sources": {
+  "otrf": {
+   "repo": "OTRF/Security-Datasets",
+   "commit": "d9d40ef123d2c87d5d3df28c96bcab4f0faccc87",
+   "license": "MIT"
+  },
+  "evtx-attack-samples": {
+   "repo": "sbousseaden/EVTX-ATTACK-SAMPLES",
+   "commit": "4ceed2f4706daf601c212a8f91c113dd85349a2c",
+   "license": "GPL-3.0"
+  }
+ },
+ "files": [
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190301125905.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190301125905.yaml",
+   "sha256": "bb3dfe9de3e4107e649cb005c1cb6c1ea6aaedba5048c39a752f780e9f3bebfc",
+   "bytes": 6173
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190301174830.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190301174830.yaml",
+   "sha256": "455862ce883037237eea58843055a72723c11da0b48a07f3cfd062c886cdfd7b",
+   "bytes": 7612
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319020147.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319020147.yaml",
+   "sha256": "5ddf25477a9947f7a615249ed565e7f6f8f800ce5e7b699d273eead247a8a04c",
+   "bytes": 2103
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319020729.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319020729.yaml",
+   "sha256": "9beb96a5125198f07a77ff136964a6856ea4cb2c3efae59c573905928553b825",
+   "bytes": 2020
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319021158.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319021158.yaml",
+   "sha256": "f9bff7478e8f28d715e59bbec386a67f7786513bf8d614470bfeb4c7e9b412d8",
+   "bytes": 2462
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319023812.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319023812.yaml",
+   "sha256": "3e6ccb71dff81e4a0c267d58ab9ab989634fdd9a2ca86a4c18c8a6c422f5c9ae",
+   "bytes": 8434
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319024742.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319024742.yaml",
+   "sha256": "565926240158ba33ef6687497dcb1270a37cb77c6a64e336b55aba4fc6a9cfa7",
+   "bytes": 6944
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319131123.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319131123.yaml",
+   "sha256": "8a8e7950d4534ca250f29e4a89455bcdf523ccb3e1ff075d138d0bcd3e5b23ff",
+   "bytes": 5431
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190319145126.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190319145126.yaml",
+   "sha256": "85baf60ed6e21aaacdba87ed082b995acdeb08d27ea0914705feff0b1d41376b",
+   "bytes": 5259
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190403133337.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190403133337.yaml",
+   "sha256": "edcfd848ac89f7fe197612e19d667c01c4f1fccb67d84cbb03b39f3c297c1af1",
+   "bytes": 6664
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518182022.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518182022.yaml",
+   "sha256": "04f5d168d72ccf00cec9489e3d5951e9b87e893bf88af1f8e8553b5f926dede1",
+   "bytes": 4139
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518184306.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518184306.yaml",
+   "sha256": "75411dfe0e31344699635b707111bad8fc4e54d91243885d5a3832a4c5133466",
+   "bytes": 6708
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518200432.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518200432.yaml",
+   "sha256": "7c176f21ed407bb3e6dec2d0a6d983ce9babdcaf4bfabfab990a47bb9a6f99fc",
+   "bytes": 6581
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518201207.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518201207.yaml",
+   "sha256": "7a8da071da7df2d9bd70c76a870dc15c6679b6f799120d9118029e89307d1bca",
+   "bytes": 3148
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518201922.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518201922.yaml",
+   "sha256": "1305a82051a3a92148da756a33b71a62bc96f17b628d05e0a78ae6b56b1ff289",
+   "bytes": 1196
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518202151.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518202151.yaml",
+   "sha256": "1530efc89ef4a509cda4ac70bf804894b793432fd84faa332a6eb0c5f77dba8f",
+   "bytes": 16355
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518203650.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518203650.yaml",
+   "sha256": "8bd2705fa8c4ae7a7d17bedebb79f3cb1dd738cb227b0885b836043af6426848",
+   "bytes": 2092
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518210125.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518210125.yaml",
+   "sha256": "414d03a1c0086a4325200283fccb346268e3ceabef806dea49cab61414a9b6da",
+   "bytes": 8142
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518210652.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518210652.yaml",
+   "sha256": "27d3c027f54d3fd8501f6565a8aa8d418e2a0762ae975c5edd27daff9e627da7",
+   "bytes": 7524
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518211052.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518211052.yaml",
+   "sha256": "4ce3d5dd39eb402affd02c0b7bb9fab5132209bfe77454fe5b9a4e578166128c",
+   "bytes": 6603
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518211456.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518211456.yaml",
+   "sha256": "b0f5d29337692a42cde187667f8f5ab1d2ff06bf87c023757dbd192df0ca6f01",
+   "bytes": 7330
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518213907.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518213907.yaml",
+   "sha256": "f55cdbdc895c5f56c9620a9b74959677d87f7a97857f055225bb402f467ed011",
+   "bytes": 8786
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518221344.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518221344.yaml",
+   "sha256": "0f210717c9719102b45af2e31e1b18c920958f92c3f2f35625f119f5f359e488",
+   "bytes": 24946
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518224039.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518224039.yaml",
+   "sha256": "fc1d3ba86a8fa0036d28bb59f027d0ec70125d93a1f1c79c3b658c3d1a6fe8df",
+   "bytes": 2433
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518230752.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518230752.yaml",
+   "sha256": "ffca87b2efe0bd379b0f209a76b8bfb897dd33f0a85e0abc48c4c5d6d7cdc5a5",
+   "bytes": 3919
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190518235535.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190518235535.yaml",
+   "sha256": "ee53508bffd8696d148d9e39f973821775887023d6c93f2d8d2993607bc42cd0",
+   "bytes": 4893
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190519005224.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190519005224.yaml",
+   "sha256": "36f8ca32a616d69daff73b22c61b6563d52b3b197aaf7067380d8b856666c9e6",
+   "bytes": 3641
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190625103712.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190625103712.yaml",
+   "sha256": "e1263fecc432c145d6b27bc770d1fa2c95381792ee95530306e94fdab9d2aee2",
+   "bytes": 5582
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-190625133822.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-190625133822.yaml",
+   "sha256": "52a37214effd8c48ed374166bcd00f1e723edaea727638da792953771ad7cff3",
+   "bytes": 1654
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-191027055035.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-191027055035.yaml",
+   "sha256": "42b8e3c59008b78d0f73fabc6c4377e5e0008b7178cc7409cb789291cc1cb729",
+   "bytes": 1174
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-191027223020.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-191027223020.yaml",
+   "sha256": "8362bf75fcf30c4fffbd4a821f93c307d6d217434039defad9ff00940ed112a9",
+   "bytes": 1200
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-191225045202.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-191225045202.yaml",
+   "sha256": "57244b3055ecad46c75090d6be9e7a9afc579cc3cd4b4b7103c6798a223e2852",
+   "bytes": 4225
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200609225055.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200609225055.yaml",
+   "sha256": "3b015890597fb11d3c9ff527d582bdd26f761872619458fa9351bcb0267e99ab",
+   "bytes": 2398
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200721232741.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200721232741.yaml",
+   "sha256": "127fd981d0f6328291b4eb58baa80d37f51817ec1d1658c69dae1c7fd10681ae",
+   "bytes": 4253
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200722001847.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200722001847.yaml",
+   "sha256": "4b7e943648d1217cf30c562de069651fc24303bdebddff165a4f2ccba11d92a7",
+   "bytes": 6256
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200724174200.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200724174200.yaml",
+   "sha256": "e0791a4379efa9d44313bcd3270353e14688b2c99c0c3f7d962e7edb40f8f75c",
+   "bytes": 1298
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200805020926.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200805020926.yaml",
+   "sha256": "e386024ea34830594655bb32005756f91074d69f3a29df1cb96d43809550ec38",
+   "bytes": 4481
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200805034820.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200805034820.yaml",
+   "sha256": "d6cd7d368e6762cf8c1911ba072bb02f4a75c382e9d02eb372050adce143e4b5",
+   "bytes": 1222
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806012009.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806012009.yaml",
+   "sha256": "55c81cb96bce8b56bd3585394afd7f9afbba0c014d9dd35d01927d2bb136b8cf",
+   "bytes": 1464
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806015757.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806015757.yaml",
+   "sha256": "f9bc343d306768a4fd9b1f956ca654c71ba7cc39292736d3c1cd69eeb3f1fe83",
+   "bytes": 1308
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806022635.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806022635.yaml",
+   "sha256": "9b6c9a606ac491a86d076b5efe0b88efcc22a393420c929eafed11aa32b0c750",
+   "bytes": 1532
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806030120.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806030120.yaml",
+   "sha256": "45e5392c15ebf0806e9f27c64361d2696b516561e05b8b01cda749c2ef4d47ab",
+   "bytes": 1502
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806031938.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806031938.yaml",
+   "sha256": "937078d12c93267dcb52c422583f2f5d92765be67e4d43f0d5a309f20bce0219",
+   "bytes": 1532
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806035621.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806035621.yaml",
+   "sha256": "df9644200986a44ad790d9285ddcc8158d3536e4b3ea09d473a51121e7a3947e",
+   "bytes": 1563
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806115603.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806115603.yaml",
+   "sha256": "c70d16999b24266c0a6682c94ed2c9d0a9f156e929523614ec19d368e155b8e7",
+   "bytes": 3730
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200806130039.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200806130039.yaml",
+   "sha256": "5bd0c4aff72ed620d81440e8203a945601e15ccbd81c7cc26193df577f9d787f",
+   "bytes": 2551
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200807103913.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200807103913.yaml",
+   "sha256": "602305a719ba5b8cb41d4062e9a3d0885e6ded93fab187e26538d17fbfe47274",
+   "bytes": 3796
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200904032946.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200904032946.yaml",
+   "sha256": "c58c34fdc8a361e1a2e5e15e7f8a2d836d113b80c498aa7d38b40a2839d484d9",
+   "bytes": 6416
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200914080546.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200914080546.yaml",
+   "sha256": "953d7103f181578066fc379ae3ed6a1bfdd219380b421e54a179bfe90412b29e",
+   "bytes": 2738
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200916232559.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200916232559.yaml",
+   "sha256": "61274f851c87b2042a058a715a0f6b5d031e6efa3a5d5dd31eee86d1c4c01293",
+   "bytes": 3671
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200917174542.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200917174542.yaml",
+   "sha256": "1aafcbc1d811134e3d5e196b95570c9c988b53caa9722c79fc370f8d07206c12",
+   "bytes": 1637
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200918145959.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200918145959.yaml",
+   "sha256": "86fcbac86e08343e005169e31e793a6856cd045626a0422d6e991532db61b539",
+   "bytes": 1389
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200921001437.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200921001437.yaml",
+   "sha256": "e049ff3062a6f0a1a92df4310c0ebc392edaa32dc4923a033e6c648b5192dd2a",
+   "bytes": 7903
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200921175806.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200921175806.yaml",
+   "sha256": "1a599150b6d4c2ec2af6e06948a8138b47e03754a6f41fbcb295cd94023e5826",
+   "bytes": 8814
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200921230246.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200921230246.yaml",
+   "sha256": "67818d79532ea425f0743505705a29db496772e1959e49ae3e93c8e730fbac9c",
+   "bytes": 5035
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-200922042230.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-200922042230.yaml",
+   "sha256": "03e67baadf7ce7a6afc9f312b069fe084601c37ee75442ef81f4b7e1009b53d4",
+   "bytes": 3126
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201009173318.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201009173318.yaml",
+   "sha256": "d49ac6b1c92ce7c703c89a66307031df852500f4037d652120f24066f2b4a1ce",
+   "bytes": 1782
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201009183000.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201009183000.yaml",
+   "sha256": "21dfa92d10877a2636402cb7f478ec2ee6b4a3fff5549b10ae8a45588762e845",
+   "bytes": 1878
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201012183248.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201012183248.yaml",
+   "sha256": "6a4df41859e23dfc41f6a1b624080405e472ce9b855a1c0d7370d5f23574529e",
+   "bytes": 1583
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201017061100.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201017061100.yaml",
+   "sha256": "b1a8bc6f05070f27cf048f4b5d508178dcec8403409f685c6df6b81acb887b35",
+   "bytes": 1327
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201018195009.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201018195009.yaml",
+   "sha256": "8bdae73ea97738b5cfd5303dc0d78fa292a9db713d3a4bee141fe1565c9a1550",
+   "bytes": 1460
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201018225619.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201018225619.yaml",
+   "sha256": "8b1b9e4fdc31911ca5ea296dbaa85d148db06c41e402812760698b40cd73792b",
+   "bytes": 2509
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201019002900.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201019002900.yaml",
+   "sha256": "04f4085fe5b12238e9fdee68f54b310950596339aeef068156ed9aadfbfc11d2",
+   "bytes": 2105
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201019033054.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201019033054.yaml",
+   "sha256": "70874fff55dad83ba12b87e350cb31211903552d745cba2d0d695ceb744775e1",
+   "bytes": 1491
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201019224718.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201019224718.yaml",
+   "sha256": "4023e5182d70f311efd145968d499f7dda33b4ba06dad45dbdaa50df12d0c748",
+   "bytes": 1454
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201019232515.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201019232515.yaml",
+   "sha256": "977bb8e9eeb644f5c06398d129b62bd308d607f9c0d7c90ef23fa2837d538f40",
+   "bytes": 1378
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201020013208.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201020013208.yaml",
+   "sha256": "3045424bef865a9e4bf7edc01a3a7581cd438a81359b05921dd88ee47ed3d381",
+   "bytes": 1566
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201021001911.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201021001911.yaml",
+   "sha256": "824c7bc24b8fe24a3765ba9c2911e3aa537538affd1f440f45002a1eefdc17eb",
+   "bytes": 1297
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201021204544.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201021204544.yaml",
+   "sha256": "2f8567f015e7e1e82cef64f9b59ff0ad8da0905930beae7c967f8b90f7382e06",
+   "bytes": 1247
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201021232814.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201021232814.yaml",
+   "sha256": "a5893a9ce1c7cf260cf142323b95281de9e277aa720a1f81b797c15744a504ee",
+   "bytes": 1281
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022002145.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022002145.yaml",
+   "sha256": "668b14762da5685ab67c756e876f70dceaa196d4feb90160ee7bc0a21f40ae80",
+   "bytes": 1316
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022013121.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022013121.yaml",
+   "sha256": "326523846fabdd02b07c0dfb7502b95836f038c83e40717578a578f49fc2561e",
+   "bytes": 1298
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022015432.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022015432.yaml",
+   "sha256": "01ea614ba01fadcfd1b0c58967ffd520daa2865cc8052896079402d1468cfb2d",
+   "bytes": 1431
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022022144.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022022144.yaml",
+   "sha256": "532a5812e96fc179499eebfd4cae2c18d477474eec0829fba21ff465b3f31f08",
+   "bytes": 1359
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022025808.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022025808.yaml",
+   "sha256": "24e22d6aff8c1586c2c12f90cfe0a950b6449e2eaf6cfc8b47974d8fa888b9e7",
+   "bytes": 1290
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022035214.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022035214.yaml",
+   "sha256": "7641be29878cf3cf8aa2f1846a11277b3a32a2bf50236a4fd3683711d3b73b4f",
+   "bytes": 1486
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201022042947.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201022042947.yaml",
+   "sha256": "a872ce818c81de308ae1e49a608efd0b76e2d8c669aee820bfdd69c4bf271685",
+   "bytes": 5398
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201023020513.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201023020513.yaml",
+   "sha256": "84f139379caa153399800ceeb3a46490730b9239ed0761e58c5db21ac1bb904b",
+   "bytes": 1531
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201023023651.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201023023651.yaml",
+   "sha256": "dfbd2247bd2b898be68e07415e52fab53741b0d1b8e7f9959c55cc91a5e6fa41",
+   "bytes": 1391
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201023031210.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201023031210.yaml",
+   "sha256": "7884b8e334c71fd62fa4e5e06cb7a517a932b4848da3d1d0c1c9e260df6539ea",
+   "bytes": 1905
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201026235835.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201026235835.yaml",
+   "sha256": "73d0e5f8b25ed33345988ae9736c27ce9ee68c9a9dd125791ab4182403ede4bf",
+   "bytes": 2156
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201028191914.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201028191914.yaml",
+   "sha256": "fb59ee5e84ed004ad4916d5b06169dbcb27f77d5e380a677e9cf484ef9bf6a95",
+   "bytes": 2610
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201029001615.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201029001615.yaml",
+   "sha256": "0d794fe2c5dfb017c22bbea61ec27ccad76b261f4cceb07fb5595ee82e22db34",
+   "bytes": 1445
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201029202324.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201029202324.yaml",
+   "sha256": "f44098c64a0c3df771fffcd9271cc8aabf452ef43e0c38c96b4cc55a9ecdca2f",
+   "bytes": 2291
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201102041306.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201102041306.yaml",
+   "sha256": "abc24813ef1fe304c289ec37716d56d5e04d7afd3fbb6f049bd0b089a4b39f1b",
+   "bytes": 970
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201102163918.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201102163918.yaml",
+   "sha256": "3817df0c34b14a3bbfb4c45431ebeb41884a67739be49dae11b7d59f540b97a8",
+   "bytes": 22533
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201219070027.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201219070027.yaml",
+   "sha256": "f5490cda8e083664cb238ddfdace11b57a19939f87da4f8c237a4d20759cf91e",
+   "bytes": 1552
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-201219075059.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201219075059.yaml",
+   "sha256": "63da03fb76ac0b083cc6379142c25bd69f769ea6d63b4667a367082689e7945a",
+   "bytes": 10543
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-210314014019.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-210314014019.yaml",
+   "sha256": "4288e040d0d41bc3e32d9bc12b8fad28dc17afba8a600af3a13daf5c73d33477",
+   "bytes": 2108
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-210427020247.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-210427020247.yaml",
+   "sha256": "cce4ffcbccb052f76390878b2322bf8426d126793565a7d0cdaf8a36363aa0f6",
+   "bytes": 1621
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-210611210814.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-210611210814.yaml",
+   "sha256": "c482c16aad492dac674bdb4c5d48dfbdfb40a386a07aafced1a95136d5de3fa2",
+   "bytes": 4051
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220630130349.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220630130349.yaml",
+   "sha256": "0466c5b621c2c26d4a428682fc5c3c6a4be00c767c226493386254fcc08ae631",
+   "bytes": 2512
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220703123711.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220703123711.yaml",
+   "sha256": "d616cc192ecf7e2e7e62a0cd0a92e1f5e7255a762b3e23eb4659781d827e17d3",
+   "bytes": 3546
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220705170038.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220705170038.yaml",
+   "sha256": "30919274b08f850c5d17a50591ef08eaaed2d38e23902c99f090c7b95e457c15",
+   "bytes": 3113
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220708104215.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220708104215.yaml",
+   "sha256": "e6808f404dc190ae6c3573c4660656d90560d02abb80631fcfbe4423b27bc3f4",
+   "bytes": 4728
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220708104300.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220708104300.yaml",
+   "sha256": "8ae438b642b3ee3370181d62e175a24e9ce669c2d83da85ed92d226b99bb18d2",
+   "bytes": 5959
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-220803205800.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-220803205800.yaml",
+   "sha256": "c88a766efe0dce3600a52a32ba11b72d60c85803c41898148ce45a124ed06849",
+   "bytes": 5534
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-230718150800.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-230718150800.yaml",
+   "sha256": "742e0462929709634e79eaf2c4c5316dcda7c9683552ac6914ddabd6f87ddcde",
+   "bytes": 2297
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-230718151900.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-230718151900.yaml",
+   "sha256": "230d6112bdf6a364b688f57f8aaa58c2721c666a4cc01e762d9e12e8a02e752e",
+   "bytes": 2798
+  },
+  {
+   "group": "otrf-metadata",
+   "path": "otrf/atomic/_metadata/SDWIN-230720004300.yaml",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-230720004300.yaml",
+   "sha256": "d0e265b28ba5171509d5ce3fe76376dfce3f786d2c5f2808ac744452a9d862f3",
+   "bytes": 6038
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/collection/host/msf_record_mic.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/collection/host/msf_record_mic.zip",
+   "sha256": "5ea8ac17aceb7a83273019235fcdee67dd0b21cdce6b5d00b2d7e1665444de9e",
+   "bytes": 468775
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/cmd_dumping_ntds_dit_file_ntdsutil.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_dumping_ntds_dit_file_ntdsutil.zip",
+   "sha256": "4633882ab1e9eadd156b29a89a5a6e24b680ead1b11ee259fdbe0d19ddbf77cf",
+   "bytes": 472024
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/cmd_dumping_ntds_dit_file_volume_shadow_copy.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_dumping_ntds_dit_file_volume_shadow_copy.zip",
+   "sha256": "aed847c1571ec3ef906f2b844d343bb3897eec4cf856b8f0939e934646348378",
+   "bytes": 701880
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/cmd_lsass_memory_dumpert_syscalls.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_lsass_memory_dumpert_syscalls.zip",
+   "sha256": "a28dbf708685a80edfb0b3d2a00c9bf196dd394fc1d61a933878841f4872a7ed",
+   "bytes": 12915
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/cmd_psexec_lsa_secrets_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_psexec_lsa_secrets_dump.zip",
+   "sha256": "c52e6145fefe37373a5274e2976ccf6d62e4d33e13c55dc1a2ce17f00506d1a6",
+   "bytes": 38086
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/cmd_sam_copy_esentutl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_sam_copy_esentutl.zip",
+   "sha256": "f7a71135778aeff605abcb88a14a076f0814ab5cb136d07103bdf13c45551b64",
+   "bytes": 40653
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/covenant_dcsync_dcerpc_drsuapi_DsGetNCChanges.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/covenant_dcsync_dcerpc_drsuapi_DsGetNCChanges.zip",
+   "sha256": "ccbb0e91c03fa1d575b3bfccba59f3bba62479860bd9ee8b571a907333eb9082",
+   "bytes": 76924
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_dcsync_dcerpc_drsuapi_DsGetNCChanges.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_dcsync_dcerpc_drsuapi_DsGetNCChanges.zip",
+   "sha256": "fe1fcc96c0ff0cbae8fd4ffaadf85f51e28475441774f6fda3d963d4e2962800",
+   "bytes": 655112
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_backupkeys_dcerpc_smb_lsarpc.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_backupkeys_dcerpc_smb_lsarpc.zip",
+   "sha256": "63ee26d89071b9026a2381c31cd9d5842435e3859e1c0d84825cdbb01475e4d8",
+   "bytes": 618319
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_extract_keys.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_extract_keys.zip",
+   "sha256": "5511f426c3712d811b629451b852d3de014ddf3e01465e5ae380f5672968692f",
+   "bytes": 1032818
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_logonpasswords.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_logonpasswords.zip",
+   "sha256": "bb4c057b62d781be5426e011872ba1a15070c07afbb24848a14458f4b22b06fb",
+   "bytes": 716749
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_lsadump_inject_protected_mode.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_lsadump_inject_protected_mode.zip",
+   "sha256": "d15780ac0bac50557955085ba6ec0a47e4432366422ef85b390766ac518883c4",
+   "bytes": 134726
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_lsadump_patch.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_lsadump_patch.zip",
+   "sha256": "552d5c8a3a41b8aae3118a855781b7a23cb497ebdc4afaa2127b46240356c132",
+   "bytes": 899075
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_opth.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_opth.tar.gz",
+   "sha256": "43c827cb8de892869e0090c18ec1029e208c80ab593a0b61959a9811d313db56",
+   "bytes": 1206043
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_mimikatz_sam_access.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_mimikatz_sam_access.zip",
+   "sha256": "1ed87bd1286fa8f9e01489ff49e913065e4d1a1956174eb64687c1159648fcad",
+   "bytes": 777887
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_ninjacopy_dumping_ntds_dit_file.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_ninjacopy_dumping_ntds_dit_file.zip",
+   "sha256": "89bf86818a94eb093c8cc22482ea768b2595a807e86f8d557a44ce4c71bbe8c1",
+   "bytes": 950147
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_over_pth_patch_lsass.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_over_pth_patch_lsass.zip",
+   "sha256": "daee42bbd9f7c6265e5614ce468ec868a399ee03877456dd01ec34e3e06479e7",
+   "bytes": 829257
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_powerdump_sam_access.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_powerdump_sam_access.zip",
+   "sha256": "44fdafcbd7393d71936a4b81838b99bea19bfe12b0c2abdf1cd62dda14e4ce09",
+   "bytes": 200413
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_shell_reg_dump_sam.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_shell_reg_dump_sam.zip",
+   "sha256": "5a8ee19860f35da6d4bcadf15178a085b469086c461d3d873d0f4adedba41f0a",
+   "bytes": 138425
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_shell_rubeus_asktgt_createnetonly.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_shell_rubeus_asktgt_createnetonly.zip",
+   "sha256": "3ed7d6d93ccadac94b0022151aa76ab54070c0ff7b977f6642bb4ee2f34b13da",
+   "bytes": 432741
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/empire_shell_rubeus_asktgt_ptt.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/empire_shell_rubeus_asktgt_ptt.zip",
+   "sha256": "a2ad97df3783fe2e911844111b3e4dabe0389502f52ea72525bb280b95e5394a",
+   "bytes": 224344
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/psh_input_capture_promptforcreds.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/psh_input_capture_promptforcreds.zip",
+   "sha256": "768e3c32e39f202788f371d98f71b85694d813198f474939ba3e3d1112ebc08e",
+   "bytes": 15631
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/psh_lsass_memory_dump_comsvcs.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/psh_lsass_memory_dump_comsvcs.zip",
+   "sha256": "0af9e920220d746432f0972be83ad057629695540aecd68c15869d190786e1ae",
+   "bytes": 17957
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/psh_windows_vault_web_credentials.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/psh_windows_vault_web_credentials.zip",
+   "sha256": "09a374a4d434654025b844a721809ba7f6a21afa87e6d07a8168cb31e154228b",
+   "bytes": 10543
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/credential_access/host/rdp_interactive_taskmanager_lsass_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/rdp_interactive_taskmanager_lsass_dump.zip",
+   "sha256": "a7761e64c891162e949afebf367084a6dddd2f3dac7b91bce870fcf9f6206fba",
+   "bytes": 402013
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/auditpol_system_user_auditpolicy_modification.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/auditpol_system_user_auditpolicy_modification.zip",
+   "sha256": "5eb1776e7e9f79060a87ed9efcce0eebbab7940f8f51db8b2d67368c64e2187d",
+   "bytes": 611270
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_bitsadmin_download_psh_script.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_bitsadmin_download_psh_script.zip",
+   "sha256": "8fb7bc9f3d82f672dc39a55e50006137aa540c4a9860acdcc5d08a4fd609b594",
+   "bytes": 51563
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_disable_eventlog_service_startuptype_modification_via_registry.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_disable_eventlog_service_startuptype_modification_via_registry.zip",
+   "sha256": "4312946d5bb0883e691da3b1130d4179b951a413278b450a75c05d56a2858a1a",
+   "bytes": 367047
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_mshta_javascript_getobject_sct.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_mshta_javascript_getobject_sct.zip",
+   "sha256": "976a705690dcc296ba132b9cd594c004265911e9e40d402c879dd06eddbbc057",
+   "bytes": 125926
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_mshta_vbscript_execute_psh.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_mshta_vbscript_execute_psh.zip",
+   "sha256": "f5f700bc986bbe73edcc209754b28a3e0ad38c56877f7fc5ed6fd04bc036d9f4",
+   "bytes": 88544
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_netsh_fw_mod_open_ports.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_netsh_fw_mod_open_ports.zip",
+   "sha256": "3d887b38c6a92892f950029f40114fe4598a798ad20453671dbe3d111b9ce4a2",
+   "bytes": 97711
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_process_herpaderping_mimiexplorer.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_process_herpaderping_mimiexplorer.zip",
+   "sha256": "674a88eac2ce1db4a3409c07669010f7181a2dbb589b3b8f25843158d3a14f23",
+   "bytes": 34699
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_process_herpaderping_snippingtool.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_process_herpaderping_snippingtool.zip",
+   "sha256": "c3132a3d8f22c27ec57f4ae258f3d70c25a4dc7cc637cdd82de093d6ff50abff",
+   "bytes": 36181
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_psh_stop_netprofm_eventlog_after_reboot.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_psh_stop_netprofm_eventlog_after_reboot.zip",
+   "sha256": "21530be38786064636c130089ae60e15b5b4b76891ec608f9769da278e06e773",
+   "bytes": 726101
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_psh_stop_netprofm_eventlog_before_reboot.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_psh_stop_netprofm_eventlog_before_reboot.zip",
+   "sha256": "9fd41f01ef84415ce3826f89afc25fb16c1966abacc2c24231a760f42b7b0efe",
+   "bytes": 391165
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_stop_event_logging_controlset001_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_stop_event_logging_controlset001_minint_key.zip",
+   "sha256": "f88a69b334b026412cec371f6b49c35f4a58bb763fd33b9b843507a043e21573",
+   "bytes": 872671
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_stop_event_logging_controlset_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_stop_event_logging_controlset_minint_key.zip",
+   "sha256": "564715635a46a0eae5985e770e1ef01cf33aac170652aca3b8a388ea9eb27c23",
+   "bytes": 320866
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/cmd_wevtutil_modify_security_eventlog_path.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/cmd_wevtutil_modify_security_eventlog_path.zip",
+   "sha256": "2ea34cf2d3526e30f9fe004fc4f53f8a04d8e6885e697d77c44102567279ac67",
+   "bytes": 1350260
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/covenant_installutil.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/covenant_installutil.zip",
+   "sha256": "9be5698bd46e2869b34d0a6ef712725d1e611eb32d87d2d29f37c9e34872fabe",
+   "bytes": 111142
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/covenant_lolbin_wuauclt_createremotethread.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/covenant_lolbin_wuauclt_createremotethread.zip",
+   "sha256": "56b6695152f4de18ed23afbbcab2402b03c1ffbbf7c5fd5f6f4e80ec621843ac",
+   "bytes": 137136
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_dllinjection_LoadLibrary_CreateRemoteThread.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_dllinjection_LoadLibrary_CreateRemoteThread.zip",
+   "sha256": "98071a478f57f2ca71530c4cb839f2054da0e6bd8b106caaa5d9518d1be0ccc8",
+   "bytes": 1103116
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_enable_rdp.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_enable_rdp.tar.gz",
+   "sha256": "b10345f3e97c28210757419326b09a3bbb02b4e9491070a4269c557d67c11398",
+   "bytes": 520499
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_launcher_sct_regsvr32.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_launcher_sct_regsvr32.zip",
+   "sha256": "abeb5c52c75286386e5eb999d7423d738a624191f4a95fb62694b471a10b2dab",
+   "bytes": 310095
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_monologue_netntlm_downgrade.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_monologue_netntlm_downgrade.zip",
+   "sha256": "27d88aaccf5dbe2b917684eebe35afdfcc88953c70b27ee949e46204a23cda21",
+   "bytes": 268217
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_powerview_ldap_ntsecuritydescriptor.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_powerview_ldap_ntsecuritydescriptor.zip",
+   "sha256": "6db5eac7fdab1fd1868047615caf590cb13b64a878e203bf3f253c2527229587",
+   "bytes": 1002782
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_psinject_PEinjection.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_psinject_PEinjection.zip",
+   "sha256": "ad6297ce8cfb908126e2ec1271d62f6cd8dcdac6006d7b6e5ecd377488b04df0",
+   "bytes": 827949
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_scm_dll_hijack_ikeext.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_scm_dll_hijack_ikeext.tar.gz",
+   "sha256": "484f215a3382904d124ae2f5303c7db9599ef859bd889a69743f569b673d1cef",
+   "bytes": 2211161
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_wdigest_downgrade.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_wdigest_downgrade.tar.gz",
+   "sha256": "7135251d3073a059d1a1e7a1dfbf8f1ead74ebe274fc7a07ac61fae11228e164",
+   "bytes": 526548
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/empire_wmic_add_user_backdoor.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/empire_wmic_add_user_backdoor.zip",
+   "sha256": "4b18e693ed39cc75c429bc6f4b02400eda7dd01f336303e3edaf3cc3262bbac4",
+   "bytes": 1166833
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_cmstp_execution_bypassuac.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_cmstp_execution_bypassuac.zip",
+   "sha256": "a653c698e8f779261ba0b3ac92bd604d4abe3a510cda8ab1f5ccdd421d013d4c",
+   "bytes": 81318
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_control_panel_execution.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_control_panel_execution.zip",
+   "sha256": "d0c6ab023cb7c9db716dce58f68658d7ab25e7c8ebaaa6fe851a2fa01c55555a",
+   "bytes": 151047
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_disable_eventlog_service_startuptype_modification.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_disable_eventlog_service_startuptype_modification.zip",
+   "sha256": "aaf99c001735e37dcf64206d369114087f0bd239f9d5c477a44f6d0d4cbce85a",
+   "bytes": 380571
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_hh_local_html_payload.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_hh_local_html_payload.zip",
+   "sha256": "c9967cde50a703fa3d139ca73520401bdb7c184930f7b4fb8305e9732167f764",
+   "bytes": 135975
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_mavinject_dll_notepad.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_mavinject_dll_notepad.zip",
+   "sha256": "262680222316edb2dc0d7dca380dfe75191fb96779b8dacc8aac8a1d8bdc046b",
+   "bytes": 53452
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_metasploit_stop_netprofm_eventlog_after_reboot.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_metasploit_stop_netprofm_eventlog_after_reboot.zip",
+   "sha256": "5cc62675b3aa6ab835002e57be2523366dc7b20c750e088953dde9f20f799d97",
+   "bytes": 632728
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_metasploit_stop_netprofm_eventlog_before_reboot.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_metasploit_stop_netprofm_eventlog_before_reboot.zip",
+   "sha256": "3ce990f0e2299eb21971983c227056f7c3f6fbcb66f3c0ba821dcda0165381fe",
+   "bytes": 1228640
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_mshta_html_application_execution.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_mshta_html_application_execution.zip",
+   "sha256": "f734cd8d2043da8f9f49d86bea7b5bf35a8c87445aa44975a107936a543ae840",
+   "bytes": 155028
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_register_cimprovider_execute_dll.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_register_cimprovider_execute_dll.zip",
+   "sha256": "a92085e34164be8ffc504270a9b0c4979a73f4e5c8ee5f717adc8525eb0b0109",
+   "bytes": 129780
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_stop_event_logging_controlset001_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_stop_event_logging_controlset001_minint_key.zip",
+   "sha256": "f7673e1dcf64557e782fa450dd072175767b2d1fa3388e25fabac881abc0821f",
+   "bytes": 460113
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/psh_stop_event_logging_controlset_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/psh_stop_event_logging_controlset_minint_key.zip",
+   "sha256": "88e1a3618f286d3ee41682dafaea28bd8932d8e053e648db0e016deef7457082",
+   "bytes": 357954
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/purplesharp_pe_injection_createremotethread.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/purplesharp_pe_injection_createremotethread.zip",
+   "sha256": "d1cfff7404448fd9ac7558967837a9903bb474957949218c293c09fd56a5ca7a",
+   "bytes": 82238
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/reg_cmd_process_commandline_logging_disabled.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/reg_cmd_process_commandline_logging_disabled.zip",
+   "sha256": "59ba811e1d268916b8ef0b65d0cd8ae3ffde0bb59a680ae72d8740eb36cd9b67",
+   "bytes": 357127
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/reg_disable_eventlog_service_startuptype_modification_via_registry.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/reg_disable_eventlog_service_startuptype_modification_via_registry.zip",
+   "sha256": "d79d5a13fbb1e7957d748955a1be5c68294e58d322b76e41393d6987fe769656",
+   "bytes": 235697
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/reg_meterpreter_process_commandline_logging_disabled.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/reg_meterpreter_process_commandline_logging_disabled.zip",
+   "sha256": "592e5214cf4b705051cbed79958a73ef50c9d5e9c71a8ebf84392265bc4cddd4",
+   "bytes": 483159
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/reg_stop_event_logging_controlset001_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/reg_stop_event_logging_controlset001_minint_key.zip",
+   "sha256": "6d3d2f07cc048763d87f9eadc6f75f117ec5feb704ebcb2a5be8aa40f74d85ce",
+   "bytes": 275519
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/reg_stop_event_logging_controlset_minint_key.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/reg_stop_event_logging_controlset_minint_key.zip",
+   "sha256": "e741989173a43216843507b25f5e6dbb5993419208801526ea21b61ed22af259",
+   "bytes": 325973
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/defense_evasion/host/wmic_remote_xsl_jscript.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/defense_evasion/host/wmic_remote_xsl_jscript.zip",
+   "sha256": "f5766221059189dafc8b826abeecd46708bb8e5b21a480ecad6aa0a37f382320",
+   "bytes": 132543
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/cmd_discover_iexplorer_version_registry.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/cmd_discover_iexplorer_version_registry.zip",
+   "sha256": "3215b22ff18ea946923431a51edc83e3e0ba5d4b559ff1d6b7d27c16cc5803da",
+   "bytes": 9193
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/cmd_seatbelt_group_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/cmd_seatbelt_group_user.zip",
+   "sha256": "d885d5c331641d24594869c62eaae563d1ff0c18a2d3c2ba71f48b10e663b1bc",
+   "bytes": 48537
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/covenant_getdomaingroup_ldap_searchrequest_domain_admins.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/covenant_getdomaingroup_ldap_searchrequest_domain_admins.zip",
+   "sha256": "af11d4d2140d8f9099cdeeb1b469af4dcfb94119f2c1072fb4c5f9e70d354876",
+   "bytes": 34808
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_find_localadmin_smb_svcctl_OpenSCManager.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_find_localadmin_smb_svcctl_OpenSCManager.zip",
+   "sha256": "b721c16e8463ff33ffed5415a9d3f874455c8b59d3ebd414ad224539d7892aec",
+   "bytes": 719316
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_getsession_dcerpc_smb_srvsvc_NetSessEnum.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_getsession_dcerpc_smb_srvsvc_NetSessEnum.zip",
+   "sha256": "43e39d48cbdd2c7c235240b19f7def568968a6abff0d8f355a76deedc7f75659",
+   "bytes": 468097
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_shell_net_local_users.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_shell_net_local_users.zip"
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_shell_net_localgroup_administrators.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_shell_net_localgroup_administrators.zip"
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_shell_rpc_samr_smb_group_domain_admins_standard_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_shell_rpc_samr_smb_group_domain_admins_standard_user.zip",
+   "sha256": "aa5c2a87fc3a38e419e3a3885a886a3f4ea3abb0c2b4e219e06f086c9b54eacb",
+   "bytes": 224198
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/discovery/host/empire_shell_samr_EnumDomainUsers.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/discovery/host/empire_shell_samr_EnumDomainUsers.zip",
+   "sha256": "b37c022ce7aa5fed3ad7087e2ec1f37d7b1089ec9bfe7b196f974295d255506b",
+   "bytes": 99564
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/execution/host/cmd_sharpview_pcre_net.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/execution/host/cmd_sharpview_pcre_net.zip",
+   "sha256": "314b1d08b9038dd327c8769c82564a44fd26fa1ba17ffa79e52b4683e2821dac",
+   "bytes": 28626
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/execution/host/empire_launcher_vbs.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/execution/host/empire_launcher_vbs.zip",
+   "sha256": "812da270cf8cda6f1948fb6275410f15dc1794d0bd6b623c9c25b2518285019c",
+   "bytes": 313016
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/execution/host/psh_powershell_httplistener.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/execution/host/psh_powershell_httplistener.zip",
+   "sha256": "506ba862fd76e0f8d43396e705ec6eebb7a01a5a2954bd70c9f47802d32f4843",
+   "bytes": 10491
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/execution/host/psh_python_webserver.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/execution/host/psh_python_webserver.zip",
+   "sha256": "58a62e35ee7a78e88cfca86e628e988a7192ec7fb24013b9d3b86766b25c8a17",
+   "bytes": 112642
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/aadinternals_export_adfsdatabaseconfig_remotely.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/aadinternals_export_adfsdatabaseconfig_remotely.zip",
+   "sha256": "de1af624eb6cccaf9db82063ff2e27a444b178b1dd45889c50971c6fbf3d062e",
+   "bytes": 38555
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_com_wsman_automation.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_com_wsman_automation.zip",
+   "sha256": "9b23288621db8a7548049bb2755da302b388b920e0a58310eca57a4746001060",
+   "bytes": 88334
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_copy_smb_CreateRequest.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_copy_smb_CreateRequest.zip",
+   "sha256": "a43e5f20cb412fc068c9e2449e5a7bd0cf8456ebe6a782e69301ea0905590871",
+   "bytes": 25786
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_dcom_executeexcel4macro_allowed.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_dcom_executeexcel4macro_allowed.zip",
+   "sha256": "4dabf4be2b6103dadf27c29ad5734acf477003b3e1b1922e8e43871da7e0fdef",
+   "bytes": 695021
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_dcom_executeexcel4macro_blocked.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_dcom_executeexcel4macro_blocked.zip",
+   "sha256": "41ccbd5197bd32c1e66d2faae7c2f34b7de71f5635887e2dd57ad3eb5726b5e9",
+   "bytes": 106399
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_dcom_iertutil_dll_hijack.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_dcom_iertutil_dll_hijack.zip",
+   "sha256": "e03ad2075a74cc1fc22eb0d25eef740e88e114938e46c3f1c36071b78e18376d",
+   "bytes": 3369148
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_dcom_registerxll.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_dcom_registerxll.zip",
+   "sha256": "a18d37fe9d6d5f7cda35911070c94edbf8ab8876489780c6177d6294cab38b80",
+   "bytes": 369026
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_psremoting_command.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_psremoting_command.zip",
+   "sha256": "4a2e0f9688c87a90b17b608ff38fb2230ceb7305ea0368703dcfe53269e3f096",
+   "bytes": 359550
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_psremoting_grunt.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_psremoting_grunt.zip",
+   "sha256": "3a9b8dfaa1abf039279afc27b872e606bd4bed42f0a2de29254cce3d4126db76",
+   "bytes": 622960
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sc_query_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sc_query_dcerpc_smb_svcctl.zip",
+   "sha256": "3975cdac314bbebb53721668229c9b7925206bac8f61447d154abaf0302a7c30",
+   "bytes": 62198
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sharpsc_create_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sharpsc_create_dcerpc_smb_svcctl.zip",
+   "sha256": "77487bbd1fc7954adbc9ba07bfeeeb9d57192b0f0e0f54e1ee5a05c71a5be84a",
+   "bytes": 276984
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sharpsc_query_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sharpsc_query_dcerpc_smb_svcctl.zip",
+   "sha256": "0d39ef84ead00e1d5e3bea173d00fcf7af1268ab64b6b82981301353878e665b",
+   "bytes": 49471
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sharpsc_start_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sharpsc_start_dcerpc_smb_svcctl.zip",
+   "sha256": "a6cebf14f42f8f4e4f3ea457d88437ce16f0fce5b184ae70f097fcf48f68692c",
+   "bytes": 368726
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sharpsc_stop_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sharpsc_stop_dcerpc_smb_svcctl.zip",
+   "sha256": "1b2254fde3573ef97f936070e07ed5167d632ed048c345c550cc743902b57d4c",
+   "bytes": 145689
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_sharpwmi_create_dcerpc_wmi.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_sharpwmi_create_dcerpc_wmi.zip",
+   "sha256": "6ff5d99660a2ce3691d198e63398ea50d8112472c469c756eeb82b83440ce626",
+   "bytes": 195240
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_wmi_remote_event_subscription_ActiveScriptEventConsumers.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_wmi_remote_event_subscription_ActiveScriptEventConsumers.zip",
+   "sha256": "6167815b2f1901a267d965335251dc035b211f2b6e0d2063903d764305b80415",
+   "bytes": 351088
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/covenant_wmi_wbemcomn_dll_hijack.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/covenant_wmi_wbemcomn_dll_hijack.zip",
+   "sha256": "66d73cccd7918b12c840a29a2910cc773a7f9d5aeab9636dc219c257fd647874",
+   "bytes": 620355
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_dcom_shellwindows_stager.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_dcom_shellwindows_stager.zip",
+   "sha256": "9ec1bcfffc46158565ad99a06b9a0a6bac97a152a513c32686be2084f54065c9",
+   "bytes": 2169218
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_msbuild_dcerpc_wmi_smb.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_msbuild_dcerpc_wmi_smb.zip",
+   "sha256": "edbc2fdd9e118da0999d7b941c78501cd4142e2afe9e794aed4349101fb59ca8",
+   "bytes": 653574
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_psexec_dcerpc_tcp_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_psexec_dcerpc_tcp_svcctl.zip",
+   "sha256": "8f40e7fc86bbbf31ebd50b3ba537cf0f4378392ae3e74de84bee00aeb0de1fa5",
+   "bytes": 656179
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_psremoting_stager.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_psremoting_stager.zip",
+   "sha256": "214355730c8cf903f4423c96aa7459fed7b74258e2a6766b794ba316e9d3a46e",
+   "bytes": 409741
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_shell_dcerpc_smb_service_dll_hijack.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_shell_dcerpc_smb_service_dll_hijack.zip",
+   "sha256": "59265c906bf2fdac09b876cfa137f6e81e645d85d550c5b4efdebb8f3f491428",
+   "bytes": 865367
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_smbexec_dcerpc_smb_svcctl.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_smbexec_dcerpc_smb_svcctl.zip",
+   "sha256": "c0fc435c9ce0ecdc7cd57b4055977b949ac6b1cae9d7f4ce7aa0f0e5eae7d7f1",
+   "bytes": 753172
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_wmi_dcerpc_wmi_IWbemServices_ExecMethod.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_wmi_dcerpc_wmi_IWbemServices_ExecMethod.zip",
+   "sha256": "96f1dbd9c5b077c8951b6e1f43b7fe01a2620c649889262481f15139a1746d88",
+   "bytes": 675407
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/empire_wmic_add_user_backdoor.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/empire_wmic_add_user_backdoor.zip",
+   "sha256": "88502d9a8d90f17aa638d7331120d52e7295480ea5fc4a156463399181d1c6e1",
+   "bytes": 1166833
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/mimikatz_CVE-2020-1472_Unauthenticated_NetrServerAuthenticate2.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/mimikatz_CVE-2020-1472_Unauthenticated_NetrServerAuthenticate2.zip",
+   "sha256": "03b8cefdd0c39bcbb9c4939af6777c8617dcab0a717e04b53a2fe112c3a2eee0",
+   "bytes": 78819
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/purplesharp_ad_playbook_I.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/purplesharp_ad_playbook_I.zip",
+   "sha256": "2a2d80e7b8d8ee6821a1754118f3ab908b4bac84cf4ed3d018e281f631bd2870",
+   "bytes": 1362498
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/schtask_create.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/schtask_create.zip",
+   "sha256": "74394c64b660d5b229936d00ea8b3ceb900126cd9e261f58fa2be766579ec5de",
+   "bytes": 126281
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/lateral_movement/host/schtask_modification.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/lateral_movement/host/schtask_modification.zip",
+   "sha256": "1ad310765981ea51714fad6d651032f54ae24780109135458ecd9ec9df0e70ce",
+   "bytes": 244069
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/cmd_userinitmprlogonscript_batch.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/cmd_userinitmprlogonscript_batch.zip",
+   "sha256": "53a01d6976b7567a2464628d850c51cc48b1a91a932cd2b0e110a510bcedf858",
+   "bytes": 12864
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/covenant_persiststartup.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/covenant_persiststartup.tar.gz",
+   "sha256": "d91406f011e0181c58746df35854ca947413ba0f707439632122843b0d06c749",
+   "bytes": 105962
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/covenant_persistwmi.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/covenant_persistwmi.tar.gz",
+   "sha256": "cd8494b66d250044917dd10132be310fb40b113c09abc01e82b3e9c22d22c4a3",
+   "bytes": 98339
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/empire_persistence_registry_modification_run_keys_elevated_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/empire_persistence_registry_modification_run_keys_elevated_user.zip",
+   "sha256": "2809354d679025859d723be3ceb1e2c9f9e5dde2ebec5bbea7c398e165a9b67d",
+   "bytes": 102384
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/empire_persistence_registry_modification_run_keys_standard_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/empire_persistence_registry_modification_run_keys_standard_user.zip",
+   "sha256": "2965f791bcaf5e6ccfc4059985e81fd7e67ec87f17855b6c383edd1b03a19c36",
+   "bytes": 3550216
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/empire_schtasks_creation_execution_elevated_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/empire_schtasks_creation_execution_elevated_user.zip",
+   "sha256": "74662dc5c52f4ac2fc9dcb336bae7fb4e101217169c65adf5784b03015501d3b",
+   "bytes": 4241110
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/empire_schtasks_creation_standard_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/empire_schtasks_creation_standard_user.zip",
+   "sha256": "b073a18420c90394cd2b6ad7589c78d90eba32dc155ed04b12ac824a8fc591b4",
+   "bytes": 263732
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/empire_wmi_local_event_subscriptions_elevated_user.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/empire_wmi_local_event_subscriptions_elevated_user.zip",
+   "sha256": "a507f2edd768b592e6b3157e974fd0468965eee00407387d88356ecb8fd20fea",
+   "bytes": 6043932
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/persistence/host/proxylogon_ssrf_rce_poc.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/persistence/host/proxylogon_ssrf_rce_poc.zip",
+   "sha256": "cc6ef822788c25b03b20e4d6cf3fa268ea0277483b31614c5d432fd7a55bd3e2",
+   "bytes": 378892
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/privilege_escalation/host/cmd_service_mod_fax.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/privilege_escalation/host/cmd_service_mod_fax.zip",
+   "sha256": "4a40cb09c514f1a4c601588cbfa5c81e12a6f8a5ab92fd76bad846c1a4352447",
+   "bytes": 36023
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/privilege_escalation/host/empire_invoke_runas.tar.gz",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/privilege_escalation/host/empire_invoke_runas.tar.gz",
+   "sha256": "17a3434c2b187c76c4bcc829930cf787c12507cc992a7c72bb8ef46cb4a11b7d",
+   "bytes": 690887
+  },
+  {
+   "group": "otrf-atomic",
+   "path": "otrf/atomic/windows/privilege_escalation/host/empire_uac_shellapi_fodhelper.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/privilege_escalation/host/empire_uac_shellapi_fodhelper.zip",
+   "sha256": "b8cc7aae826f5e4aea3ea47b2b6db69b062c39201de8de9621d5081622d3c504",
+   "bytes": 712457
+  },
+  {
+   "group": "otrf-apt29",
+   "path": "otrf/compound/apt29/day1/apt29_evals_day1_manual.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/apt29/day1/apt29_evals_day1_manual.zip",
+   "sha256": "98a073140860560d70080ace9142961be4f64b4862bae892d62d0f254d0fdbe5",
+   "bytes": 13944973
+  },
+  {
+   "group": "evtx-attack-samples",
+   "path": "evtx-attack-samples.zip",
+   "url": "https://codeload.github.com/sbousseaden/EVTX-ATTACK-SAMPLES/zip/4ceed2f4706daf601c212a8f91c113dd85349a2c",
+   "sha256": "ea8bf4cd30f673907f2ad0ca2ccff501bac55fd28573ee77c0940d9b85396da5",
+   "bytes": 6114472
+  }
+ ]
+}
