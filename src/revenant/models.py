@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import enum
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -54,6 +53,22 @@ class EventType(str, enum.Enum):
     LOGON = "logon"
     LOGOFF = "logoff"
     DNS_QUERY = "dns_query"
+    # --- added for real Windows / plaso / memory artefacts (v0.2) ---
+    LOGON_FAILED = "logon_failed"
+    PROCESS_ACCESS = "process_access"  # Sysmon 10 (e.g. LSASS handle)
+    REMOTE_THREAD = "remote_thread"  # Sysmon 8 (injection)
+    FILE_TIME_CHANGE = "file_time_change"  # Sysmon 2 (timestomp)
+    PIPE = "pipe"  # Sysmon 17/18
+    WMI_EVENT = "wmi_event"  # Sysmon 19/20/21 (WMI persistence)
+    SERVICE_INSTALL = "service_install"  # System 7045 / Security 4697
+    SCHEDULED_TASK = "scheduled_task"  # Security 4698
+    ACCOUNT_CHANGE = "account_change"  # Security 4720/4732...
+    SCRIPT_BLOCK = "script_block"  # PowerShell 4104
+    LOG_CLEARED = "log_cleared"  # Security 1102 / System 104
+    AUDIT_POLICY_CHANGE = "audit_policy_change"  # Security 4719
+    TIME_CHANGE = "time_change"  # Security 4616
+    EXECUTION = "execution"  # prefetch / amcache / userassist evidence (plaso)
+    WEB_VISIT = "web_visit"  # browser history (plaso)
     OTHER = "other"
 
 
@@ -77,7 +92,7 @@ class ConfidenceGrade(str, enum.Enum):
     CONFIRMED = "CONFIRMED"
 
     @classmethod
-    def from_score(cls, score: float) -> "ConfidenceGrade":
+    def from_score(cls, score: float) -> ConfidenceGrade:
         if score >= 0.85:
             return cls.CONFIRMED
         if score >= 0.65:
@@ -105,7 +120,7 @@ class Event(BaseModel):
     object: str  # target, e.g. "file:C:/tmp/x.dll" or "ip:10.0.0.5:443"
     source_artifact: str  # which artifact produced this (e.g. "sysmon", "plaso")
     source_reliability: SourceReliability = SourceReliability.C
-    integrity_hash: Optional[str] = None
+    integrity_hash: str | None = None
     # free-form normalized attributes (pid, ppid, image, hashes, host...)
     attributes: dict[str, str] = Field(default_factory=dict)
 
@@ -161,8 +176,8 @@ class CustodyRecord(BaseModel):
     seq: int
     timestamp: datetime
     action: str  # "ingest", "verify", "reconstruct", "report"
-    event_id: Optional[str] = None
-    artifact: Optional[str] = None
+    event_id: str | None = None
+    artifact: str | None = None
     digest: str  # hash of the payload this record commits to
     prev_digest: str  # hash of the previous ledger record (tamper-evident chain)
     record_hash: str  # hash over this record's fields
@@ -175,3 +190,29 @@ class TamperingIndicator(BaseModel):
     detail: str
     event_ids: list[str] = Field(default_factory=list)
     severity: str = "medium"  # low|medium|high
+
+
+class IncidentStory(BaseModel):
+    """A reconstructed incident narrative: a causal subtree, not a single path.
+
+    Real process trees fan out (one payload spawns many children); a story
+    keeps the whole subtree below a *story root* so the narrative reads like
+    an analyst's write-up, with confidence and suspicion scored over it.
+    """
+
+    story_id: str
+    root_event_id: str
+    event_ids: list[str]  # time ordered
+    edges: list[CausalEdge] = Field(default_factory=list)
+    stages: list[KillChainStage] = Field(default_factory=list)
+    techniques: list[str] = Field(default_factory=list)
+    tactics: list[str] = Field(default_factory=list)
+    hosts: list[str] = Field(default_factory=list)
+    confidence_score: float = Field(ge=0.0, le=1.0, default=0.0)
+    grade: ConfidenceGrade = ConfidenceGrade.LOW
+    suspicion: float = Field(ge=0.0, le=1.0, default=0.0)
+    rank_score: float = Field(ge=0.0, le=1.0, default=0.0)
+    tampering_flags: list[str] = Field(default_factory=list)
+    # benign leaf actions (e.g. routine registry writes) kept out of the
+    # narrative for readability; counted so nothing is silently hidden
+    omitted_events: int = 0
