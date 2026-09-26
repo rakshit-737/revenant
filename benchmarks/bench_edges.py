@@ -1,0 +1,276 @@
+"""B1 -- causal-edge accuracy against Sysmon process-GUID ground truth.
+
+Sysmon stamps every event with ``ProcessGuid`` (and ``ParentProcessGuid`` on
+EID 1). GUIDs are unique per process instance, so they give an *objective*
+answer to "which process-start caused this event?" -- the exact question the
+causal rule engine must answer on sources without GUIDs (Security 4688,
+plaso, memory). We hide the GUIDs from the engine (``use_guids=False``),
+infer edges from host/PID/image/time alone, and score them against the GUID
+truth.
+
+Methods compared (same events, same evaluation set):
+
+* ``v01_exact_ref_join`` -- REVENANT v0.1: link to *every* earlier process-start
+  whose ``process:pid:image`` string equals the effect's actor, within 1 h.
+* ``pid_nearest``        -- flat-timeline analyst heuristic: nearest earlier
+  process-start with the same host+PID, within 24 h.
+* ``revenant``           -- v0.2 engine: host|PID|image key, nearest cause,
+  PID-reuse guard via process-termination events, 24 h window.
+
+Also reports edge-confidence calibration (ECE, reliability bins) for REVENANT.
+"""
+
+from __future__ import annotations
+
+import argparse
+import bisect
+import json
+import time
+from collections import Counter, defaultdict
+from pathlib import Path
+
+from common import APT29_DIR, atomic_datasets, environment, load_cached, write_json
+
+from revenant.entities import event_host
+from revenant.fusion import fuse
+from revenant.graph import ProvenanceGraph
+from revenant.models import Event, EventType
+from revenant.rules import PROCESS_ACTIONS, RuleEngine
+
+EFFECT_TYPES = {EventType.PROCESS_START}
+for _rel, _types, _c in PROCESS_ACTIONS.values():
+    EFFECT_TYPES |= set(_types)
+PROCESS_RULES = ({"process_spawn", "process_image_fallback_spawn"} | {f"process_{s}" for s in PROCESS_ACTIONS}
+                 | {f"process_image_fallback_{s}" for s in PROCESS_ACTIONS})
+
+
+def ground_truth(events: list[Event]) -> dict[str, str]:
+    """dst event id -> true cause (the Sysmon process-start of its actor GUID)."""
+    start_by_guid: dict[str, Event] = {}
+    for e in events:
+        if e.source_artifact == "sysmon" and e.event_type == EventType.PROCESS_START:
+            g = e.attributes.get("object_guid")
+            if g:
+                start_by_guid.setdefault(g, e)
+    truth: dict[str, str] = {}
+    for e in events:
+        if e.source_artifact != "sysmon" or e.event_type not in EFFECT_TYPES:
+            continue
+        g = e.attributes.get("actor_guid")
+        src = start_by_guid.get(g or "")
+        if src is not None and src.event_id != e.event_id and src.timestamp <= e.timestamp:
+            truth[e.event_id] = src.event_id
+    return truth
+
+
+# ----------------------------------------------------------------- baselines
+def _starts(events: list[Event]):
+    return [e for e in events if e.event_type == EventType.PROCESS_START]
+
+
+def v01_exact_ref_join(events: list[Event], window_s: float = 3600.0) -> dict[str, set[str]]:
+    idx: dict[str, list[Event]] = defaultdict(list)
+    for s in _starts(events):
+        idx[s.object].append(s)
+    pred: dict[str, set[str]] = defaultdict(set)
+    for d in events:
+        if d.event_type not in EFFECT_TYPES:
+            continue
+        for s in idx.get(d.actor, []):
+            dt = (d.timestamp - s.timestamp).total_seconds()
+            if s.event_id != d.event_id and 0 <= dt <= window_s:
+                pred[d.event_id].add(s.event_id)
+    return pred
+
+
+def pid_nearest(events: list[Event], window_s: float = 86400.0) -> dict[str, set[str]]:
+    from revenant.entities import split_process_ref
+
+    idx: dict[str, tuple[list[float], list[Event]]] = {}
+    for s in _starts(events):
+        p = split_process_ref(s.object)
+        if p and p[0]:
+            ts, ev = idx.setdefault(f"{event_host(s)}|{p[0]}", ([], []))
+            ts.append(s.timestamp.timestamp())
+            ev.append(s)
+    pred: dict[str, set[str]] = defaultdict(set)
+    for d in events:
+        if d.event_type not in EFFECT_TYPES:
+            continue
+        p = split_process_ref(d.actor)
+        if not p or not p[0]:
+            continue
+        k = f"{event_host(d)}|{p[0]}"
+        if k not in idx:
+            continue
+        ts, ev = idx[k]
+        i = bisect.bisect_right(ts, d.timestamp.timestamp()) - 1
+        while i >= 0 and ev[i].event_id == d.event_id:
+            i -= 1
+        if i >= 0 and d.timestamp.timestamp() - ts[i] <= window_s:
+            pred[d.event_id].add(ev[i].event_id)
+    return pred
+
+
+def revenant_edges(events: list[Event]) -> tuple[dict[str, set[str]], list[tuple[float, bool, str, str]]]:
+    g = ProvenanceGraph(backend="memory")
+    g.add_events(events)
+    fuse(g)
+    RuleEngine(use_guids=False, calibration=None).infer(g)  # hand-set confidences
+    pred: dict[str, set[str]] = defaultdict(set)
+    conf: dict[tuple[str, str], tuple[float, str]] = {}
+    for e in g.edges:
+        if e.rule_name in PROCESS_RULES:
+            pred[e.dst_event_id].add(e.src_event_id)
+            conf[(e.src_event_id, e.dst_event_id)] = (e.confidence, e.rule_name)
+    return pred, conf  # type: ignore[return-value]
+
+
+# ----------------------------------------------------------------- scoring
+def score(pred: dict[str, set[str]], truth: dict[str, str]) -> dict[str, float]:
+    tp = fp = 0
+    hit: set[str] = set()
+    for dst, true_src in truth.items():
+        for s in pred.get(dst, ()):
+            if s == true_src:
+                tp += 1
+                hit.add(dst)
+            else:
+                fp += 1
+    n = len(truth)
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = len(hit) / n if n else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    return {"tp": tp, "fp": fp, "fn": n - len(hit), "n_eval": n, "precision": round(precision, 4),
+            "recall": round(recall, 4), "f1": round(f1, 4),
+            "false_edge_rate": round(fp / (tp + fp), 4) if tp + fp else 0.0}
+
+
+def calibration(samples: list[tuple[float, bool]], bins: int = 10) -> dict:
+    buckets: list[list[tuple[float, bool]]] = [[] for _ in range(bins)]
+    for c, ok in samples:
+        buckets[min(int(c * bins), bins - 1)].append((c, ok))
+    rows, ece, n = [], 0.0, len(samples)
+    for i, b in enumerate(buckets):
+        if not b:
+            continue
+        mc = sum(c for c, _ in b) / len(b)
+        acc = sum(ok for _, ok in b) / len(b)
+        ece += len(b) / n * abs(mc - acc)
+        rows.append({"bin": f"{i / bins:.1f}-{(i + 1) / bins:.1f}", "n": len(b),
+                     "mean_confidence": round(mc, 4), "accuracy": round(acc, 4)})
+    return {"ece": round(ece, 4), "n": n, "bins": rows}
+
+
+def score_by_type(pred: dict[str, set[str]], truth: dict[str, str], etype: dict[str, str]) -> dict:
+    out = {}
+    for t in sorted(set(etype.values())):
+        sub = {d: s for d, s in truth.items() if etype[d] == t}
+        r = score(pred, sub)
+        out[t] = {"n_eval": r["n_eval"], "precision": r["precision"], "recall": r["recall"], "f1": r["f1"]}
+    return out
+
+
+MIN_RULE_N = 20  # rules seen fewer times keep their hand-set confidence
+
+
+def fit_rule_table(samples: list[tuple[float, bool, str]]) -> dict[str, dict]:
+    """Laplace-smoothed per-rule precision: (correct + 1) / (n + 2)."""
+    by: dict[str, list[bool]] = defaultdict(list)
+    for _c, ok, rule in samples:
+        by[rule].append(ok)
+    return {r: {"n": len(v), "confidence": round((sum(v) + 1) / (len(v) + 2), 4)}
+            for r, v in sorted(by.items()) if len(v) >= MIN_RULE_N}
+
+
+def apply_table(samples: list[tuple[float, bool, str]], table: dict[str, dict]) -> list[tuple[float, bool]]:
+    return [(table[r]["confidence"] if r in table else c, ok) for c, ok, r in samples]
+
+
+def evaluate(corpus: str, datasets: list[tuple[str, Path]]) -> tuple[dict, list[tuple[float, bool, str]]]:
+    names = ("v01_exact_ref_join", "pid_nearest", "revenant")
+    truth_all: dict[str, str] = {}
+    etype: dict[str, str] = {}
+    preds: dict[str, dict[str, set[str]]] = {k: {} for k in names}
+    samples: list[tuple[float, bool, str]] = []
+    n_events = 0
+    t_rev = 0.0
+    for name, path in datasets:
+        events, _st = load_cached(path, f"{corpus}-{name}")
+        n_events += len(events)
+        truth = ground_truth(events)
+        truth_all.update(truth)
+        types = {e.event_id: e.event_type.value for e in events}
+        etype.update({d: types[d] for d in truth})
+        preds["v01_exact_ref_join"].update(v01_exact_ref_join(events))
+        preds["pid_nearest"].update(pid_nearest(events))
+        t0 = time.perf_counter()
+        rp, conf = revenant_edges(events)
+        t_rev += time.perf_counter() - t0
+        preds["revenant"].update(rp)
+        for (src, dst), (c, rule) in conf.items():
+            if dst in truth:
+                samples.append((c, truth[dst] == src, rule))
+    per_rule: dict[str, list[bool]] = defaultdict(list)
+    for _c, ok, r in samples:
+        per_rule[r].append(ok)
+    res = {
+        "corpus": corpus,
+        "datasets": len(datasets),
+        "events": n_events,
+        "evaluable_effects": len(truth_all),
+        "evaluable_by_type": dict(sorted(Counter(etype.values()).items())),
+        "methods": {k: score(v, truth_all) for k, v in preds.items()},
+        "by_effect_type": {k: score_by_type(preds[k], truth_all, etype) for k in ("pid_nearest", "revenant")},
+        "revenant_calibration_handset": calibration([(c, ok) for c, ok, _ in samples]),
+        "revenant_rule_accuracy": {r: {"n": len(v), "accuracy": round(sum(v) / len(v), 4)}
+                                   for r, v in sorted(per_rule.items())},
+        "revenant_rule_time_s": round(t_rev, 3),
+    }
+    return res, samples
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--no-apt29", action="store_true")
+    ap.add_argument("--write-calibration", action="store_true",
+                    help="write the atomic-fitted rule table to src/revenant/data/rule_calibration.json")
+    args = ap.parse_args(argv)
+    out = {"benchmark": "causal_edges_vs_sysmon_guid", "environment": environment(), "corpora": []}
+    corpora: dict[str, list[tuple[float, bool, str]]] = {}
+    atomic = [(d.name, d.path) for d in atomic_datasets()]
+    if atomic:
+        r, corpora["otrf_atomic"] = evaluate("otrf_atomic", atomic)
+        out["corpora"].append(r)
+    if not args.no_apt29 and APT29_DIR.exists():
+        r, corpora["otrf_apt29_day1"] = evaluate("otrf_apt29_day1", [("apt29_day1", APT29_DIR)])
+        out["corpora"].append(r)
+    # cross-corpus calibration: fit per-rule precision on one corpus, test on the other
+    if len(corpora) == 2:
+        (a, sa), (b, sb) = corpora.items()
+        out["calibration_cross_corpus"] = {
+            f"fit_{a}_test_{b}": {"table": fit_rule_table(sa), "test": calibration(apply_table(sb, fit_rule_table(sa)))},
+            f"fit_{b}_test_{a}": {"table": fit_rule_table(sb), "test": calibration(apply_table(sa, fit_rule_table(sb)))},
+        }
+    for c in out["corpora"]:
+        print(c["corpus"], c["events"], "events", c["evaluable_effects"], "evaluable")
+        for m, s in c["methods"].items():
+            print(f"  {m:22s} P={s['precision']:.3f} R={s['recall']:.3f} F1={s['f1']:.3f} FER={s['false_edge_rate']:.3f}")
+        print("  hand-set ECE", c["revenant_calibration_handset"]["ece"])
+    for k, v in out.get("calibration_cross_corpus", {}).items():
+        print(" ", k, "ECE", v["test"]["ece"])
+    if args.write_calibration and "otrf_atomic" in corpora:
+        from common import ROOT
+
+        table = fit_rule_table(corpora["otrf_atomic"])
+        dst = ROOT / "src" / "revenant" / "data" / "rule_calibration.json"
+        dst.write_text(json.dumps({"fitted_on": "OTRF Security-Datasets atomic (Windows host captures)",
+                                   "method": "Laplace-smoothed per-rule precision vs Sysmon GUID ground truth",
+                                   "min_n": MIN_RULE_N, "rules": table}, indent=1) + "\n", encoding="utf-8")
+        print("[calibration]", dst)
+    write_json("edges.json", out)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
