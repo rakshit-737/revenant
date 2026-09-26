@@ -12,3 +12,7 @@ venv/
 *.db
 *.pdf
 .ruff_cache/
+
+# profiler dumps
+*.out
+*.prof
