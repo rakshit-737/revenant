@@ -6,3 +6,9 @@ build/
 dist/
 .venv/
 venv/
+
+# local artefacts
+*.sqlite
+*.db
+*.pdf
+.ruff_cache/
