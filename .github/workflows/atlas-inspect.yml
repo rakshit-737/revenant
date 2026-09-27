@@ -5,10 +5,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          set +e
           C=e46096d1947e4f059e73a0ac2b9a9707812fd4bc
+          mkdir rep
           for d in raw_logs paper_experiments; do curl -sSL -o $d-S1.zip https://raw.githubusercontent.com/purseclab/ATLAS/$C/$d/S1.zip; unzip -q -o $d-S1.zip -d $d; done
-          find raw_logs paper_experiments -type f | head -80 | xargs ls -l
-          for f in $(find raw_logs paper_experiments -type f \( -name '*.txt' -o -name '*.log' -o -name '*.json' -o -name '*.csv' -o -name '*.py' \) | grep -v __MACOSX | head -40); do echo "=== $f"; head -c 1500 "$f"; echo; done
-          curl -sSL -o src.py https://raw.githubusercontent.com/purseclab/ATLAS/$C/preprocess.py; cat src.py
-          curl -sSL -o gg.py https://raw.githubusercontent.com/purseclab/ATLAS/$C/graph_generator.py; cat gg.py
-          curl -sSL -o a.py https://raw.githubusercontent.com/purseclab/ATLAS/$C/atlas.py; cat a.py
+          find raw_logs paper_experiments -type f -printf '%s\t%p\n' > rep/listing.tsv
+          python3 - <<'PY'
+          import os
+          out=open('rep/heads.txt','w')
+          for root,_,fs in os.walk('.'):
+              if not root.startswith(('./raw_logs','./paper_experiments')) or '__MACOSX' in root: continue
+              for f in fs:
+                  p=os.path.join(root,f)
+                  if f.endswith(('.h5','.zip')): continue
+                  out.write(f'\n===== {p} ({os.path.getsize(p)} bytes)\n')
+                  with open(p,'rb') as fh: out.write(fh.read(3000).decode('utf-8','replace'))
+          PY
+          cp paper_experiments/S1/*.py rep/ 2>/dev/null
+          ls rep
+      - uses: actions/upload-artifact@v4
+        with: {name: atlas-inspect, path: rep/}
