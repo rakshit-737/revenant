@@ -15,7 +15,7 @@ sudo systemctl start auditd || sudo service auditd start
 sudo auditctl -D
 sudo auditctl -b 16384
 sudo auditctl -a always,exit -F arch=b64 -S execve,execveat -k rv_exec
-sudo auditctl -a always,exit -F arch=b64 -S connect -F success=1 -k rv_net
+sudo auditctl -a always,exit -F arch=b64 -S connect -k rv_net
 sudo auditctl -w /tmp/rv -p wa -k rv_file
 sudo auditctl -l
 START=$(date +%s)
@@ -26,7 +26,9 @@ sleep 2
 
 # --- benign background noise -------------------------------------------------
 ( for i in 1 2 3; do ls -la /usr/share >/dev/null; uname -a >/dev/null; id >/dev/null;
-    python3 -c 'import json,sys; json.dumps({"x": 1})'; git --version >/dev/null; sleep 1; done ) &
+    python3 -c 'import json,sys; json.dumps({"x": 1})'; git --version >/dev/null;
+    python3 -c "open('/tmp/rv/cache-$i.tmp', 'w').write('x')";
+    curl -s -o /dev/null "http://127.0.0.1:${PORT}/"; rm -f "/tmp/rv/cache-$i.tmp"; sleep 1; done ) &
 NOISE=$!
 
 # --- scripted sequence (ground truth recorded below) --------------------------

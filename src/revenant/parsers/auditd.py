@@ -132,7 +132,10 @@ def _events_from_group(g: _Group, host: str, images: dict[str, str]) -> list[Eve
     if sc is None:
         return []
     name = _syscall_name(sc)
-    if sc.get("success", "yes") != "yes":
+    # non-blocking connect() returns EINPROGRESS (-115) and is logged as a
+    # failure although the connection proceeds (curl, browsers, most clients)
+    in_progress = name == "connect" and sc.get("exit") == "-115"
+    if sc.get("success", "yes") != "yes" and not in_progress:
         return []
     pid, ppid = sc.get("pid", ""), sc.get("ppid", "")
     exe = _unquote(sc.get("exe", ""))

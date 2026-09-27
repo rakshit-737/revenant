@@ -36,6 +36,8 @@ def truth_edges(events) -> set[tuple[str, str]]:
             last_exec[pid] = e.event_id
         elif pid in last_exec:
             truth.add((last_exec[pid], e.event_id))
+        elif ppid in last_exec:  # forked without exec: the child still runs the parent's image
+            truth.add((last_exec[ppid], e.event_id))
     return truth
 
 
