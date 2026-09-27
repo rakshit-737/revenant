@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt ruff
       - name: Lint
-        run: ruff check src tests benchmarks scripts
+        run: ruff check src tests benchmarks scripts ci
       - name: Tests (committed fixtures only; real-data tests skip)
         run: python -m pytest -q
       - name: Smoke-test CLI on the real OTRF fixture
@@ -48,3 +48,27 @@ jobs:
       - name: Secret scan (gitleaks)
         uses: gitleaks/gitleaks-action@v2
         continue-on-error: true
+
+  live-auditd:
+    # Real kernel telemetry: auditd inside the runner records benign background
+    # activity plus a scripted stage -> fetch (127.0.0.1 only) -> archive -> delete
+    # sequence; REVENANT reconstructs it and the job asserts on the JSON result.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install REVENANT
+        run: pip install -r requirements.txt
+      - name: Capture with auditd
+        run: bash ci/live/capture_auditd.sh live-out
+      - name: Reconstruct and assert
+        run: python ci/live/check_live.py live-out
+      - name: Upload capture + result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-auditd
+          path: live-out/
