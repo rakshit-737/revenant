@@ -8,6 +8,7 @@ kind               input                                      module
 ``plaso``          psort ``json_line`` or ``l2tcsv``          :mod:`.plaso`
 ``volatility``     dir of Volatility 3 ``-r json`` outputs    :mod:`.volatility`
 ``authlog``        Linux auth.log / secure                    :mod:`.authlog`
+``auditd``         Linux auditd audit.log (raw records)       :mod:`.auditd`
 =================  =========================================  ==================
 """
 
@@ -19,7 +20,7 @@ from typing import Any
 from ..models import Event
 from .otrf import LoadStats
 
-KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog")
+KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog", "auditd")
 
 
 def detect_kind(path: str | Path) -> str:
@@ -41,6 +42,12 @@ def detect_kind(path: str | Path) -> str:
         if '"data_type"' in head or '"__container_type__"' in head:
             return "plaso"
         return "otrf"
+    with p.open("r", encoding="utf-8", errors="replace") as fh:
+        first = fh.readline()
+    from .auditd import looks_like_audit_log
+
+    if looks_like_audit_log(first):
+        return "auditd"
     if "auth" in name or "secure" in name:
         return "authlog"
     raise ValueError(f"cannot detect artefact kind for {p}; pass kind explicitly")
@@ -71,6 +78,10 @@ def load_path(path: str | Path, kind: str | None = None, *, stats: LoadStats | N
 
         return load_authlog(path, year=int(opts.get("year", 2024)),
                             utc_offset_hours=float(opts.get("utc_offset_hours", 0.0)), stats=stats)
+    if kind == "auditd":
+        from .auditd import load_auditd
+
+        return load_auditd(path, host=opts.get("host", ""), stats=stats)
     raise ValueError(f"unknown artefact kind: {kind}")
 
 

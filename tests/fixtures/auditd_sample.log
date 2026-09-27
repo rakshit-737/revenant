@@ -1,0 +1,27 @@
+type=SYSCALL msg=audit(1700000000.100:101): arch=c000003e syscall=59 success=yes exit=0 a0=55d0 a1=55d1 a2=55d2 a3=0 items=2 ppid=1000 pid=2000 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="bash" exe="/usr/bin/bash" subj=unconfined key="rv_exec"
+type=EXECVE msg=audit(1700000000.100:101): argc=2 a0="bash" a1="scenario.sh"
+type=CWD msg=audit(1700000000.100:101): cwd="/home/runner"
+type=PATH msg=audit(1700000000.100:101): item=0 name="/usr/bin/bash" inode=1 dev=08:01 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL
+type=SYSCALL msg=audit(1700000001.000:102): arch=c000003e syscall=59 success=yes exit=0 a0=1 a1=2 a2=3 a3=0 items=2 ppid=2000 pid=2001 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="cp" exe="/usr/bin/cp" key="rv_exec"
+type=EXECVE msg=audit(1700000001.000:102): argc=3 a0="cp" a1="/usr/bin/curl" a2="/tmp/rv/fetcher"
+type=SYSCALL msg=audit(1700000001.010:103): arch=c000003e syscall=257 success=yes exit=4 a0=ffffff9c a1=7ffd a2=241 a3=1ed items=2 ppid=2000 pid=2001 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="cp" exe="/usr/bin/cp" key="rv_file"
+type=CWD msg=audit(1700000001.010:103): cwd="/home/runner"
+type=PATH msg=audit(1700000001.010:103): item=0 name="/tmp/rv/" inode=5 dev=08:01 mode=040755 nametype=PARENT
+type=PATH msg=audit(1700000001.010:103): item=1 name="/tmp/rv/fetcher" inode=6 dev=08:01 mode=0100755 nametype=CREATE
+type=SYSCALL msg=audit(1700000002.000:104): arch=c000003e syscall=59 success=yes exit=0 a0=1 a1=2 a2=3 a3=0 items=2 ppid=2000 pid=2002 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="fetcher" exe="/tmp/rv/fetcher" key="rv_exec"
+type=EXECVE msg=audit(1700000002.000:104): argc=4 a0="/tmp/rv/fetcher" a1="-so" a2="loot.txt" a3=687474703A2F2F3132372E302E302E313A383736352F646174612E747874
+type=SYSCALL msg=audit(1700000002.100:105): arch=c000003e syscall=42 success=yes exit=0 a0=5 a1=7ffd a2=10 a3=0 items=0 ppid=2000 pid=2002 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="fetcher" exe="/tmp/rv/fetcher" key="rv_net"
+type=SOCKADDR msg=audit(1700000002.100:105): saddr=0200223D7F0000010000000000000000
+type=SYSCALL msg=audit(1700000002.200:106): arch=c000003e syscall=257 success=yes exit=6 a0=ffffff9c a1=7ffd a2=241 a3=1b6 items=2 ppid=2000 pid=2002 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="fetcher" exe="/tmp/rv/fetcher" key="rv_file"
+type=CWD msg=audit(1700000002.200:106): cwd="/tmp/rv"
+type=PATH msg=audit(1700000002.200:106): item=0 name="/tmp/rv/" inode=5 nametype=PARENT
+type=PATH msg=audit(1700000002.200:106): item=1 name="loot.txt" inode=7 nametype=CREATE
+type=SYSCALL msg=audit(1700000003.000:107): arch=c000003e syscall=59 success=yes exit=0 a0=1 a1=2 a2=3 a3=0 items=2 ppid=2000 pid=2003 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="rm" exe="/usr/bin/rm" key="rv_exec"
+type=EXECVE msg=audit(1700000003.000:107): argc=2 a0="rm" a1="/tmp/rv/loot.txt"
+type=SYSCALL msg=audit(1700000003.010:108): arch=c000003e syscall=263 success=yes exit=0 a0=ffffff9c a1=5 a2=0 a3=0 items=2 ppid=2000 pid=2003 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts0 ses=3 comm="rm" exe="/usr/bin/rm" key="rv_file"
+type=CWD msg=audit(1700000003.010:108): cwd="/home/runner"
+type=PATH msg=audit(1700000003.010:108): item=0 name="/tmp/rv/" inode=5 nametype=PARENT
+type=PATH msg=audit(1700000003.010:108): item=1 name="/tmp/rv/loot.txt" inode=7 nametype=DELETE
+type=SYSCALL msg=audit(1700000003.500:109): arch=c000003e syscall=42 success=no exit=-2 a0=3 a1=7ffd a2=6e a3=0 items=0 ppid=1 pid=500 auid=4294967295 uid=0 comm="systemd" exe="/usr/lib/systemd/systemd" key="rv_net"
+type=SOCKADDR msg=audit(1700000003.500:109): saddr=01002F72756E
+type=PROCTITLE msg=audit(1700000003.500:109): proctitle=73797374656D64
