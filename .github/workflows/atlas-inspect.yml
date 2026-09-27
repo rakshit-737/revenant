@@ -7,21 +7,31 @@ jobs:
       - run: |
           set +e
           C=e46096d1947e4f059e73a0ac2b9a9707812fd4bc
-          mkdir rep
-          for d in raw_logs paper_experiments; do curl -sSL -o $d-S1.zip https://raw.githubusercontent.com/purseclab/ATLAS/$C/$d/S1.zip; unzip -q -o $d-S1.zip -d $d; done
-          find raw_logs paper_experiments -type f -printf '%s\t%p\n' > rep/listing.tsv
+          mkdir rep pe
+          curl -sSL -o rep/atlas.xlsx https://raw.githubusercontent.com/purseclab/ATLAS/$C/paper_experiments/docs/atlas.xlsx
+          for a in S1 S2 S3 S4 M1 M2 M3 M4 M5 M6; do curl -sSL -o $a.zip https://raw.githubusercontent.com/purseclab/ATLAS/$C/paper_experiments/$a.zip; unzip -q -o $a.zip -d pe; done
+          find pe -type f -not -path '*__MACOSX*' -printf '%s\t%p\n' > rep/listing.tsv
+          pip install -q openpyxl
           python3 - <<'PY'
-          import os
-          out=open('rep/heads.txt','w')
-          for root,_,fs in os.walk('.'):
-              if not root.startswith(('./raw_logs','./paper_experiments')) or '__MACOSX' in root: continue
-              for f in fs:
-                  p=os.path.join(root,f)
-                  if f.endswith(('.h5','.zip')): continue
-                  out.write(f'\n===== {p} ({os.path.getsize(p)} bytes)\n')
-                  with open(p,'rb') as fh: out.write(fh.read(3000).decode('utf-8','replace'))
+          import json, glob, openpyxl
+          out = open('rep/summary.txt', 'w')
+          wb = openpyxl.load_workbook('rep/atlas.xlsx', data_only=True)
+          for ws in wb.worksheets:
+              out.write(f'### sheet {ws.title} {ws.max_row}x{ws.max_column}\n')
+              for row in ws.iter_rows(values_only=True):
+                  if any(v is not None for v in row):
+                      out.write('\t'.join('' if v is None else str(v) for v in row) + '\n')
+          for f in sorted(glob.glob('pe/**/eval_*.json', recursive=True)):
+              if '__MACOSX' in f: continue
+              d = json.load(open(f))
+              out.write(f'\n=== {f}\n')
+              out.write(f'len={len(d)} types={[type(x).__name__ for x in d]} lens={[len(x) if hasattr(x, "__len__") else x for x in d]}\n')
+              out.write(f'cleaned={d[0]}\nmalicious={d[1]}\nclue={d[2]}\ndataset={d[7] if len(d) > 7 else None}\n')
+              out.write(f'words[:15]={d[3][:15]}\npred[:15]={d[4][:15]}\nprobs[:15]={d[5][:15]}\nlines[:5]={d[6][:5]}\n')
+          for f in sorted(glob.glob('pe/**/malicious_labels.txt', recursive=True)) + sorted(glob.glob('pe/**/user_artifact.txt', recursive=True)):
+              if '__MACOSX' in f: continue
+              out.write(f'\n--- {f}\n' + open(f).read())
           PY
-          cp paper_experiments/S1/*.py rep/ 2>/dev/null
-          ls rep
+          head -c 20000 rep/summary.txt
       - uses: actions/upload-artifact@v4
-        with: {name: atlas-inspect, path: rep/}
+        with: {name: atlas-inspect2, path: rep/}
