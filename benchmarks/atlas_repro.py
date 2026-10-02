@@ -112,14 +112,15 @@ def main(argv: list[str] | None = None) -> int:
     outs = released_outputs(a.root / "paper_experiments")
     res["released_outputs"] = outs
     # event totals of the held-out test outputs must match the spreadsheet's ground truth
-    checks = {}
-    for rel, o in outs.items():
+    # (multi-host attacks: the sheet's total is the sum over the h1 and h2 test logs)
+    per_attack: dict[str, dict[str, int]] = {}
+    for o in outs.values():
         m = re.match(r"([SM])(\d)", o["dataset"] or "")
-        if not m or "testing" not in rel:
-            continue
-        aid = f"{m.group(1)}-{m.group(2)}"
-        if aid in sheet["attacks"]:
-            checks[rel] = o["events"] == sheet["attacks"][aid]["event"]["total"]
+        if m:
+            per_attack.setdefault(f"{m.group(1)}-{m.group(2)}", {})[o["dataset"]] = o["events"]
+    checks = {a: {"released_events": sum(v.values()), "sheet_events": sheet["attacks"][a]["event"]["total"],
+                  "match": sum(v.values()) == sheet["attacks"][a]["event"]["total"]}
+              for a, v in sorted(per_attack.items()) if a in sheet["attacks"]}
     res["event_totals_match_spreadsheet"] = checks
     if a.eval_logs and a.eval_logs.is_dir():
         res["evaluate_py_logs"] = eval_logs(a.eval_logs)
@@ -129,8 +130,9 @@ def main(argv: list[str] | None = None) -> int:
     print("entity macro (recomputed):", em, "paper:", PAPER["entity"])
     print("entity micro (recomputed):", sheet["entity_micro"])
     print("event macro (recomputed):", sheet["event_macro"])
-    print("event totals match:", sum(checks.values()), "/", len(checks))
-    ok = all(abs(sheet["entity_macro_minus_paper"][k]) <= 0.001 for k in em) and checks and all(checks.values())
+    print("event totals match:", sum(c["match"] for c in checks.values()), "/", len(checks))
+    ok = all(abs(sheet["entity_macro_minus_paper"][k]) <= 0.001 for k in em) and checks and all(
+        c["match"] for c in checks.values())
     return 0 if ok else 1
 
 

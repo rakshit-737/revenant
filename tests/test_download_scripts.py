@@ -34,7 +34,7 @@ def test_git_blob_sha1_matches_git(tmp_path):
 def test_manifests_are_pinned():
     m = json.loads((ROOT / "data" / "manifest.json").read_text(encoding="utf-8"))
     unpinned = [e["path"] for e in m["files"] if not (e.get("sha256") or e.get("git_sha1"))]
-    assert len(unpinned) <= 2, unpinned  # the two AV-blocked Empire archives, refused unless --pin
+    assert not unpinned, unpinned
     a = json.loads((ROOT / "data" / "atlas_manifest.json").read_text(encoding="utf-8"))
     for e in a["files"]:
         assert e["bytes"] > 0 and len(e["git_sha1"]) == 40

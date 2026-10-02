@@ -34,10 +34,13 @@ jobs:
         run: |
           set -uo pipefail
           mkdir -p out/eval_logs
+          # dependencies go into a local image with network; evaluate.py itself then runs offline
+          docker run --name atlasdeps python:3.7-slim pip -q install numpy==1.18.5 scikit-learn==0.23.2 matplotlib==3.3.4
+          docker commit atlasdeps atlas-eval:local
           for d in $(find "$RUNNER_TEMP/atlas/paper_experiments" -name evaluate.py -not -path '*__MACOSX*' -printf '%h\n' | sort); do
             name=$(echo "${d#$RUNNER_TEMP/atlas/paper_experiments/}" | tr '/' '_')
             grep -n "^import\|^from\|argv\|open(" "$d/evaluate.py" | head -40 > "out/eval_logs/$name.src.txt" || true
-            timeout 1200 docker run --rm --network none -v "$d:/exp" -w /exp python:3.7-slim sh -c               'pip -q install numpy==1.18.5 networkx==2.5 scikit-learn==0.23.2 >/dev/null 2>&1 || true; python evaluate.py'               > "out/eval_logs/$name.log" 2>&1 || echo "exit $?" >> "out/eval_logs/$name.log"
+            timeout 1200 docker run --rm --network none -v "$d:/exp" -w /exp atlas-eval:local python evaluate.py               > "out/eval_logs/$name.log" 2>&1 || echo "exit $?" >> "out/eval_logs/$name.log"
           done
           tail -n 5 out/eval_logs/*.log | head -200
       - name: Recompute and compare with the paper

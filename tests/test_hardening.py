@@ -130,3 +130,18 @@ def test_api_guards(tmp_path, monkeypatch):
         r = c.post("/api/cases/path", json={"path": bad})
         assert r.status_code == 403, bad
         assert str(tmp_path) not in r.text
+
+
+def test_sentinel_eventdata_string_is_expanded(tmp_path):
+    import json
+
+    from revenant.parsers.otrf import load_otrf
+
+    inner = {"UtcTime": "2022-05-13T08:54:05.123Z", "ProcessGuid": "{a}", "ProcessId": "10", "Image": "C:/x/a.exe",
+             "ParentProcessGuid": "{p}", "ParentProcessId": "4", "ParentImage": "C:/x/p.exe", "CommandLine": "a.exe"}
+    rec = {"Provider": "Microsoft-Windows-Sysmon", "Channel": "Microsoft-Windows-Sysmon/Operational",
+           "Computer": "WS5", "EventID": 1, "TimeGenerated": "2022-05-13T08:54:06Z", "EventData": json.dumps(inner)}
+    f = tmp_path / "sentinel.json"
+    f.write_text(json.dumps(rec) + "\n", encoding="utf-8")
+    ev = load_otrf(f)
+    assert len(ev) == 1 and ev[0].attributes.get("image", "").lower().endswith("a.exe")

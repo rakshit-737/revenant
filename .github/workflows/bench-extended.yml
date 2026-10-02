@@ -29,7 +29,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ matrix.part }}" = main ]; then
-            python scripts/download_data.py --pin --only otrf-atomic --only otrf-apt29 --only otrf-lsass --only otrf-log4shell
+            python scripts/download_data.py --pin --only otrf-atomic --only otrf-metadata --only otrf-apt29 --only otrf-lsass --only otrf-log4shell
           else
             python scripts/download_data.py --pin --only otrf-apt29-day2
           fi

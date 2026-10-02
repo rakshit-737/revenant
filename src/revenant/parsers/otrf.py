@@ -64,6 +64,24 @@ class LoadStats:
 MAX_LINE_CHARS = 4_000_000
 
 
+def _expand_eventdata(obj: dict[str, Any]) -> dict[str, Any]:
+    """Microsoft Sentinel / Log Analytics exports carry EventData as a JSON *string*.
+
+    Lift its fields to the top level (never overriding existing keys) so these
+    captures map like the classic OTRF/Winlogbeat layout.
+    """
+    ed = obj.get("EventData")
+    if isinstance(ed, str) and ed.startswith("{"):
+        try:
+            inner = json.loads(ed)
+        except (json.JSONDecodeError, RecursionError):
+            return obj
+        if isinstance(inner, dict):
+            for k, v in inner.items():
+                obj.setdefault(k, v)
+    return obj
+
+
 def iter_json_lines(path: str | Path) -> Iterator[dict[str, Any]]:
     with open(path, encoding="utf-8", errors="replace") as fh:
         for line in fh:
@@ -79,7 +97,7 @@ def iter_json_lines(path: str | Path) -> Iterator[dict[str, Any]]:
                 yield {"__bad__": True}
                 continue
             if isinstance(obj, dict):
-                yield obj
+                yield _expand_eventdata(obj)
 
 
 def _generic_time(rec: dict[str, Any]) -> tuple[str, Any] | None:
