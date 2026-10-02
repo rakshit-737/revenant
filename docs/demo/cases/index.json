@@ -1,1 +1,44 @@
-[{"name": "corroboration", "stories": 0, "events": 3}, {"name": "intrusion", "stories": 1, "events": 7}, {"name": "scale", "stories": 0, "events": 100}, {"name": "timestomp", "stories": 0, "events": 2}]
+[
+ {
+  "name": "otrf_psexec",
+  "title": "otrf-psexec-lsa-secrets (real)",
+  "stories": 5,
+  "events": 126,
+  "indicators": 2
+ },
+ {
+  "name": "auditd",
+  "title": "linux-auditd (real format)",
+  "stories": 1,
+  "events": 8,
+  "indicators": 0
+ },
+ {
+  "name": "corroboration",
+  "title": "corroboration (synthetic)",
+  "stories": 0,
+  "events": 3,
+  "indicators": 0
+ },
+ {
+  "name": "intrusion",
+  "title": "intrusion (synthetic)",
+  "stories": 1,
+  "events": 7,
+  "indicators": 0
+ },
+ {
+  "name": "scale",
+  "title": "scale (synthetic)",
+  "stories": 0,
+  "events": 100,
+  "indicators": 0
+ },
+ {
+  "name": "timestomp",
+  "title": "timestomp (synthetic)",
+  "stories": 0,
+  "events": 2,
+  "indicators": 1
+ }
+]

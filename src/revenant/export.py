@@ -49,8 +49,20 @@ def story_event_ids(analysis: Analysis, top: int | None = None) -> list[str]:
     return list(seen)
 
 
-def to_dict(analysis: Analysis, *, top: int = 20) -> dict[str, Any]:
-    """Compact JSON-able view: stories with their events and edges."""
+def to_dict(analysis: Analysis, *, top: int = 20, include_all_events: bool = False,
+            max_events: int = 5000) -> dict[str, Any]:
+    """JSON-able view of an analysis: stories with their events and edges.
+
+    Parameters
+    ----------
+    analysis
+        Result of :func:`revenant.pipeline.run` or :func:`revenant.pipeline.analyze_paths`.
+    top
+        Number of ranked stories to include.
+    include_all_events
+        Also include events outside any story (up to ``max_events``), so a case
+        with no story still has a timeline. The path-view chains are always included.
+    """
     stories = []
     for s in analysis.stories[:top]:
         b = story_breakdown(s, analysis.graph)
@@ -74,6 +86,15 @@ def to_dict(analysis: Analysis, *, top: int = 20) -> dict[str, Any]:
                       for e in s.edges],
         })
     ids = story_event_ids(analysis, top)
+    if include_all_events:
+        seen = set(ids)
+        ids += [e.event_id for e in analysis.events if e.event_id not in seen][: max(0, max_events - len(ids))]
+    seen_ids = set(ids)
+    for c in analysis.chains[:top]:
+        for i in c.event_ids:
+            if i not in seen_ids:
+                seen_ids.add(i)
+                ids.append(i)
     return {
         "summary": {
             "events": len(analysis.events),
@@ -88,6 +109,11 @@ def to_dict(analysis: Analysis, *, top: int = 20) -> dict[str, Any]:
         },
         "stories": stories,
         "events": [d for i in ids if (d := _event_dict(analysis, i))],
+        "chains": [{"id": c.chain_id, "event_ids": c.event_ids, "confidence": c.confidence_score,
+                    "grade": c.grade.value, "tampering_flags": c.tampering_flags,
+                    "edges": [{"src": e.src_event_id, "dst": e.dst_event_id, "relation": e.relation,
+                               "rule": e.rule_name, "confidence": e.confidence, "dt_s": round(e.time_delta_s, 3)}
+                              for e in c.edges]} for c in analysis.chains[:top]],
         "indicators": [i.model_dump() for i in analysis.indicators[:500]],
         "artefacts": analysis.artefacts,
     }
