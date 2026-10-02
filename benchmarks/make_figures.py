@@ -55,18 +55,28 @@ def _f1(rows, m):
     return prf(tp, fp, hit, n)[2]
 
 
+MIN_CLUSTERS = 10  # a capture bootstrap over fewer clusters gives degenerate intervals
+
+
 def b1_stats(c: dict) -> dict:
     rows = [r for r in c.get("per_capture", []) if r["n_eval"]]
     out: dict = {"captures_with_effects": len(rows), "captures": c["datasets"]}
     if not rows:
         return out
+    boot = len(rows) >= MIN_CLUSTERS
+
+    def ci(stat):
+        return cluster_bootstrap(rows, stat) if boot else None
+
+    if not boot:
+        out["ci_note"] = f"n/a ({len(rows)} capture{'s' if len(rows) != 1 else ''} < {MIN_CLUSTERS})"
     for m in [k for k in rows[0] if isinstance(rows[0][k], list)]:
-        out[m] = {"f1_ci95": cluster_bootstrap(rows, lambda s, m=m: _f1(s, m)),
+        out[m] = {"f1_ci95": ci(lambda s, m=m: _f1(s, m)),
                   "macro_f1": round(sum(prf(*r[m], r["n_eval"])[2] for r in rows) / len(rows), 4)}
-    out["revenant_minus_pid_nearest_fused_f1_ci95"] = cluster_bootstrap(
-        rows, lambda s: _f1(s, "revenant") - _f1(s, "pid_nearest_fused"))
-    out["revenant_minus_no_fallback_f1_ci95"] = cluster_bootstrap(
-        rows, lambda s: _f1(s, "revenant") - _f1(s, "revenant_no_fallback"))
+    out["revenant_minus_pid_nearest_fused_f1_ci95"] = ci(
+        lambda s: _f1(s, "revenant") - _f1(s, "pid_nearest_fused"))
+    out["revenant_minus_no_fallback_f1_ci95"] = ci(
+        lambda s: _f1(s, "revenant") - _f1(s, "revenant_no_fallback"))
     top3 = sorted(rows, key=lambda r: -r["n_eval"])[:3]
     out["top3_capture_share"] = round(sum(r["n_eval"] for r in top3) / sum(r["n_eval"] for r in rows), 3)
     return out
@@ -99,7 +109,7 @@ def fig_edges(d, md):
 
     md += ["## B1 - causal edges vs Sysmon GUID ground truth", "",
            "Baselines run on the same fused, shadow-free events REVENANT sees. 95% CIs resample captures "
-           "(cluster bootstrap, 2,000 reps); single-capture corpora have no CI.", "",
+           "(cluster bootstrap, 2,000 reps); corpora with fewer than 10 scorable captures report n/a.", "",
            "| corpus | captures (with effects) | effects | method | precision | recall | F1 [95% CI] | macro F1 |",
            "|---|---|---|---|---|---|---|---|"]
     for c in corp:
@@ -107,7 +117,7 @@ def fig_edges(d, md):
         for m in ("v01_exact_ref_join", "v01_exact_ref_join_fused", "pid_nearest", "pid_nearest_fused", "revenant"):
             s = c["methods"][m]
             ci = st.get(m, {}).get("f1_ci95")
-            cis = f" [{ci[0]:.3f}, {ci[1]:.3f}]" if ci and st["captures_with_effects"] > 1 else ""
+            cis = f" [{ci[0]:.3f}, {ci[1]:.3f}]" if ci else f" [{st.get('ci_note', 'n/a')}]"
             mf = st.get(m, {}).get("macro_f1")
             md.append(f"| {c['corpus']} | {c['datasets']} ({st['captures_with_effects']}) | {c['evaluable_effects']:,} | "
                       f"{m} | {s['precision']:.3f} | {s['recall']:.3f} | {s['f1']:.3f}{cis} | "
@@ -120,7 +130,7 @@ def fig_edges(d, md):
     md.append("")
     for c in corp:
         st = STATS["b1"][c["corpus"]]
-        if st["captures_with_effects"] > 1:
+        if st.get("revenant_minus_pid_nearest_fused_f1_ci95"):
             a, b = st["revenant_minus_pid_nearest_fused_f1_ci95"], st["revenant_minus_no_fallback_f1_ci95"]
             md.append(f"- {c['corpus']}: REVENANT - PID-nearest F1 difference 95% CI [{a[0]:+.3f}, {a[1]:+.3f}]; "
                       f"contribution of the fallback rules [{b[0]:+.3f}, {b[1]:+.3f}]; the 3 largest captures hold "

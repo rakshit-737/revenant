@@ -79,305 +79,177 @@
   "otrf_apt29_day1": {
    "captures_with_effects": 1,
    "captures": 1,
+   "ci_note": "n/a (1 capture < 10)",
    "v01_exact_ref_join": {
-    "f1_ci95": [
-     0.2017,
-     0.2017
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.2017
    },
    "v01_exact_ref_join_fused": {
-    "f1_ci95": [
-     0.2243,
-     0.2243
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.2243
    },
    "pid_nearest": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "pid_nearest_fused": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fallback": {
-    "f1_ci95": [
-     0.9998,
-     0.9998
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9998
    },
    "revenant_no_termination_guard": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_image_in_key": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fusion": {
-    "f1_ci95": [
-     0.9931,
-     0.9931
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9931
    },
-   "revenant_minus_pid_nearest_fused_f1_ci95": [
-    0.0,
-    0.0
-   ],
-   "revenant_minus_no_fallback_f1_ci95": [
-    0.0002,
-    0.0002
-   ],
+   "revenant_minus_pid_nearest_fused_f1_ci95": null,
+   "revenant_minus_no_fallback_f1_ci95": null,
    "top3_capture_share": 1.0
   },
   "otrf_lsass_campaign": {
    "captures_with_effects": 7,
    "captures": 7,
+   "ci_note": "n/a (7 captures < 10)",
    "v01_exact_ref_join": {
-    "f1_ci95": [
-     0.3867,
-     0.5213
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.4512
    },
    "v01_exact_ref_join_fused": {
-    "f1_ci95": [
-     0.4196,
-     0.6188
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.5284
    },
    "pid_nearest": {
-    "f1_ci95": [
-     0.7509,
-     0.9839
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.8591
    },
    "pid_nearest_fused": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant": {
-    "f1_ci95": [
-     0.9974,
-     0.9993
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9985
    },
    "revenant_no_fallback": {
-    "f1_ci95": [
-     0.9973,
-     0.9994
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9983
    },
    "revenant_no_termination_guard": {
-    "f1_ci95": [
-     0.9985,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9993
    },
    "revenant_no_image_in_key": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fusion": {
-    "f1_ci95": [
-     0.5166,
-     0.9479
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.7072
    },
-   "revenant_minus_pid_nearest_fused_f1_ci95": [
-    -0.0026,
-    -0.0007
-   ],
-   "revenant_minus_no_fallback_f1_ci95": [
-    -0.0002,
-    0.0004
-   ],
+   "revenant_minus_pid_nearest_fused_f1_ci95": null,
+   "revenant_minus_no_fallback_f1_ci95": null,
    "top3_capture_share": 0.606
   },
   "otrf_log4shell": {
    "captures_with_effects": 1,
    "captures": 1,
+   "ci_note": "n/a (1 capture < 10)",
    "v01_exact_ref_join": {
-    "f1_ci95": [
-     0.9974,
-     0.9974
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9974
    },
    "v01_exact_ref_join_fused": {
-    "f1_ci95": [
-     0.9974,
-     0.9974
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9974
    },
    "pid_nearest": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "pid_nearest_fused": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fallback": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_termination_guard": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_image_in_key": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fusion": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
-   "revenant_minus_pid_nearest_fused_f1_ci95": [
-    0.0,
-    0.0
-   ],
-   "revenant_minus_no_fallback_f1_ci95": [
-    0.0,
-    0.0
-   ],
+   "revenant_minus_pid_nearest_fused_f1_ci95": null,
+   "revenant_minus_no_fallback_f1_ci95": null,
    "top3_capture_share": 1.0
   },
   "otrf_apt29_day2": {
    "captures_with_effects": 1,
    "captures": 1,
+   "ci_note": "n/a (1 capture < 10)",
    "v01_exact_ref_join": {
-    "f1_ci95": [
-     0.1798,
-     0.1798
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.1798
    },
    "v01_exact_ref_join_fused": {
-    "f1_ci95": [
-     0.1967,
-     0.1967
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.1967
    },
    "pid_nearest": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "pid_nearest_fused": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fallback": {
-    "f1_ci95": [
-     0.9999,
-     0.9999
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9999
    },
    "revenant_no_termination_guard": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_image_in_key": {
-    "f1_ci95": [
-     1.0,
-     1.0
-    ],
+    "f1_ci95": null,
     "macro_f1": 1.0
    },
    "revenant_no_fusion": {
-    "f1_ci95": [
-     0.9981,
-     0.9981
-    ],
+    "f1_ci95": null,
     "macro_f1": 0.9981
    },
-   "revenant_minus_pid_nearest_fused_f1_ci95": [
-    -0.0,
-    -0.0
-   ],
-   "revenant_minus_no_fallback_f1_ci95": [
-    0.0,
-    0.0
-   ],
+   "revenant_minus_pid_nearest_fused_f1_ci95": null,
+   "revenant_minus_no_fallback_f1_ci95": null,
    "top3_capture_share": 1.0
   }
  },
