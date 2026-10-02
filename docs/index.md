@@ -34,12 +34,12 @@ every narrative claim carries that confidence plus the SHA-256 of its evidence.
     Edge-confidence calibration, fitted on APT29 and tested on atomic. Story grades remain
     uncalibrated, hand-set heuristics.
 
--   **ATLAS reproduced**
+-   **ATLAS recomputed**
 
     ---
 
-    ATLAS's event-level F1 0.9988 reproduced exactly by re-running the authors' evaluation
-    on their released outputs; entity-level 0.913 vs the paper's 0.938.
+    ATLAS's event-level F1 0.9988 recomputed exactly by re-running the authors' evaluation
+    script on their released outputs (model not re-run); entity-level 0.913 vs the paper's 0.938.
 
 </div>
 

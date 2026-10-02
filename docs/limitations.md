@@ -21,8 +21,12 @@ not require.
   deletes are not modelled.
 - `.evtx` parsing through python-evtx is slow (about 21 records/s on the benchmark machine).
   Converting to JSON first with `evtx_dump` is much faster.
-- ATLAS's published numbers are reproduced from its release, but REVENANT has not yet been
-  scored under the ATLAS protocol.
+- ATLAS's published numbers are recomputed from its released outputs (its model was not
+  re-run), and REVENANT is not scored on ATLAS or ATLASv2: the labels are entity names for a
+  sequence model rather than cause-effect pairs, no ATLAS parser exists yet, and the TF 2.3
+  container and the ATLASv2 Box download have not been set up. Story ranking (B2) covers OTRF
+  atomic only.
+- B1 corpora with fewer than 10 scorable captures report no CI.
 - Anti-forensics checks on MFT against `$LogFile`/`$UsnJrnl` are limited to plaso's
   `$SI`/`$FN` fields. There is no raw NTFS parser.
 - The LLM report-drafting assistant from the spec is intentionally **not** built. No claim

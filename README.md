@@ -12,7 +12,9 @@ fitted on Sysmon-GUID lineage that is hidden at inference (held-out ECE 0.106, A
 atomic: improved, not well calibrated); every narrative claim carries that confidence plus the SHA-256 of its evidence.
 On 120 OTRF atomic captures, 102 with scorable effects (142k scored effects) it reaches causal-edge F1 **0.910**
 (95% CI 0.80-0.98) against **0.822** (0.54-0.96) for a PID-nearest analyst baseline on the
-same input; the [ablation](#b1-causal-edge-accuracy-against-sysmon-guid-ground-truth) shows
+same input. The paired difference is only just significant (95% CI +0.005 to +0.296) and the 3
+largest captures hold 56% of the effects; per-capture macro F1 (0.931 vs 0.737) is the steadier
+comparison. The [ablation](#b1-causal-edge-accuracy-against-sysmon-guid-ground-truth) shows
 the gain comes from its image-keyed fallback rules.
 
 [![REVENANT demo: the real OTRF PsExec capture as a ranked story with timeline, causal graph and evidence hashes](docs/img/demo.png)](https://rakshit-737.github.io/revenant/demo/)
@@ -33,15 +35,19 @@ and the stories are recorded in an append-only custody ledger.
 
 1. **No install:** open the [live demo](https://rakshit-737.github.io/revenant/demo/) (a real
    public OTRF capture, pre-computed).
-2. **Docker** (published image):
-   ```bash
-   docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion
-   ```
-3. **From source** (REVENANT is not on PyPI; `pip install revenant` is an unrelated package):
+2. **From source (recommended)** (REVENANT is not on PyPI; `pip install revenant` is an unrelated package):
    ```bash
    pip install "git+https://github.com/rakshit-737/revenant"
    revenant demo --scenario intrusion
    ```
+3. **Docker** (published image):
+   ```bash
+   docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion
+   ```
+   > **Caveat:** the only published release is v1.0.0, and its wheel and image (`latest` =
+   > `1.0.0`) predate the packaging fix: they do not ship `rule_calibration.json`, so edge
+   > confidences are the hand-set constants and the output below will differ. Use option 2
+   > until the next release; build the image yourself with `docker build -t revenant .`.
 
 Expected first lines (synthetic phishing scenario):
 
@@ -60,7 +66,7 @@ Expected first lines (synthetic phishing scenario):
 | Edge calibration, fit APT29 -> test atomic | ECE 0.106 (hand-set 0.233), AUROC 0.78 | - | improved, not solved |
 | B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.21, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | **worse** (McNemar p=0.06) |
 | B3 anti-forensics, 278 `.evtx`, 10 positives | P 0.20 / R 0.60 | 1102/104 query P 0.12 / R 0.30 | better recall, tiny sample |
-| C ATLAS paper, from the authors' release | event F1 0.9988 (their `evaluate.py` re-run); entity F1 0.913 | paper: 0.9988 / 0.9376 | event level reproduced; entity level 2.4 points lower |
+| C ATLAS paper, from the authors' release | event F1 0.9988 (their `evaluate.py` re-run); entity F1 0.913 | paper: 0.9988 / 0.9376 | event-level numbers recomputed from released outputs (model not re-run); entity level 2.4 points lower |
 | Live auditd capture in CI (scripted benign sequence) | 7/7 chain checks, story rank 1 | - | consistency check, not accuracy |
 
 Full tables with confidence intervals: [`results/RESULTS.md`](results/RESULTS.md) and the
@@ -365,8 +371,17 @@ is one field-trimmed OTRF capture used as a test fixture (MIT, attributed).
   deletes are not modelled.
 - `.evtx` parsing through python-evtx is slow on Windows. Converting with `evtx_dump` first is
   much faster.
-- REVENANT has not yet been scored under the ATLAS protocol; only ATLAS's own numbers are
-  reproduced (from its released outputs, not by re-running its model).
+- **ATLAS / ATLASv2 are not used to evaluate REVENANT.** Only ATLAS's own numbers are
+  recomputed, from its released outputs; its model was not re-run. Concrete reasons: (1) ATLAS
+  ships its logs as the authors' preprocessed text (Windows Security, DNS, Firefox) whose labels
+  are malicious *entity* names chosen for its sequence model, not cause-effect pairs, so a
+  REVENANT score needs a new parser plus a defensible mapping from stories to labelled entities,
+  which is not written yet; (2) re-running `model.h5` needs a pinned TensorFlow 2.3 / Python 3.7
+  container that has not been built; (3) ATLASv2 is distributed through a Box link that has not
+  been probed from Actions. Story reconstruction (B2) is therefore evaluated on OTRF atomic only;
+  the new corpora (APT29 day 2, LSASS, Log4Shell) feed B1 and calibration only.
+- B1 corpora with fewer than 10 scorable captures (APT29 day 1/2, LSASS, Log4Shell) report no
+  CI; a capture bootstrap over so few clusters is degenerate.
 - Anti-forensics checks on MFT against `$LogFile`/`$UsnJrnl` are limited to plaso's
   `$SI`/`$FN` fields. There is no raw NTFS parser.
 - The LLM report-drafting assistant from the spec is intentionally not built. No claim

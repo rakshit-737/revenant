@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+> **Note:** the published v1.0.0 wheel and GHCR image (`latest`) lack the calibration table
+> (see Fixed below). Until the next release, install from git main:
+> `pip install "git+https://github.com/rakshit-737/revenant"`.
+
+### Changed
+- Public functions and methods now carry docstrings; ruff `D102`/`D103` enforce this in CI.
+- B1 corpora with fewer than 10 scorable captures report `n/a` instead of a degenerate
+  cluster-bootstrap CI (`results/stats.json`, `results/RESULTS.md`).
+- ATLAS row wording: event-level numbers are recomputed from released outputs, not reproduced
+  by re-running the model. Scoring REVENANT on ATLAS/ATLASv2 is deferred; reasons are in the
+  README Limitations.
+
 ### Fixed
 - **Packaging:** the wheel, sdist and Docker image now ship `rule_calibration.json`; v1.0.0
   artefacts silently ran with hand-set edge confidences. A missing table now raises instead
