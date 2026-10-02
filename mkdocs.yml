@@ -86,3 +86,5 @@ nav:
   - Changelog: changelog.md
   - Limitations & roadmap: limitations.md
   - Live demo: demo/index.html
+not_in_nav: |
+  /benchmarks.md

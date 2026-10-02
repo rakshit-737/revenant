@@ -8,9 +8,9 @@
 
 **Contribution:** REVENANT recovers *which process caused what* in forensic artefacts that
 lack process GUIDs, using named, deterministic causal rules whose per-rule confidences are
-calibrated against Sysmon-GUID lineage that is hidden at inference and tested on held-out
-corpora; every narrative claim carries that confidence plus the SHA-256 of its evidence.
-On 120 OTRF atomic captures (142k scored effects) it reaches causal-edge F1 **0.910**
+fitted on Sysmon-GUID lineage that is hidden at inference (held-out ECE 0.106, APT29 to
+atomic: improved, not well calibrated); every narrative claim carries that confidence plus the SHA-256 of its evidence.
+On 120 OTRF atomic captures, 102 with scorable effects (142k scored effects) it reaches causal-edge F1 **0.910**
 (95% CI 0.80-0.98) against **0.822** (0.54-0.96) for a PID-nearest analyst baseline on the
 same input; the [ablation](#b1-causal-edge-accuracy-against-sysmon-guid-ground-truth) shows
 the gain comes from its image-keyed fallback rules.
@@ -55,7 +55,7 @@ Expected first lines (synthetic phishing scenario):
 
 | Benchmark (public data, ground truth) | REVENANT | Best baseline | Verdict |
 |---|---|---|---|
-| B1 causal edges, OTRF atomic (120 captures, Sysmon-GUID truth hidden) | F1 0.910 [0.80, 0.98] | PID-nearest 0.822 [0.54, 0.96] | better (paired CI of difference +0.005 to +0.296) |
+| B1 causal edges, OTRF atomic (120 captures, 102 with scorable effects; Sysmon-GUID truth hidden) | F1 0.910 [0.80, 0.98] | PID-nearest 0.822 [0.54, 0.96] | better (paired CI of difference +0.005 to +0.296) |
 | B1 causal edges, APT29 day 1 + day 2, LSASS (7), Log4Shell | F1 0.999-1.000 | PID-nearest 1.000 | no difference: these captures are easy |
 | Edge calibration, fit APT29 -> test atomic | ECE 0.106 (hand-set 0.233), AUROC 0.78 | - | improved, not solved |
 | B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.21, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | **worse** (McNemar p=0.06) |
