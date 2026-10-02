@@ -60,7 +60,7 @@ def _get(url: str, retries: int = 4) -> bytes:
         req.add_unredirected_header("Authorization", f"Bearer {token}")
     for attempt in range(1, retries + 1):
         try:
-            with urllib.request.urlopen(req, timeout=300) as resp:  # noqa: S310 - fixed https URLs
+            with urllib.request.urlopen(req, timeout=300) as resp:  # noqa: S310  # nosec B310 - fixed https URLs
                 return resp.read()
         except (OSError, http.client.HTTPException) as exc:  # timeouts / resets: retry
             if attempt == retries:
@@ -145,10 +145,10 @@ def extract(archive: Path) -> None:
                 target = (out / m.filename).resolve()
                 if not target.is_relative_to(out.resolve()):
                     raise RuntimeError(f"unsafe path in {archive}: {m.filename}")
-            zf.extractall(out)
+            zf.extractall(out)  # nosec B202 - every member checked above
     elif archive.name.endswith(".tar.gz"):
         with tarfile.open(archive) as tf:
-            tf.extractall(out, filter="data")
+            tf.extractall(out, filter="data")  # nosec B202 - "data" filter rejects unsafe members
 
 
 def _write_manifest(manifest: dict) -> None:

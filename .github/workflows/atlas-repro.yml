@@ -1,0 +1,49 @@
+name: atlas-repro
+
+# Round-3 C: reproduce the ATLAS paper's numbers (Alsaheel et al., USENIX
+# Security 2021) from the authors' released artefacts. Runs only on demand.
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Download ATLAS (git-blob verified; records SHA-256 pins)
+        run: |
+          set -euo pipefail
+          pip install "openpyxl==3.1.5"
+          python scripts/download_atlas.py --dest "$RUNNER_TEMP/atlas" --pin
+          mkdir -p out && cp data/atlas_manifest.json out/
+      - name: Refuse executables (no binaries may be present)
+        run: |
+          set -euo pipefail
+          if find "$RUNNER_TEMP/atlas" -type f -size +1c -exec sh -c 'head -c2 "$1" | grep -q "^MZ"' _ {} \; -print | grep .; then
+            echo "PE binary found in dataset"; exit 1; fi
+      - name: Run the authors' evaluate.py on their released outputs (Python 3.7 container)
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          mkdir -p out/eval_logs
+          for d in $(find "$RUNNER_TEMP/atlas/paper_experiments" -name evaluate.py -not -path '*__MACOSX*' -printf '%h\n' | sort); do
+            name=$(echo "${d#$RUNNER_TEMP/atlas/paper_experiments/}" | tr '/' '_')
+            grep -n "^import\|^from\|argv\|open(" "$d/evaluate.py" | head -40 > "out/eval_logs/$name.src.txt" || true
+            timeout 1200 docker run --rm --network none -v "$d:/exp" -w /exp python:3.7-slim sh -c               'pip -q install numpy==1.18.5 networkx==2.5 scikit-learn==0.23.2 >/dev/null 2>&1 || true; python evaluate.py'               > "out/eval_logs/$name.log" 2>&1 || echo "exit $?" >> "out/eval_logs/$name.log"
+          done
+          tail -n 5 out/eval_logs/*.log | head -200
+      - name: Recompute and compare with the paper
+        run: python benchmarks/atlas_repro.py --root "$RUNNER_TEMP/atlas" --eval-logs out/eval_logs --out out/atlas_repro.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: atlas-repro
+          path: out/

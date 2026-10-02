@@ -1,0 +1,14 @@
+.git
+.github
+site
+build
+dist
+.venv
+venv
+**/__pycache__
+*.zip
+*.tar.gz
+*.sqlite
+results
+docs
+benchmarks

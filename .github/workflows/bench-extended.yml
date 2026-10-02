@@ -1,0 +1,51 @@
+name: bench-extended
+
+# Round-3 A: B1/B2 on every OTRF corpus, run where endpoint antivirus cannot
+# quarantine captures and where the 1.7 GB APT29 day-2 JSON fits in memory.
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  bench:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [main, day2]
+    env:
+      REVENANT_DATA: ${{ github.workspace }}/../data
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[bench]"
+      - name: Download (pinned; first fetch of unpinned entries is recorded)
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.part }}" = main ]; then
+            python scripts/download_data.py --pin --only otrf-atomic --only otrf-apt29 --only otrf-lsass --only otrf-log4shell
+          else
+            python scripts/download_data.py --pin --only otrf-apt29-day2
+          fi
+          mkdir -p out && cp data/manifest.json out/manifest.${{ matrix.part }}.json
+      - name: Refuse executables
+        run: |
+          if find "$REVENANT_DATA" -type f -size +1c -exec sh -c 'head -c2 "$1" | grep -q "^MZ"' _ {} \; -print | grep .; then exit 1; fi
+      - name: B1 edges (+ablations, per-capture rows)
+        working-directory: benchmarks
+        run: python bench_edges.py --extra --out edges_ci_${{ matrix.part }}.json && cp ../results/edges_ci_${{ matrix.part }}.json ../out/
+      - name: B2 stories (atomic, Empire captures readable here)
+        if: matrix.part == 'main'
+        working-directory: benchmarks
+        run: python bench_stories.py && cp ../results/stories.json ../out/stories_ci.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: bench-${{ matrix.part }}
+          path: out/

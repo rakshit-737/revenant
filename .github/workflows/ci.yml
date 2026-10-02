@@ -2,20 +2,27 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
+  schedule:
+    - cron: "17 5 * * 1"  # weekly: catches runner / dependency drift
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -27,37 +34,89 @@ jobs:
         run: ruff check src tests benchmarks scripts ci
       - name: Tests (committed fixtures only; real-data tests skip)
         run: python -m pytest -q
-      - name: Smoke-test CLI on the real OTRF fixture
-        run: |
-          PYTHONPATH=src python -m revenant.cli demo --scenario intrusion > /dev/null
-          PYTHONPATH=src python -m revenant.cli analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --top 1
 
-  security:
-    runs-on: ubuntu-latest
+  package:
+    # Build the wheel, install it into a clean venv and run it from outside the
+    # checkout, so packaging gaps (e.g. missing package data) fail CI.
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - name: Install scanners
-        run: pip install bandit pip-audit
-      - name: Static analysis (SAST)
-        run: bandit -r src -ll
-      - name: Dependency vulnerability scan
-        run: pip-audit -r requirements.txt || true
-      - name: Secret scan (gitleaks)
-        uses: gitleaks/gitleaks-action@v2
-        continue-on-error: true
+      - name: Build wheel + sdist
+        run: python -m pip install --upgrade build && python -m build
+      - name: Install wheel in a fresh venv and smoke-test
+        working-directory: /tmp
+        run: |
+          python -m venv /tmp/v && . /tmp/v/bin/activate
+          pip install "$(ls $GITHUB_WORKSPACE/dist/*.whl)"
+          revenant --version
+          for c in "" demo analyze verify serve scenarios; do revenant $c --help > /dev/null; done
+          python -c 'from revenant.rules import load_calibration as l; n = len(l()); print(n, "calibrated rules"); assert n >= 16'
+          revenant analyze $GITHUB_WORKSPACE/tests/fixtures/otrf_psexec_lsa_secrets.jsonl --top 1 --ledger /tmp/c.sqlite > /tmp/r.md
+          revenant verify /tmp/c.sqlite
+          if revenant verify /tmp/missing.sqlite; then exit 1; fi; test ! -e /tmp/missing.sqlite
+      - name: Tests from the sdist
+        run: |
+          mkdir /tmp/sd && tar xzf dist/*.tar.gz -C /tmp/sd --strip-components 1
+          cd /tmp/sd && python -m venv /tmp/s && . /tmp/s/bin/activate && pip install -q ".[dev,api]" && python -m pytest -q -p no:cacheprovider
+      - name: Quickstart block from README runs verbatim
+        run: |
+          python -m venv /tmp/q && . /tmp/q/bin/activate && pip install -q -e ".[dev,evtx,api]"
+          python - <<'PY' > /tmp/quickstart.sh
+          import re, pathlib
+          t = pathlib.Path("README.md").read_text(encoding="utf-8")
+          block = re.search(r"<!-- quickstart -->\s*```bash\n(.*?)```", t, re.S).group(1)
+          print("set -euxo pipefail"); print("\n".join(l for l in block.splitlines() if not l.startswith(("git clone", "cd revenant", "pip install"))))
+          PY
+          bash /tmp/quickstart.sh
+
+  docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build image (no push) and smoke-run it
+        run: |
+          docker build -t revenant:ci .
+          docker run --rm revenant:ci --help
+          docker run --rm -v "$PWD/tests/fixtures:/evidence:ro" revenant:ci analyze /evidence/otrf_psexec_lsa_secrets.jsonl --top 1
+
+  security:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install scanners and every extra
+        run: pip install bandit pip-audit ".[evtx,api,pdf,neo4j,bench,dev]"
+      - name: Static analysis (SAST) on all first-party code
+        run: bandit -q -r src scripts benchmarks ci -ll
+      - name: Dependency vulnerability scan (all extras)
+        run: pip-audit --skip-editable
+      - name: Secret scan (gitleaks, full history)
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.28.0 git /repo --no-banner --redact
 
   live-auditd:
-    # Real kernel telemetry: auditd inside the runner records benign background
-    # activity plus a scripted stage -> fetch (127.0.0.1 only) -> archive -> delete
-    # sequence; REVENANT reconstructs it and the job asserts on the JSON result.
-    runs-on: ubuntu-latest
+    # End-to-end consistency check on real kernel telemetry: auditd inside the
+    # runner records benign background load plus a scripted stage -> fetch
+    # (127.0.0.1 only) -> archive -> delete sequence; REVENANT reconstructs it
+    # and the job asserts the expected chain. Not an independent accuracy test.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
       - name: Install REVENANT
@@ -68,7 +127,7 @@ jobs:
         run: python ci/live/check_live.py live-out
       - name: Upload capture + result
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: live-auditd
           path: live-out/

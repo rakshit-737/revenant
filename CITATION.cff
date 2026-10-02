@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use REVENANT, please cite it as below."
+title: "REVENANT: calibrated causal-rule forensic timeline reconstruction"
+abstract: >-
+  REVENANT reconstructs incident stories from forensic artefacts that lack
+  process GUIDs, using named deterministic causal rules whose edge confidences
+  are calibrated against Sysmon-GUID lineage ground truth hidden at inference;
+  every narrative claim carries that confidence plus the SHA-256 of its evidence.
+type: software
+authors:
+  - name: Rakshit
+    affiliation: "VIT Chennai"
+repository-code: "https://github.com/rakshit-737/revenant"
+url: "https://rakshit-737.github.io/revenant/"
+license: MIT
+version: 1.0.0
+keywords: [dfir, digital-forensics, timeline, provenance, sysmon, auditd]

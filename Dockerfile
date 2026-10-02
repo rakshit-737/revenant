@@ -1,7 +1,8 @@
 # REVENANT — slim, non-root image.
 # Build:  docker build -t revenant .
-# Serve:  docker run --rm -p 8000:8000 -v "$PWD/tests/fixtures:/evidence:ro" \
-#           -e REVENANT_EVIDENCE_ROOT=/evidence revenant serve --host 0.0.0.0 --port 8000
+# Serve:  docker run --rm -p 127.0.0.1:8000:8000 -v "$PWD/tests/fixtures:/evidence:ro" \
+#           -e REVENANT_EVIDENCE_ROOT=/evidence revenant
+#         (the API has no auth: publish the port on loopback only)
 # CLI:    docker run --rm -v "$PWD:/data" revenant analyze /data/evidence.jsonl
 FROM python:3.12-slim AS build
 WORKDIR /src
@@ -23,4 +24,5 @@ USER revenant
 WORKDIR /home/revenant
 EXPOSE 8000
 ENTRYPOINT ["revenant"]
-CMD ["serve", "--host", "0.0.0.0", "--port", "8000"]
+# 0.0.0.0 inside the container is needed for port publishing; bind the host side to 127.0.0.1.
+CMD ["serve", "--host", "0.0.0.0", "--allow-remote", "--port", "8000"]

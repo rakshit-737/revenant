@@ -66,7 +66,7 @@ def fetch(url: str, out: Path, size: int, attempts: int = 40) -> None:
             have = 0
         req = urllib.request.Request(url, headers={"User-Agent": "revenant-downloader", "Range": f"bytes={have}-"})
         try:
-            with urllib.request.urlopen(req, timeout=60) as resp, out.open("ab" if have else "wb") as fh:  # noqa: S310
+            with urllib.request.urlopen(req, timeout=60) as resp, out.open("ab" if have else "wb") as fh:  # noqa: S310  # nosec B310 - fixed https URL from the pinned manifest
                 if have and resp.status != 206:  # server ignored Range: restart
                     fh.truncate(0)
                 while chunk := resp.read(1 << 16):
