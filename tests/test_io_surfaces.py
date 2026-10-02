@@ -126,11 +126,14 @@ def test_cli_analyze_real_formats_and_ledger(tmp_path, capsys):
     assert main(["analyze", str(FX / "volatility"), "--format", "html", "--out", str(tmp_path / "r.html")]) == 0
 
 
-def test_cli_pdf_is_optional(tmp_path):
+def test_cli_pdf_is_optional(tmp_path, capsys):
     try:
         import weasyprint  # noqa: F401
     except Exception:
-        with pytest.raises(RuntimeError, match="WeasyPrint"):
-            main(["analyze", str(OTRF), "--out", str(tmp_path / "r.md"), "--pdf", str(tmp_path / "r.pdf")])
+        led = tmp_path / "c.sqlite"
+        rc = main(["analyze", str(OTRF), "--out", str(tmp_path / "r.md"), "--pdf", str(tmp_path / "r.pdf"),
+                   "--ledger", str(led)])
+        assert rc == 2 and "WeasyPrint" in capsys.readouterr().err
+        assert led.exists()  # the ledger is written before the optional PDF step
     else:  # pragma: no cover - environment dependent
         assert main(["analyze", str(OTRF), "--out", str(tmp_path / "r.md"), "--pdf", str(tmp_path / "r.pdf")]) == 0

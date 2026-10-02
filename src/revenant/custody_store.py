@@ -70,10 +70,34 @@ def append_ledger(ledger: CustodyLedger, path: str | Path) -> int:
         con.close()
 
 
+_TRIGGERS = {"custody_no_update", "custody_no_delete"}
+
+
+def _connect_ro(path: str | Path) -> sqlite3.Connection:
+    """Open an existing store read-only; never creates or alters it."""
+    p = Path(path)
+    if not p.is_file():
+        raise FileNotFoundError(f"no such custody store: {p}")
+    return sqlite3.connect(f"{p.resolve().as_uri()}?mode=ro", uri=True)
+
+
+def missing_triggers(path: str | Path) -> set[str]:
+    """Append-only triggers absent from the store (a dropped trigger is a tamper sign)."""
+    con = _connect_ro(path)
+    try:
+        have = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='trigger'")}
+    finally:
+        con.close()
+    return _TRIGGERS - have
+
+
 def load_ledger(path: str | Path) -> CustodyLedger:
-    con = _connect(path)
+    """Load a stored ledger read-only. Raises FileNotFoundError for a missing path."""
+    con = _connect_ro(path)
     try:
         rows = con.execute("SELECT * FROM custody ORDER BY seq").fetchall()
+    except sqlite3.DatabaseError as exc:
+        raise ValueError(f"{path} is not a REVENANT custody store: {exc}") from exc
     finally:
         con.close()
     ledger = CustodyLedger()
@@ -85,6 +109,18 @@ def load_ledger(path: str | Path) -> CustodyLedger:
     return ledger
 
 
-def verify_store(path: str | Path) -> bool:
-    """Recompute the hash chain of a stored ledger."""
-    return load_ledger(path).verify()
+def verify_store(path: str | Path, *, expect_head: str | None = None, expect_count: int | None = None) -> bool:
+    """Recompute the hash chain of a stored ledger.
+
+    The internal chain alone cannot reveal a truncated tail or a full rewrite;
+    pass the head hash / record count printed in the report (an external
+    anchor) to detect those too. Missing append-only triggers fail verification.
+    """
+    ledger = load_ledger(path)
+    if not ledger.records or missing_triggers(path):
+        return False
+    if expect_count is not None and len(ledger.records) != expect_count:
+        return False
+    if expect_head is not None and ledger.records[-1].record_hash != expect_head:
+        return False
+    return ledger.verify()
