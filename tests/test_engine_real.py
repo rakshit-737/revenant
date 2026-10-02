@@ -142,7 +142,8 @@ def test_attack_heuristics_tag_known_patterns():
     benign = ev(2, EventType.PROCESS_START, "process:1:C:/w/services.exe", "process:3:C:/w/svchost.exe",
                 image="C:/w/svchost.exe", command_line="svchost.exe -k netsvcs")
     tags = score_events([enc, lsass, benign])
-    assert {"T1059.001", "T1059.003"} <= {t[0] for t in tags[enc.event_id].techniques}
+    techs = {t[0] for t in tags[enc.event_id].techniques}
+    assert "T1059.001" in techs and "T1059.003" not in techs  # PowerShell is not the Windows Command Shell
     assert tags[lsass.event_id].techniques[0][0] == "T1003.001"
     assert tags[benign.event_id].techniques == []
     assert tags[enc.event_id].suspicion > tags[benign.event_id].suspicion
