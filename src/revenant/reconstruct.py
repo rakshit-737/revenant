@@ -31,6 +31,7 @@ _STAGE_BY_TYPE = {
 
 
 def stage_for(event: Event) -> KillChainStage | None:
+    """Return the kill-chain stage of an event, or None."""
     return _STAGE_BY_TYPE.get(event.event_type)
 
 
@@ -76,6 +77,7 @@ class ChainReconstructor:
         return paths
 
     def reconstruct(self) -> list[ProvenanceChain]:
+        """Build de-duplicated provenance chains from every root of the graph."""
         chains: list[ProvenanceChain] = []
         seen_signatures: set[tuple[str, ...]] = set()
         counter = 0

@@ -55,6 +55,18 @@ def _ind(kind: str, detail: str, ids: list[str], sev: str) -> TamperingIndicator
 
 
 def detect_timestomp(events: list[Event]) -> list[TamperingIndicator]:
+    """Flag files whose MFT time disagrees with the `$LogFile` time.
+
+    Parameters
+    ----------
+    events : list of Event
+        Normalised events carrying ``mft_time`` and ``logfile_time`` attributes.
+
+    Returns
+    -------
+    list of TamperingIndicator
+        One ``timestomp`` indicator per disagreeing file.
+    """
     out: list[TamperingIndicator] = []
     for e in events:
         mft = e.attributes.get("mft_time")
@@ -66,6 +78,13 @@ def detect_timestomp(events: list[Event]) -> list[TamperingIndicator]:
 
 
 def detect_sysmon_timestomp(events: list[Event]) -> list[TamperingIndicator]:
+    """Flag Sysmon EID 2 file-creation-time changes as possible timestomping.
+
+    Returns
+    -------
+    list of TamperingIndicator
+        One indicator per suspicious ``FILE_TIME_CHANGE`` event.
+    """
     out: list[TamperingIndicator] = []
     for e in events:
         if e.event_type != EventType.FILE_TIME_CHANGE:
@@ -83,6 +102,19 @@ def detect_sysmon_timestomp(events: list[Event]) -> list[TamperingIndicator]:
 
 
 def detect_si_fn_mismatch(events: list[Event], tolerance_s: float = 1.0) -> list[TamperingIndicator]:
+    """Flag files whose `$STANDARD_INFORMATION` creation time differs from `$FILE_NAME`.
+
+    Parameters
+    ----------
+    events : list of Event
+        plaso-derived events with an ``ntfs_attribute`` attribute.
+    tolerance_s : float
+        Allowed difference in seconds before a mismatch is reported.
+
+    Returns
+    -------
+    list of TamperingIndicator
+    """
     created: dict[str, dict[str, Event]] = defaultdict(dict)
     for e in events:
         attr = e.attributes.get("ntfs_attribute")
@@ -101,11 +133,13 @@ def detect_si_fn_mismatch(events: list[Event], tolerance_s: float = 1.0) -> list
 
 
 def detect_log_clearing(events: list[Event]) -> list[TamperingIndicator]:
+    """Report every event-log clearing event as a high-severity indicator."""
     return [_ind("log_cleared", f"{e.actor} cleared {e.object} on {e.attributes.get('host') or '?'}",
                  [e.event_id], "high") for e in events if e.event_type == EventType.LOG_CLEARED]
 
 
 def detect_audit_tamper(events: list[Event]) -> list[TamperingIndicator]:
+    """Report audit-policy changes and audit configuration tampering."""
     out: list[TamperingIndicator] = []
     for e in events:
         if e.event_type == EventType.AUDIT_POLICY_CHANGE:
@@ -120,6 +154,7 @@ def detect_audit_tamper(events: list[Event]) -> list[TamperingIndicator]:
 
 
 def detect_clock_change(events: list[Event], min_jump_s: float = 300.0) -> list[TamperingIndicator]:
+    """Report system clock changes that jump by at least ``min_jump_s`` seconds."""
     out: list[TamperingIndicator] = []
     for e in events:
         if e.event_type != EventType.TIME_CHANGE:
@@ -173,11 +208,13 @@ def detect_record_order(events: list[Event], slack_s: float = 60.0) -> list[Tamp
 
 
 def detect_hash_mismatch(events: list[Event]) -> list[TamperingIndicator]:
+    """Report events whose stored integrity hash no longer matches their content."""
     return [_ind("hash_mismatch", f"integrity hash mismatch for {e.event_id}", [e.event_id], "high")
             for e in events if e.integrity_hash and not verify_event(e)]
 
 
 def detect_log_gaps(events: list[Event], gap_threshold_s: float = 1200.0) -> list[TamperingIndicator]:
+    """Report silent periods longer than ``gap_threshold_s`` seconds between consecutive events."""
     out: list[TamperingIndicator] = []
     ordered = sorted(events, key=lambda e: e.timestamp)
     for a, b in zip(ordered, ordered[1:]):
@@ -189,6 +226,20 @@ def detect_log_gaps(events: list[Event], gap_threshold_s: float = 1200.0) -> lis
 
 
 def scan(graph: ProvenanceGraph, *, gap_threshold_s: float = 1200.0) -> list[TamperingIndicator]:
+    """Run every anti-forensics detector over a provenance graph.
+
+    Parameters
+    ----------
+    graph : ProvenanceGraph
+        Graph whose events are scanned.
+    gap_threshold_s : float
+        Minimum silence, in seconds, reported as a log gap.
+
+    Returns
+    -------
+    list of TamperingIndicator
+        Indicators from all detectors, in detector order.
+    """
     events = graph.events
     return (
         detect_timestomp(events)

@@ -63,6 +63,7 @@ def _event(ts, etype, actor, action, obj, attrs) -> Event:
 
 
 def pslist_events(rows: list[dict[str, Any]], host: str = "", cmdlines: dict[str, str] | None = None) -> list[Event]:
+    """Turn Volatility 3 ``windows.pslist`` rows into process-start events."""
     cmdlines = cmdlines or {}
     image_by_pid = {str(r.get("PID")): str(r.get("ImageFileName") or "") for r in rows}
     out: list[Event] = []
@@ -86,6 +87,7 @@ _UNSPECIFIED = ("*", "0.0.0.0", "::")  # nosec B104
 
 
 def netscan_events(rows: list[dict[str, Any]], host: str = "") -> list[Event]:
+    """Turn Volatility 3 ``windows.netscan`` rows into network-connection events."""
     out: list[Event] = []
     for r in rows:
         if not r.get("Created") or str(r.get("ForeignAddr") or "*") in _UNSPECIFIED:
@@ -99,6 +101,7 @@ def netscan_events(rows: list[dict[str, Any]], host: str = "") -> list[Event]:
 
 
 def load_volatility_dir(path: str | Path, *, host: str = "", stats: LoadStats | None = None) -> list[Event]:
+    """Load a directory of Volatility 3 JSON outputs into Events."""
     stats = stats if stats is not None else LoadStats()
     p = Path(path)
     cmd: dict[str, str] = {}

@@ -59,6 +59,7 @@ def _hop_line(graph: ProvenanceGraph, event_id: str, analysis: Analysis | None =
 
 
 def narrative_for(chain: ProvenanceChain, graph: ProvenanceGraph) -> str:
+    """Render a provenance chain as a Markdown narrative."""
     lines: list[str] = []
     stages = " -> ".join(s.value for s in chain.stages) or "n/a"
     lines.append(f"### {chain.chain_id} - {chain.grade.value} (score {chain.confidence_score})")
@@ -76,6 +77,21 @@ def narrative_for(chain: ProvenanceChain, graph: ProvenanceGraph) -> str:
 
 
 def story_narrative(story: IncidentStory, analysis: Analysis, *, max_hops: int = 40) -> str:
+    """Render an incident story as a Markdown narrative with evidence hashes.
+
+    Parameters
+    ----------
+    story : IncidentStory
+        Story to render.
+    analysis : Analysis
+        Analysis the story belongs to.
+    max_hops : int
+        Maximum number of causal hops listed.
+
+    Returns
+    -------
+    str
+    """
     g = analysis.graph
     b = story_breakdown(story, g)
     root = g.get_event(story.root_event_id)
@@ -122,6 +138,21 @@ def story_narrative(story: IncidentStory, analysis: Analysis, *, max_hops: int =
 
 
 def generate_report(analysis: Analysis, *, top: int = 5, title: str = "Forensic Reconstruction Report") -> str:
+    """Render the Markdown forensic report for an analysis.
+
+    Parameters
+    ----------
+    analysis : Analysis
+        Result of the pipeline.
+    top : int
+        Number of stories included.
+    title : str
+        Report title.
+
+    Returns
+    -------
+    str
+    """
     g = analysis.graph
     parts: list[str] = [
         f"# REVENANT - {title}",
@@ -270,6 +301,7 @@ def markdown_to_html(md: str, title: str = "REVENANT report") -> str:
 
 
 def generate_html(analysis: Analysis, *, top: int = 5) -> str:
+    """Render the forensic report as standalone HTML."""
     return markdown_to_html(generate_report(analysis, top=top))
 
 

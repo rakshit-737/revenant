@@ -56,6 +56,7 @@ class ConfidenceBreakdown:
     grade: ConfidenceGrade
 
     def as_dict(self) -> dict[str, float | str]:
+        """Return the fields as a JSON-serialisable dict."""
         return {
             "reliability": round(self.reliability, 4),
             "corroboration": round(self.corroboration, 4),

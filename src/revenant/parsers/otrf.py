@@ -50,6 +50,7 @@ class LoadStats:
     unreadable_files: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
+        """Return the fields as a JSON-serialisable dict."""
         return {
             "rows": self.rows,
             "mapped": self.mapped,
@@ -83,6 +84,7 @@ def _expand_eventdata(obj: dict[str, Any]) -> dict[str, Any]:
 
 
 def iter_json_lines(path: str | Path) -> Iterator[dict[str, Any]]:
+    """Yield JSON objects from a JSON-lines file, skipping blank and malformed lines."""
     with open(path, encoding="utf-8", errors="replace") as fh:
         for line in fh:
             line = line.strip()
@@ -127,6 +129,7 @@ def estimate_clock_offsets(rows: Iterable[dict[str, Any]]) -> dict[str, float]:
 
 
 def row_time(rec: dict[str, Any], offsets: dict[str, float]) -> datetime:
+    """Return the UTC time of an OTRF row, corrected by the per-channel clock offsets."""
     if channel_kind(rec) == SYSMON and rec.get("UtcTime"):
         return parse_ts(rec["UtcTime"])
     g = _generic_time(rec)
@@ -139,6 +142,21 @@ def row_time(rec: dict[str, Any], offsets: dict[str, float]) -> datetime:
 def events_from_rows(
     rows: list[dict[str, Any]], *, include_noisy: bool = False, stats: LoadStats | None = None
 ) -> list[Event]:
+    """Normalise OTRF rows into Events.
+
+    Parameters
+    ----------
+    rows : list of dict
+        Raw rows from :func:`load_raw_rows`.
+    include_noisy : bool
+        Keep high-volume event types that are dropped by default.
+    stats : LoadStats, optional
+        Receives row counts and estimated clock offsets.
+
+    Returns
+    -------
+    list of Event
+    """
     stats = stats if stats is not None else LoadStats()
     offsets = estimate_clock_offsets(rows)
     stats.clock_offsets_s = offsets
@@ -187,6 +205,7 @@ def load_otrf(
 
 
 def load_raw_rows(path: str | Path) -> list[dict[str, Any]]:
+    """Load every row of an OTRF capture (file, archive or directory)."""
     p = Path(path)
     files = _capture_files(p)
     out: list[dict[str, Any]] = []

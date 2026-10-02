@@ -49,6 +49,7 @@ RELIABILITY = {
 
 
 def channel_kind(rec: dict[str, Any]) -> str | None:
+    """Return the source kind of a Windows event record, or None."""
     ch = str(rec.get("Channel") or rec.get("SourceName") or "").lower()
     if "sysmon" in ch:
         return SYSMON

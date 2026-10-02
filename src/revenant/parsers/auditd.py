@@ -74,6 +74,7 @@ def _decode_hex(v: str) -> str:
 
 
 def parse_line(line: str) -> tuple[str, float, str, dict[str, str]] | None:
+    """Parse one auditd line into ``(type, epoch, serial, fields)``; return None if it is not an audit record."""
     m = _HDR.search(line)
     if not m:
         return None
@@ -235,6 +236,7 @@ def load_auditd(path: str | Path, *, host: str = "", stats: LoadStats | None = N
 
 
 def looks_like_audit_log(head: str) -> bool:
+    """Return True if the start of a file looks like an auditd log."""
     return head.startswith(("type=", "node=")) and "msg=audit(" in head
 
 

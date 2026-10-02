@@ -47,6 +47,7 @@ class CustodyLedger:
 
     @property
     def records(self) -> list[CustodyRecord]:
+        """Return a copy of the custody records in ledger order."""
         return list(self._records)
 
     def _prev_digest(self) -> str:
@@ -61,6 +62,24 @@ class CustodyLedger:
         artifact: str | None = None,
         when: datetime | None = None,
     ) -> CustodyRecord:
+        """Append a hash-chained custody record.
+
+        Parameters
+        ----------
+        action : str
+            What happened (for example ``ingest``).
+        digest : str
+            SHA-256 of the subject.
+        event_id, artifact : str, optional
+            What the record refers to.
+        when : datetime, optional
+            Record time; defaults to now (UTC).
+
+        Returns
+        -------
+        CustodyRecord
+            The new record, chained to the previous one.
+        """
         seq = len(self._records)
         prev = self._prev_digest()
         ts = when or datetime.now(timezone.utc)
@@ -81,6 +100,7 @@ class CustodyLedger:
         return rec
 
     def record_ingest(self, event: Event) -> CustodyRecord:
+        """Append an ``ingest`` record for a finalised event."""
         assert event.integrity_hash, "event must be finalized before ingest"
         return self.append(
             "ingest",

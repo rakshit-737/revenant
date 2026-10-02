@@ -25,6 +25,17 @@ _SUDO = re.compile(r"^\s*(?P<user>\S+) : .*?COMMAND=(?P<cmd>.*)$")
 
 
 def parse_auth_line(line: str, *, year: int, utc_offset_hours: float = 0.0) -> Event | None:
+    """Parse one syslog ``auth.log`` line into an Event, or None if it is not recognised.
+
+    Parameters
+    ----------
+    line : str
+        Raw log line.
+    year : int
+        Year to assume (syslog omits it).
+    utc_offset_hours : float
+        Offset of the host's local time from UTC.
+    """
     m = _LINE.match(line.strip())
     if not m:
         return None
@@ -61,6 +72,7 @@ def parse_auth_line(line: str, *, year: int, utc_offset_hours: float = 0.0) -> E
 
 def load_authlog(path: str | Path, *, year: int, utc_offset_hours: float = 0.0,
                  stats: LoadStats | None = None) -> list[Event]:
+    """Load an ``auth.log`` file into Events, counting rows in ``stats``."""
     stats = stats if stats is not None else LoadStats()
     events: list[Event] = []
     with open(path, encoding="utf-8", errors="replace") as fh:

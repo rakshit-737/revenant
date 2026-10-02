@@ -76,6 +76,7 @@ def xml_to_record(xml: str) -> dict[str, Any]:
 
 
 def iter_evtx_records(path: str | Path) -> Iterator[dict[str, Any]]:
+    """Yield records from a ``.evtx`` file as dicts (needs the ``evtx`` extra)."""
     try:
         import Evtx.Evtx as evtx  # python-evtx
     except ImportError as exc:  # pragma: no cover - depends on optional extra

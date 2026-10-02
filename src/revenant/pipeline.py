@@ -66,6 +66,7 @@ def _digest(items: Iterable[str]) -> str:
 
 
 def file_sha256(path: str | Path) -> str:
+    """Return the SHA-256 hex digest of a file, read in 1 MiB chunks."""
     h = hashlib.sha256()
     with open(path, "rb") as fh:
         for chunk in iter(lambda: fh.read(1 << 20), b""):

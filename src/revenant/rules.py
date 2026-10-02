@@ -148,6 +148,7 @@ HOUR = 3600.0
 
 
 def guid_rules() -> list[Rule]:
+    """Return the rules that link events through Sysmon process GUIDs."""
     out = [Rule("guid_process_spawn", "spawned", 30 * DAY, _PS, _PS, _obj_guid, _act_guid, 0.97, tags={"guid"})]
     for suffix, (rel, types, _) in PROCESS_ACTIONS.items():
         out.append(Rule(f"guid_process_{suffix}", rel, 30 * DAY, _PS, types, _obj_guid, _act_guid, 0.95,
@@ -156,6 +157,7 @@ def guid_rules() -> list[Rule]:
 
 
 def pid_rules() -> list[Rule]:
+    """Return the rules that link events through host-scoped PID and image keys, including the fallbacks."""
     out = [
         Rule("process_spawn", "spawned", DAY, _PS, _PS, object_process_key, actor_process_key, 0.8,
              respect_termination=True, skip_if_guid_linked=True),
@@ -177,6 +179,7 @@ def pid_rules() -> list[Rule]:
 
 
 def cross_entity_rules() -> list[Rule]:
+    """Return the rules that link across entities (dropped file executed, logon session)."""
     return [
         # a file written earlier is later executed as a process image (dropper -> payload)
         Rule("dropped_file_executed", "executed", 7 * DAY, frozenset({_T.FILE_WRITE}), _PS,
@@ -190,6 +193,7 @@ def cross_entity_rules() -> list[Rule]:
 
 
 def default_rules(use_guids: bool = True) -> list[Rule]:
+    """Return the full rule set; ``use_guids=False`` leaves out the GUID rules."""
     return (guid_rules() if use_guids else []) + pid_rules() + cross_entity_rules()
 
 
@@ -198,6 +202,7 @@ DEFAULT_RULES: list[Rule] = default_rules(use_guids=True)
 
 
 def edge_confidence(base: float, delta_s: float) -> float:
+    """Return an uncalibrated edge confidence decayed by the cause-to-effect time gap."""
     tightness = math.exp(-max(delta_s, 0.0) * math.log(2) / HALF_LIFE_S)
     return round(base * (0.7 + 0.3 * tightness), 4)
 
@@ -239,6 +244,7 @@ class RuleEngine:
         self.calibration = load_calibration() if calibration == "default" else (calibration or {})
 
     def confidence(self, rule: Rule, delta_s: float) -> float:
+        """Return the calibrated confidence of a rule, or its time-decayed base confidence if uncalibrated."""
         cal = self.calibration.get(rule.name)
         return round(cal, 4) if cal is not None else edge_confidence(rule.base_confidence, delta_s)
 

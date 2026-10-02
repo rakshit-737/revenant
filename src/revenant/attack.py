@@ -201,6 +201,18 @@ def _pair(ev: Event) -> str | None:
 
 
 def score_events(events: list[Event]) -> dict[str, EventTags]:
+    """Tag events with ATT&CK techniques and a suspicion score.
+
+    Parameters
+    ----------
+    events : list of Event
+        Events to tag.
+
+    Returns
+    -------
+    dict of str to EventTags
+        Tags keyed by event id.
+    """
     pairs = Counter(p for p in (_pair(e) for e in events) if p)
     out: dict[str, EventTags] = {}
     for ev in events:
@@ -214,4 +226,5 @@ def score_events(events: list[Event]) -> dict[str, EventTags]:
 
 
 def technique_parent(t: str) -> str:
+    """Return the parent technique id (``T1059.001`` becomes ``T1059``)."""
     return t.split(".")[0]

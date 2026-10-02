@@ -30,6 +30,7 @@ class SourceReliability(str, enum.Enum):
 
     @property
     def weight(self) -> float:
+        """Return the reliability weight of this evidence source class."""
         return {
             "A": 1.0,
             "B": 0.85,
@@ -93,6 +94,7 @@ class ConfidenceGrade(str, enum.Enum):
 
     @classmethod
     def from_score(cls, score: float) -> ConfidenceGrade:
+        """Map a numeric confidence score to a grade using the fixed cut-offs."""
         if score >= 0.85:
             return cls.CONFIRMED
         if score >= 0.65:

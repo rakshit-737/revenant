@@ -42,6 +42,7 @@ class FusionSpec:
     tolerance_s: float
 
     def key(self, ev: Event) -> str | None:  # pragma: no cover - overridden
+        """Return the fusion key of an event, or None if it cannot be fused."""
         raise NotImplementedError
 
 

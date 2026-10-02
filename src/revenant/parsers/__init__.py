@@ -24,6 +24,13 @@ KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog", "auditd")
 
 
 def detect_kind(path: str | Path) -> str:
+    """Guess the evidence kind of a file or directory.
+
+    Raises
+    ------
+    ValueError
+        If no supported kind is recognised.
+    """
     p = Path(path)
     if p.is_dir():
         if any(p.glob("*.evtx")):

@@ -46,26 +46,37 @@ class ProvenanceGraph:
 
     # -- nodes -------------------------------------------------------------- #
     def add_event(self, event: Event) -> None:
+        """Add or replace an event node."""
         self._events[event.event_id] = event
         self._sorted = None
         if self._g is not None:
             self._g.add_node(event.event_id, ts=event.timestamp)
 
     def add_events(self, events: Iterable[Event]) -> None:
+        """Add several events."""
         for e in events:
             self.add_event(e)
 
     def get_event(self, event_id: str) -> Event | None:
+        """Return the event with this id, or None."""
         return self._events.get(event_id)
 
     @property
     def events(self) -> list[Event]:
+        """Return all events sorted by timestamp, then id."""
         if self._sorted is None:
             self._sorted = sorted(self._events.values(), key=lambda e: (e.timestamp, e.event_id))
         return list(self._sorted)
 
     # -- corroboration ------------------------------------------------------ #
     def add_corroboration(self, primary_id: str, other_id: str) -> None:
+        """Record that ``other_id`` corroborates ``primary_id``.
+
+        Raises
+        ------
+        KeyError
+            If either event is unknown.
+        """
         if primary_id not in self._events or other_id not in self._events:
             raise KeyError("corroboration references unknown event")
         if other_id not in self.corroborations[primary_id]:
@@ -86,6 +97,13 @@ class ProvenanceGraph:
 
     # -- edges -------------------------------------------------------------- #
     def add_edge(self, edge: CausalEdge) -> None:
+        """Add a causal edge between two existing events.
+
+        Raises
+        ------
+        KeyError
+            If either endpoint is unknown.
+        """
         if edge.src_event_id not in self._events or edge.dst_event_id not in self._events:
             raise KeyError("edge references unknown event")
         self._edges.append(edge)
@@ -96,21 +114,27 @@ class ProvenanceGraph:
 
     @property
     def edges(self) -> list[CausalEdge]:
+        """Return all causal edges."""
         return list(self._edges)
 
     def successors(self, event_id: str) -> list[str]:
+        """Return the ids of events directly caused by ``event_id``."""
         return [e.dst_event_id for e in self._out.get(event_id, [])]
 
     def predecessors(self, event_id: str) -> list[str]:
+        """Return the ids of events that directly caused ``event_id``."""
         return [e.src_event_id for e in self._in.get(event_id, [])]
 
     def out_edges(self, event_id: str) -> list[CausalEdge]:
+        """Return the outgoing causal edges of an event."""
         return list(self._out.get(event_id, []))
 
     def in_edges(self, event_id: str) -> list[CausalEdge]:
+        """Return the incoming causal edges of an event."""
         return list(self._in.get(event_id, []))
 
     def has_incoming(self, event_id: str) -> bool:
+        """Return True if any causal edge points to the event."""
         return bool(self._in.get(event_id))
 
     def roots(self) -> list[str]:
@@ -118,6 +142,7 @@ class ProvenanceGraph:
         return [eid for eid in self._events if not self._in.get(eid) and eid not in self.shadowed]
 
     def descendants(self, event_id: str) -> set[str]:
+        """Return every event reachable forward from ``event_id``, excluding itself."""
         seen: set[str] = set()
         stack = [event_id]
         while stack:
@@ -129,6 +154,7 @@ class ProvenanceGraph:
         return seen
 
     def ancestors(self, event_id: str) -> set[str]:
+        """Return every event reachable backward from ``event_id``, excluding itself."""
         seen: set[str] = set()
         stack = [event_id]
         while stack:

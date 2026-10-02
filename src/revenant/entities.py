@@ -75,6 +75,7 @@ def process_ref(pid: object, image: str | None) -> str:
 
 
 def split_process_ref(ref: str) -> tuple[str, str] | None:
+    """Split a process reference into ``(pid, image)``; return None if it does not parse."""
     m = _PROC_RE.match(ref or "")
     if not m:
         return None
@@ -93,12 +94,15 @@ def process_key(host: str, ref: str) -> str | None:
 
 
 def event_host(ev: Event) -> str:
+    """Return the normalised host name of an event."""
     return norm_host(ev.attributes.get("host", ""))
 
 
 def actor_process_key(ev: Event) -> str | None:
+    """Return the host-scoped process key of an event's actor, or None."""
     return process_key(event_host(ev), ev.actor)
 
 
 def object_process_key(ev: Event) -> str | None:
+    """Return the host-scoped process key of an event's object, or None."""
     return process_key(event_host(ev), ev.object)

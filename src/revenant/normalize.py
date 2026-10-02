@@ -129,6 +129,13 @@ _DISPATCH = {
 
 
 def normalize(kind: str, rec: dict[str, Any]) -> Event:
+    """Normalise a raw record of a given source kind into an Event.
+
+    Raises
+    ------
+    ValueError
+        If ``kind`` is not a known source kind.
+    """
     if kind not in _DISPATCH:
         raise ValueError(f"unknown source kind: {kind}")
     return _DISPATCH[kind](rec)

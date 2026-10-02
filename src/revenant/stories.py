@@ -200,6 +200,24 @@ def reconstruct_stories(
     config: StoryConfig | None = None,
     tags: dict[str, EventTags] | None = None,
 ) -> list[IncidentStory]:
+    """Group the provenance graph into ranked incident stories.
+
+    Parameters
+    ----------
+    graph : ProvenanceGraph
+        Graph with causal edges.
+    indicators : list of TamperingIndicator, optional
+        Anti-forensics indicators attached to the stories they touch.
+    config : StoryConfig, optional
+        Seeding and ranking parameters.
+    tags : dict of str to EventTags, optional
+        Precomputed ATT&CK tags; computed when omitted.
+
+    Returns
+    -------
+    list of IncidentStory
+        Stories sorted by suspicion, highest first.
+    """
     cfg = config or StoryConfig()
     indicators = indicators or []
     visible = [e for e in graph.events if e.event_id not in graph.shadowed]
@@ -282,6 +300,7 @@ def story_gaps(graph: ProvenanceGraph, story: IncidentStory, gap_s: float = 1200
 
 
 def tactic_names(tactics: list[str]) -> list[str]:
+    """Map ATT&CK tactic ids to their names."""
     return [TACTICS.get(t, t) for t in tactics]
 
 

@@ -180,6 +180,7 @@ def l2tcsv_to_row(r: dict[str, str]) -> dict[str, Any]:
 
 
 def iter_plaso(path: str | Path) -> Iterator[dict[str, Any]]:
+    """Yield rows from a plaso export (JSON lines or CSV)."""
     p = Path(path)
     with p.open("r", encoding="utf-8", errors="replace") as fh:
         first = fh.readline()
@@ -208,6 +209,7 @@ def iter_plaso(path: str | Path) -> Iterator[dict[str, Any]]:
 
 
 def load_plaso(path: str | Path, *, stats: LoadStats | None = None) -> list[Event]:
+    """Load a plaso export into Events, counting rows in ``stats``."""
     stats = stats if stats is not None else LoadStats()
     events: list[Event] = []
     for row in iter_plaso(path):

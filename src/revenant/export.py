@@ -42,6 +42,7 @@ def _event_dict(analysis: Analysis, eid: str) -> dict[str, Any] | None:
 
 
 def story_event_ids(analysis: Analysis, top: int | None = None) -> list[str]:
+    """Return the unique event ids of the ``top`` stories, in first-seen order."""
     seen: dict[str, None] = {}
     for s in analysis.stories[:top]:
         for i in s.event_ids:
@@ -120,6 +121,7 @@ def to_dict(analysis: Analysis, *, top: int = 20, include_all_events: bool = Fal
 
 
 def to_json(analysis: Analysis, *, top: int = 20) -> str:
+    """Serialise an analysis to indented JSON, limited to the ``top`` stories."""
     return json.dumps(to_dict(analysis, top=top), indent=1, default=str)
 
 

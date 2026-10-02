@@ -63,6 +63,7 @@ def _run_and_report(records, top: int = 5) -> str:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the ``revenant`` command-line argument parser."""
     from .parsers import KINDS
 
     p = argparse.ArgumentParser(prog="revenant", description="Forensic timeline reconstruction (lab-only).")

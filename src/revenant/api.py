@@ -79,6 +79,7 @@ class PathRequest(BaseModel):
 
 
 def evidence_root() -> Path:
+    """Return the directory the API may read evidence from (``REVENANT_EVIDENCE_ROOT``, default cwd)."""
     return Path(os.environ.get("REVENANT_EVIDENCE_ROOT", ".")).resolve()
 
 
@@ -121,21 +122,31 @@ def _case(cid: str) -> Analysis:
 
 @app.get("/", response_class=HTMLResponse)
 def ui() -> str:
+    """Serve the single-page web UI."""
     return resources.files("revenant.web").joinpath("index.html").read_text(encoding="utf-8")
 
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
+    """Return service status and version."""
     return {"status": "ok", "version": __version__}
 
 
 @app.get("/api/scenarios")
 def scenarios() -> list[str]:
+    """List the built-in synthetic scenario names."""
     return sorted(SCENARIOS)
 
 
 @app.post("/api/cases/scenario/{name}")
 def case_from_scenario(name: str) -> dict[str, Any]:
+    """Analyse a built-in synthetic scenario and store it as a case.
+
+    Raises
+    ------
+    HTTPException
+        404 when the scenario name is unknown.
+    """
     if name not in SCENARIOS:
         raise HTTPException(404, "unknown scenario")
     return _store(f"scenario:{name}", run(SCENARIOS[name]()))
@@ -143,6 +154,13 @@ def case_from_scenario(name: str) -> dict[str, Any]:
 
 @app.post("/api/cases/path")
 def case_from_path(req: PathRequest) -> dict[str, Any]:
+    """Analyse evidence at a path confined to the evidence root and store it as a case.
+
+    Raises
+    ------
+    HTTPException
+        For paths outside the evidence root or evidence that cannot be parsed.
+    """
     target = _safe_path(req.path)
     try:
         analysis = analyze_paths([target], kind=req.kind, include_noisy=req.include_noisy)
@@ -155,38 +173,45 @@ def case_from_path(req: PathRequest) -> dict[str, Any]:
 
 @app.get("/api/cases")
 def list_cases() -> list[dict[str, Any]]:
+    """List stored cases with their story and event counts."""
     return [{"id": c["id"], "name": c["name"], "stories": len(c["analysis"].stories),
              "events": len(c["analysis"].events)} for c in CASES.values()]
 
 
 @app.get("/api/cases/{cid}")
 def get_case(cid: str, top: int = 20) -> dict[str, Any]:
+    """Return a stored case as JSON, limited to the ``top`` highest-ranked stories."""
     return to_dict(_case(cid), top=top)
 
 
 @app.get("/api/cases/{cid}/report.md", response_class=PlainTextResponse)
 def report_md(cid: str, top: int = 5) -> str:
+    """Return the Markdown report for a stored case."""
     return generate_report(_case(cid), top=top)
 
 
 @app.get("/api/cases/{cid}/report.html", response_class=HTMLResponse)
 def report_html(cid: str, top: int = 5) -> str:
+    """Return the HTML report for a stored case."""
     return generate_html(_case(cid), top=top)
 
 
 @app.get("/api/cases/{cid}/cypher", response_class=PlainTextResponse)
 def cypher(cid: str, top: int = 20) -> str:
+    """Return a Neo4j Cypher export of a stored case."""
     return to_cypher(_case(cid), top=top)
 
 
 @app.get("/api/cases/{cid}/custody")
 def custody(cid: str) -> dict[str, Any]:
+    """Return the custody verification result and the last 200 ledger records of a case."""
     ledger = _case(cid).ledger
     return {"verified": ledger.verify(), "records": [r.model_dump(mode="json") for r in ledger.records[-200:]],
             "total": len(ledger.records)}
 
 
 def main() -> None:  # pragma: no cover - thin launcher
+    """Start the API server with uvicorn (loopback by default)."""
     import uvicorn
 
     uvicorn.run(app, host=os.environ.get("REVENANT_HOST", "127.0.0.1"), port=int(os.environ.get("REVENANT_PORT", "8000")))
