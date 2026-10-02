@@ -16,11 +16,16 @@ def test_hash_mismatch_detected_on_mutation():
 
 
 def test_log_gap_detected():
-    events = normalize_batch(timestomp_scenario())
-    # timestomp scenario has a logfile far in future but real events are close;
-    # force a gap check with tiny threshold
-    gaps = detect_log_gaps(events, gap_threshold_s=1.0)
-    assert isinstance(gaps, list)
+    """Spec demo 4: a 20+ minute silence is reported as an *unknown* window, not filled in."""
+    from datetime import timedelta
+
+    events = normalize_batch(intrusion_scenario())
+    events.sort(key=lambda e: e.timestamp)
+    shifted = events[:2] + [e.model_copy(update={"timestamp": e.timestamp + timedelta(minutes=25)}) for e in events[2:]]
+    gaps = detect_log_gaps(shifted)
+    assert len(gaps) == 1 and gaps[0].indicator == "log_gap"
+    assert "(unknown)" in gaps[0].detail and gaps[0].event_ids == [shifted[1].event_id, shifted[2].event_id]
+    assert not detect_log_gaps(events)
 
 
 def test_scan_returns_indicators_list():

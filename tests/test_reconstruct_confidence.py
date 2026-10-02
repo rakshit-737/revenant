@@ -20,17 +20,30 @@ def test_intrusion_reconstructs_multistage_chain():
 
 
 def test_corroboration_boosts_confidence():
-    corro = pipeline.run(corroboration_scenario())
-    # two distinct sources on the logon -> higher corroboration than a single source
-    assert corro.chains
-    assert corro.chains[0].confidence_score > 0.3
+    """Counterfactual: removing the second, corroborating auth record must lower confidence.
+
+    The measured effect is +0.06 (0.763 -> 0.823); both are HIGH, so the spec's
+    MEDIUM -> HIGH grade change is *not* claimed for this scenario.
+    """
+    records = corroboration_scenario()
+    with_corro = pipeline.run(records)
+    without = pipeline.run([records[0], records[2]])
+    assert with_corro.chains and without.chains
+    delta = with_corro.chains[0].confidence_score - without.chains[0].confidence_score
+    assert 0.04 <= delta <= 0.10
 
 
 def test_timestomp_flags_lower_confidence():
     a = pipeline.run(timestomp_scenario())
     flagged = [c for c in a.chains if c.tampering_flags]
-    assert any("timestomp" in " ".join(c.tampering_flags) for c in flagged) or a.indicators
+    assert flagged and any("timestomp" in " ".join(c.tampering_flags) for c in flagged)
     assert any(i.indicator == "timestomp" for i in a.indicators)
+    # the tamper penalty applies: the flagged chain scores below an unflagged copy
+    from revenant.confidence import score_chain
+
+    c = flagged[0]
+    clean = score_chain(c.model_copy(update={"tampering_flags": []}), a.graph).score
+    assert c.confidence_score < clean
 
 
 def test_chains_ranked_descending():
