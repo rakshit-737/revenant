@@ -1,0 +1,4 @@
+include src/revenant/data/*.json
+include src/revenant/web/*.html
+include tests/conftest.py
+recursive-include tests/fixtures *

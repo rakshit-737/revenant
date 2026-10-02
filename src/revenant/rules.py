@@ -215,9 +215,16 @@ def load_calibration() -> dict[str, float]:
 
     try:
         raw = resources.files("revenant.data").joinpath("rule_calibration.json").read_text(encoding="utf-8")
-    except (FileNotFoundError, ModuleNotFoundError):  # pragma: no cover - packaging edge case
-        return {}
-    return {k: float(v["confidence"]) for k, v in json.loads(raw)["rules"].items()}
+    except (FileNotFoundError, ModuleNotFoundError) as exc:  # pragma: no cover - broken install
+        raise RuntimeError(
+            "revenant/data/rule_calibration.json is missing from this installation; "
+            "edge confidences would silently fall back to hand-set values. Reinstall REVENANT."
+        ) from exc
+    # A per-rule constant is never certainty: cap at MAX_CALIBRATED.
+    return {k: min(float(v["confidence"]), MAX_CALIBRATED) for k, v in json.loads(raw)["rules"].items()}
+
+
+MAX_CALIBRATED = 0.99
 
 
 class RuleEngine:

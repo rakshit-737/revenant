@@ -19,3 +19,29 @@ venv/
 
 # mkdocs build output
 site/
+
+# datasets, archives and caches never belong in git
+*.zip
+*.tar.gz
+*.7z
+*.evtx
+*.etl
+*.pcap
+*.pcapng
+*.dmp
+*.pkl
+*.joblib
+*.pt
+*.h5
+datasets/
+live-out/
+rep/
+.cache/
+.env
+.env.*
+.mypy_cache/
+.coverage
+htmlcov/
+.DS_Store
+.idea/
+.vscode/
