@@ -189,10 +189,18 @@ def iter_plaso(path: str | Path) -> Iterator[dict[str, Any]]:
                 if line.strip():
                     try:
                         yield json.loads(line)
-                    except json.JSONDecodeError:
+                    except (json.JSONDecodeError, RecursionError):
                         yield {"__bad__": True}
         else:
-            for r in csv.DictReader(fh):
+            reader = csv.DictReader(fh)
+            while True:
+                try:
+                    r = next(reader)
+                except StopIteration:
+                    break
+                except csv.Error:  # oversized/garbled field: drop the row, keep the case
+                    yield {"__bad__": True}
+                    continue
                 try:
                     yield l2tcsv_to_row(r)
                 except (KeyError, ValueError):

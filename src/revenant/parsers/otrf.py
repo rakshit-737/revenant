@@ -25,6 +25,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
 
+from ..fsutil import iter_files
 from ..models import Event
 from .timeutil import parse_ts, round_offset
 from .windows import SYSMON, channel_kind, map_windows_event
@@ -60,15 +61,21 @@ class LoadStats:
         }
 
 
+MAX_LINE_CHARS = 4_000_000
+
+
 def iter_json_lines(path: str | Path) -> Iterator[dict[str, Any]]:
     with open(path, encoding="utf-8", errors="replace") as fh:
         for line in fh:
             line = line.strip()
             if not line:
                 continue
+            if len(line) > MAX_LINE_CHARS:  # one planted record must not abort the case
+                yield {"__bad__": True}
+                continue
             try:
                 obj = json.loads(line)
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, RecursionError):
                 yield {"__bad__": True}
                 continue
             if isinstance(obj, dict):
@@ -142,7 +149,7 @@ def _capture_files(p: Path) -> list[Path]:
     """JSON files of a capture, skipping macOS ``__MACOSX/._*`` archive junk."""
     if not p.is_dir():
         return [p]
-    return sorted(f for f in p.rglob("*.json") if "__MACOSX" not in f.parts and not f.name.startswith("._"))
+    return [f for f in iter_files(p, (".json",)) if "__MACOSX" not in f.parts and not f.name.startswith("._")]
 
 
 def load_otrf(

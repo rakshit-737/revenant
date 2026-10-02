@@ -18,8 +18,12 @@ Endpoints
 ``GET  /api/cases/{id}/custody``         custody ledger + verification
 
 Safety: the service only *reads* evidence, and only below
-``REVENANT_EVIDENCE_ROOT`` (default: the current directory); path traversal
-outside it is refused. It binds to localhost by default -- lab use only.
+``REVENANT_EVIDENCE_ROOT`` (default: the current directory). Paths are
+validated lexically (no absolute, UNC, drive-qualified or ``..`` inputs) before
+the filesystem is touched, and links inside evidence are never followed. Only
+loopback ``Host`` headers are served (DNS-rebinding guard), cross-origin POSTs
+are refused, and request bodies are capped at 64 KiB. It binds to localhost by
+default and has no authentication -- lab use only.
 """
 
 from __future__ import annotations
@@ -30,8 +34,9 @@ from importlib import resources
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel
 
 from . import __version__
@@ -44,6 +49,27 @@ app = FastAPI(title="REVENANT", version=__version__,
               description="Evidence-graph forensic timeline reconstruction (lab-only).")
 CASES: dict[str, dict[str, Any]] = {}
 MAX_CASES = 20
+MAX_BODY_BYTES = 64 * 1024
+_LOOPBACK = ["127.0.0.1", "localhost", "[::1]", "::1", "testserver"]
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=_LOOPBACK)
+
+
+@app.middleware("http")
+async def _guard(request: Request, call_next):
+    """Cap request bodies and refuse cross-origin state-changing requests."""
+    if request.method not in ("GET", "HEAD", "OPTIONS"):
+        try:
+            length = int(request.headers.get("content-length") or 0)
+        except ValueError:
+            length = MAX_BODY_BYTES + 1
+        if length > MAX_BODY_BYTES:
+            return JSONResponse({"detail": "request body too large"}, status_code=413)
+        origin = request.headers.get("origin")
+        if origin:
+            host = origin.split("://", 1)[-1].split("/", 1)[0].rsplit(":", 1)[0]
+            if host not in _LOOPBACK:
+                return JSONResponse({"detail": "cross-origin request refused"}, status_code=403)
+    return await call_next(request)
 
 
 class PathRequest(BaseModel):
@@ -57,12 +83,24 @@ def evidence_root() -> Path:
 
 
 def _safe_path(p: str) -> Path:
+    """Resolve a client path below the evidence root.
+
+    Validated lexically first, so absolute, UNC (which would make Windows open
+    an SMB session), drive-qualified and ``..`` inputs never reach the filesystem.
+    """
+    from pathlib import PurePosixPath, PureWindowsPath
+
+    pw, pp = PureWindowsPath(p), PurePosixPath(p.replace("\\", "/"))
+    if (not p or "\x00" in p or pw.drive or pw.root or pp.is_absolute() or p.startswith(("\\\\", "//"))
+            or ".." in pw.parts or ".." in pp.parts):
+        raise HTTPException(403, "path outside evidence root")
     root = evidence_root()
-    target = (root / p).resolve() if not Path(p).is_absolute() else Path(p).resolve()
-    if target != root and root not in target.parents:
-        raise HTTPException(403, f"path outside evidence root {root}")
-    if not target.exists():
-        raise HTTPException(404, "no such artefact")
+    try:
+        target = (root / p).resolve(strict=True)
+    except OSError as exc:
+        raise HTTPException(404, "no such artefact") from exc
+    if not target.is_relative_to(root):
+        raise HTTPException(403, "path outside evidence root")
     return target
 
 
@@ -110,6 +148,8 @@ def case_from_path(req: PathRequest) -> dict[str, Any]:
         analysis = analyze_paths([target], kind=req.kind, include_noisy=req.include_noisy)
     except (ValueError, ImportError) as exc:
         raise HTTPException(400, str(exc)) from exc
+    except (OSError, RecursionError) as exc:
+        raise HTTPException(422, f"could not analyse artefact: {type(exc).__name__}") from exc
     return _store(target.name, analysis)
 
 

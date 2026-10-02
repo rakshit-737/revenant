@@ -36,6 +36,10 @@ def _flatten(rows: list[dict[str, Any]]) -> Iterator[dict[str, Any]]:
 
 
 def _load_json(path: Path) -> list[dict[str, Any]]:
+    from ..fsutil import is_link
+
+    if is_link(path):  # never follow links out of the evidence directory
+        return []
     data = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(data, dict):  # some renderers wrap rows
         data = data.get("rows") or data.get("data") or []

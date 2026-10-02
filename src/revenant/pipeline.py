@@ -26,6 +26,7 @@ from typing import Any
 from .antiforensics import annotate_chain, scan
 from .attack import EventTags, score_events
 from .confidence import apply_score
+from .fsutil import iter_files
 from .fusion import fuse
 from .graph import ProvenanceGraph
 from .integrity import CustodyLedger
@@ -160,9 +161,10 @@ def analyze_paths(
     t0 = time.perf_counter()
     for p in paths:
         p = Path(p)
-        files = [p] if p.is_file() else sorted(
-            x for x in p.rglob("*") if x.is_file() and x.suffix.lower() in _ARTEFACT_SUFFIXES
-        )
+        skipped: list[str] = []
+        files = [p] if p.is_file() else list(iter_files(p, _ARTEFACT_SUFFIXES, skipped))
+        for s in skipped:  # links inside evidence are never followed; record that they existed
+            ledger.append("skipped_link", digest="0" * 64, artifact=Path(s).name)
         for f in files:  # hash the raw artefact before parsing: evidence integrity
             try:
                 digest = file_sha256(f)

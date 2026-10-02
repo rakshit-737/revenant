@@ -20,6 +20,7 @@ from xml.etree.ElementTree import Element  # nosec B405 - type only
 # evidence files are untrusted input by definition, so it is a hard requirement.
 from defusedxml.ElementTree import fromstring as _fromstring
 
+from ..fsutil import iter_files
 from ..models import Event
 from .otrf import LoadStats
 from .timeutil import parse_ts
@@ -96,7 +97,7 @@ def load_evtx(
     """
     stats = stats if stats is not None else LoadStats()
     p = Path(path)
-    files = sorted(p.rglob("*.evtx")) if p.is_dir() else [p]
+    files = list(iter_files(p, (".evtx",))) if p.is_dir() else [p]
     events: list[Event] = []
     for f in files:
         try:
