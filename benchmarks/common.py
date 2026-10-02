@@ -23,6 +23,21 @@ RESULTS = ROOT / "results"
 OTRF_ATOMIC = DATA / "otrf" / "atomic"
 APT29_DIR = DATA / "otrf" / "compound" / "apt29" / "day1" / "apt29_evals_day1_manual"
 EVTX_SAMPLES = DATA / "evtx-attack-samples"
+COMPOUND = DATA / "otrf" / "compound"
+
+
+def compound_corpora() -> dict[str, list[tuple[str, Path]]]:
+    """Extra GUID-truth corpora (opt-in downloads); each entry is one capture directory."""
+    out: dict[str, list[tuple[str, Path]]] = {}
+    lsass = sorted(d for c in COMPOUND.glob("LSASS_campaign_*") for d in c.iterdir() if d.is_dir())
+    if lsass:
+        out["otrf_lsass_campaign"] = [(d.parent.name, d) for d in lsass]
+    if (COMPOUND / "Log4Shell").is_dir():
+        out["otrf_log4shell"] = [("log4shell", COMPOUND / "Log4Shell")]
+    day2 = COMPOUND / "apt29" / "day2" / "apt29_evals_day2_manual"
+    if day2.is_dir():
+        out["otrf_apt29_day2"] = [("apt29_day2", day2)]
+    return out
 
 
 @dataclass
@@ -74,6 +89,7 @@ def _labels() -> dict[str, dict]:
 def atomic_datasets(labelled_only: bool = False) -> list[AtomicDataset]:
     labels = _labels()
     out: list[AtomicDataset] = []
+    seen: set[str] = set()
     base = OTRF_ATOMIC / "windows"
     if not base.exists():
         return out
@@ -87,6 +103,9 @@ def atomic_datasets(labelled_only: bool = False) -> list[AtomicDataset]:
             lab = labels.get(d.name)
             if labelled_only and not lab:
                 continue
+            if d.name in seen:  # the same capture is published under two tactics: count it once
+                continue
+            seen.add(d.name)
             ds = AtomicDataset(d.name, tactic_dir.name, d)
             if lab:
                 ds.techniques = lab["techniques"]

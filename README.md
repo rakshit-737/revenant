@@ -143,23 +143,32 @@ access) and T1055 (injection).
 
 ## Quickstart
 
+Every command below runs as written from a clean checkout (CI runs this block verbatim).
+REVENANT is **not on PyPI** -- `pip install revenant` installs an unrelated package.
+
+<!-- quickstart -->
 ```bash
 git clone https://github.com/rakshit-737/revenant && cd revenant
-python -m pip install -e ".[dev,evtx,api]"         # core: pydantic + networkx; extras optional
-python -m pytest -q                                 # 73 tests on committed fixtures (+4 realdata)
+python -m pip install -e ".[dev,evtx,api]"          # core: pydantic + networkx; extras optional
+python -m pytest -q                                  # committed fixtures; real-data tests skip without data
 
 # analyse a real OTRF capture (committed, MIT, field-trimmed)
-PYTHONPATH=src python -m revenant.cli analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --top 3
+revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --top 3
 
-# other formats / outputs
-PYTHONPATH=src python -m revenant.cli analyze capture.evtx --format html --out report.html
-PYTHONPATH=src python -m revenant.cli analyze capture.jsonl --ledger custody.sqlite --pdf report.pdf
-PYTHONPATH=src python -m revenant.cli analyze plaso.jsonl --format cypher --out graph.cypher
-PYTHONPATH=src python -m revenant.cli verify custody.sqlite
-
-# API + timeline/graph UI on http://127.0.0.1:8000 (confined to an evidence root)
-REVENANT_EVIDENCE_ROOT=tests/fixtures PYTHONPATH=src python -m revenant.cli serve
+# HTML report + append-only custody ledger, then verify the ledger (read-only)
+revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --format html --out report.html --ledger custody.sqlite
+revenant verify custody.sqlite
+# plaso json_line -> Neo4j Cypher; Linux auditd log -> Markdown
+revenant analyze tests/fixtures/plaso.jsonl --format cypher --out graph.cypher
+revenant analyze tests/fixtures/auditd_sample.log --kind auditd --top 1
 ```
+
+On your own evidence: `revenant analyze <file-or-dir> ...`. `--pdf report.pdf` needs
+`pip install -e ".[pdf]"` (WeasyPrint). The API + timeline/graph UI binds to 127.0.0.1 and
+is confined to an evidence root:
+`REVENANT_EVIDENCE_ROOT=tests/fixtures revenant serve` then open <http://127.0.0.1:8000>.
+To anchor a ledger, pass the "Ledger head" and record count printed in the report:
+`revenant verify custody.sqlite --expect-head <hash> --expect-count <n>`.
 
 Example (abridged) on the committed PsExec + LSA-secrets capture:
 
@@ -179,7 +188,8 @@ Library use:
 
 ```python
 from revenant.pipeline import analyze_paths
-analysis = analyze_paths(["capture.jsonl"])     # see src/revenant/pipeline.py
+analysis = analyze_paths(["tests/fixtures/otrf_psexec_lsa_secrets.jsonl"])
+print(analysis.stories[0].story_id, analysis.stories[0].grade.value)
 ```
 
 ## Reproducibility

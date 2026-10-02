@@ -14,9 +14,17 @@ Methods (all read the same parsed events):
 
 Metrics:
 
-* ``hit@k`` -- a labelled technique (parent-id match, e.g. T1003 ~ T1003.001)
-  is tagged on an event within the first *k* stories (for flat methods: the
-  first *k* x median-story-size events, so reading budgets are equal).
+* ``hit@k`` -- reached evidence of a labelled technique (parent-id match,
+  e.g. T1003 ~ T1003.001) within an **equal event budget** of *k* x the
+  capture's median story size, for every method (REVENANT included: its
+  story-ordered event list is cut at the same budget).
+* ``story_hit@k`` -- the story-unit view: REVENANT reads its top *k* whole
+  stories (whatever their size) and the flat methods get exactly the same
+  number of events (the summed size of those *k* stories).
+
+An earlier version compared REVENANT's whole-story hit@k with a k x median
+budget for the flat methods, which gave REVENANT more reading budget; both
+equal-budget views are reported now, with paired McNemar tests and Wilson CIs.
 * ``events_to_evidence`` -- events read before the first tagged event (the
   spec's "analyst time-to-story" proxy). Median and mean over captures.
 * ``in_vocabulary`` -- whether the labelled technique appears in REVENANT's
@@ -94,15 +102,21 @@ def evaluate_one(ds) -> dict | None:
     for name, order in (("chronological", chrono), ("flat_suspicion", flat), ("revenant", story_order)):
         out[f"{name}_events_to_evidence"] = _first_hit(order, tags, labels)
     for k in (1, 3, 5):
-        out[f"revenant_hit@{k}"] = first_story is not None and first_story < k
         budget = k * med
-        for name in ("chronological", "flat_suspicion"):
+        story_budget = sum(len(s.event_ids) for s in a.stories[:k])
+        out[f"revenant_story_hit@{k}"] = first_story is not None and first_story < k
+        out[f"story_budget@{k}"] = story_budget
+        for name in ("chronological", "flat_suspicion", "revenant"):
             f = out[f"{name}_events_to_evidence"]
             out[f"{name}_hit@{k}"] = f is not None and f < budget
+            if name != "revenant":
+                out[f"{name}_story_hit@{k}"] = f is not None and f < story_budget
     return out
 
 
 def summarise(rows: list[dict]) -> dict:
+    from stats import mcnemar_exact, wilson
+
     s: dict = {"captures": len(rows)}
     for m in ("chronological", "flat_suspicion", "revenant"):
         found = [r[f"{m}_events_to_evidence"] for r in rows if r[f"{m}_events_to_evidence"] is not None]
@@ -112,7 +126,19 @@ def summarise(rows: list[dict]) -> dict:
             "mean_events_to_evidence": round(statistics.mean(found), 1) if found else None,
             **{f"hit@{k}": round(sum(r[f"{m}_hit@{k}"] for r in rows) / len(rows), 4) if rows else 0.0
                for k in (1, 3, 5)},
+            **{f"hit@{k}_ci95": wilson(sum(r[f"{m}_hit@{k}"] for r in rows), len(rows)) for k in (1, 3, 5)},
+            **{f"story_hit@{k}": round(sum(r[f"{m}_story_hit@{k}"] for r in rows) / len(rows), 4) if rows else 0.0
+               for k in (1, 3, 5)},
+            **{f"story_hit@{k}_ci95": wilson(sum(r[f"{m}_story_hit@{k}"] for r in rows), len(rows))
+               for k in (1, 3, 5)},
         }
+    tests = {}
+    for view in ("hit", "story_hit"):
+        for k in (1, 3, 5):
+            b = sum(r[f"revenant_{view}@{k}"] and not r[f"flat_suspicion_{view}@{k}"] for r in rows)
+            c = sum(r[f"flat_suspicion_{view}@{k}"] and not r[f"revenant_{view}@{k}"] for r in rows)
+            tests[f"{view}@{k}"] = {"revenant_only": b, "flat_only": c, "mcnemar_p": mcnemar_exact(b, c)}
+    s["revenant_vs_flat_suspicion"] = tests
     return s
 
 
