@@ -44,10 +44,7 @@ and the stories are recorded in an append-only custody ledger.
    ```bash
    docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion
    ```
-   > **Caveat:** the only published release is v1.0.0, and its wheel and image (`latest` =
-   > `1.0.0`) predate the packaging fix: they do not ship `rule_calibration.json`, so edge
-   > confidences are the hand-set constants and the output below will differ. Use option 2
-   > until the next release; build the image yourself with `docker build -t revenant .`.
+   > Images from v1.1.0 on ship the calibration table; v1.0.0 (`:1.0.0`) did not, so avoid it.
 
 Expected first lines (synthetic phishing scenario):
 
@@ -168,7 +165,7 @@ in every bin; ECE 0.23-0.30). Per-rule precision fitted on APT29 day 1 and teste
 lowers ECE to **0.106** (Brier 0.098, AUROC 0.78); fitted on atomic and tested on the LSASS
 captures, ECE is 0.027. Fitted on atomic and tested on APT29 the ECE is 0.032, but every
 APT29 edge is correct, so that number only says the constants are close to 1. Shipped
-constants are capped at 0.99. Story confidence and grades are *not* calibrated (see
+constants are capped at 0.99 when loaded (the shipped JSON still holds the raw values, some up to 1.0). Story confidence and grades are *not* calibrated (see
 [Limitations](#limitations)).
 
 ![calibration](results/calibration.png)
@@ -238,7 +235,7 @@ release (pinned commit, git-blob and SHA-256 verified, no executables), recomput
 attack's P/R/F1 from the released per-attack counts and averages them: **0.9106 / 0.9729 /
 0.9376, identical to the paper** (the pooled micro-average is 0.9040 / 0.9715 / 0.9365; the
 spreadsheet's pooled F1 cell reads 1, a spreadsheet error). It then runs the authors' own
-`evaluate.py` (Python 3.7, offline container) on their released model outputs: event-level
+`evaluate.py` (Python 3.7, offline container) on their released model outputs. Each M-attack has two released runs (h1, h2); the figures use h2 for M-1 to M-6 because `M4_h1` fails inside `evaluate.py` (missing cleaned predicted entities in the release), and h1 sensitivity is not yet reported. Event-level
 P/R/F1 **0.9988 / 0.9989 / 0.9988, identical to the paper**; entity-level **0.879 / 0.963 /
 0.913**, 2.4 F1 points below the paper, because the released script counts unique entities
 differently from the spreadsheet (e.g. 11 vs 22 malicious entities for S-1). Released outputs
@@ -384,6 +381,13 @@ is one field-trimmed OTRF capture used as a test fixture (MIT, attributed).
   CI; a capture bootstrap over so few clusters is degenerate.
 - Anti-forensics checks on MFT against `$LogFile`/`$UsnJrnl` are limited to plaso's
   `$SI`/`$FN` fields. There is no raw NTFS parser.
+- **B3 labels are unchanged** (10 positives). The six OTRF atomic captures labelled T1562.002 by
+  the dataset authors are on disk but not yet used as a B3b benchmark; System 7034/7036 and
+  Security 1100 indicators are not modelled.
+- The headline paired-difference CI lower bound (+0.005) sits near zero and uses 2,000
+  resamples; a 10,000-resample run with a recorded seed is not done yet.
+- CI hygiene gaps: no mermaid-cli diagram validation, workflow run IDs are not written into
+  result JSON, and `continue-on-error` in `atlas-repro.yml` has not been reviewed.
 - The LLM report-drafting assistant from the spec is intentionally not built. No claim
   comes from a model (ADR 0001).
 
@@ -391,6 +395,9 @@ is one field-trimmed OTRF capture used as a test fixture (MIT, attributed).
 
 - [ ] Score REVENANT under the ATLAS protocol (symptom-seeded stories, ATLAS's `evaluate.py`), with a BackTracker-style reachability baseline
 - [ ] Re-run ATLAS's released model (TensorFlow 2.3) and retrain with seeds
+- [ ] Probe the ATLASv2 Box link from Actions
+- [ ] B3b anti-forensics benchmark on the OTRF T1562.002-labelled captures, with Wilson CIs
+- [ ] 10k-resample bootstrap with recorded seed for the headline CI
 - [ ] Story-level confidence validation against labelled stories
 - [ ] Event-log service-crash and MRU-deletion tamper indicators (the B3 misses)
 - [ ] `evtx_dump` / Hayabusa JSON ingest for fast `.evtx` handling

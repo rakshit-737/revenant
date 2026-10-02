@@ -5,8 +5,7 @@
 - **No install:** the [live demo](demo/index.html) shows a real public OTRF capture.
 - **pip (recommended):** `pip install "git+https://github.com/rakshit-737/revenant" && revenant demo --scenario intrusion`
 - **Docker:** `docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion`.
-  Caveat: `latest` is the v1.0.0 image, which predates the packaging fix and ships without
-  `rule_calibration.json` (hand-set edge confidences). Prefer pip from git until the next release.
+  Images from v1.1.0 on ship the calibration table; avoid `:1.0.0`.
 
 The first story should read `story-907cbcd159 - suspicion 0.91, confidence HIGH (0.75)`.
 

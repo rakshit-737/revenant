@@ -6,9 +6,21 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-> **Note:** the published v1.0.0 wheel and GHCR image (`latest`) lack the calibration table
-> (see Fixed below). Until the next release, install from git main:
-> `pip install "git+https://github.com/rakshit-737/revenant"`.
+## [1.1.0] - 2026-10-02
+
+Republishes the wheel, sdist and GHCR image with the calibration table (v1.0.0 lacked it).
+
+### Added
+- Linux auditd connector (execve/open/unlink/connect to events) and a CI job that captures a
+  benign scripted sequence with auditd on the runner and asserts the reconstructed chain.
+- OTRF compound captures (APT29 day 1/2, LSASS, Log4Shell) and an ATLAS downloader, every
+  archive pinned by SHA-256 with fail-closed verification; Sentinel-format captures readable.
+- Five-corpus B1 with ablations, equal-input baselines and CIs; equal-budget B2; B3 in Actions.
+- ATLAS reproduction workflow: paper numbers recomputed from released outputs and the
+  authors' `evaluate.py` re-run.
+- Anti-forensics: PowerShell script-block/module logging disables are flagged.
+- Generated docs demo on a real OTRF case; How it works, Evaluation and Reproduce pages.
+- `revenant --version`, `--kind auditd`; package/docker/quickstart CI jobs, SHA-pinned actions.
 
 ### Changed
 - Public functions and methods now carry docstrings; ruff `D102`/`D103` enforce this in CI.
