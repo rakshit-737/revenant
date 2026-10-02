@@ -2,7 +2,7 @@
 
 python-evtx renders each record as the XML Windows itself would show; this
 module flattens that XML into the same dict shape OTRF uses, so both feed
-:func:`revenant.parsers.windows.map_windows_event`.
+`revenant.parsers.windows.map_windows_event`.
 
 ``xml_to_record`` is pure (no python-evtx needed) so it is unit-tested with
 committed XML fixtures; ``iter_evtx_records`` needs the optional ``evtx``

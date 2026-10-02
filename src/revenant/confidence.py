@@ -1,6 +1,6 @@
-"""Confidence scorer (ACH / Admiralty-inspired).
+"""Confidence scorer (Admiralty-inspired source reliability).
 
-A chain's confidence blends four signals, each in [0,1]:
+A chain's confidence is a weighted *sum* of four signals, each in [0,1]:
 
 * reliability   - mean source-reliability weight of its events
 * corroboration - how many *distinct* source artifacts back the chain,
@@ -9,8 +9,11 @@ A chain's confidence blends four signals, each in [0,1]:
 * edge_strength - mean rule confidence of its edges
 
 Tampering indicators apply a multiplicative penalty. The result maps to a
-human-facing grade (LOW/MEDIUM/HIGH/CONFIRMED). Weights are explicit and
-documented so the score is defensible, not a black box.
+human-facing grade (LOW/MEDIUM/HIGH/CONFIRMED). Weights and grade cut-offs
+are explicit, hand-set and documented so the score is defensible, not a black
+box. Only the per-rule edge confidences feeding ``edge_strength`` are
+calibrated against ground truth; the story score itself is not a calibrated
+probability.
 """
 
 from __future__ import annotations
@@ -30,6 +33,20 @@ WEIGHTS = {
 
 @dataclass
 class ConfidenceBreakdown:
+    """Every term of a story/chain confidence score, for the report and the UI.
+
+    Attributes
+    ----------
+    reliability, corroboration, temporal_fit, edge_strength
+        The four weighted terms, each in [0, 1].
+    penalty
+        Multiplicative tampering penalty (1.0 = none, floored at 0.5).
+    score
+        ``penalty * sum(WEIGHTS[k] * term_k)``.
+    grade
+        ``score`` mapped through the hand-set cut-offs.
+    """
+
     reliability: float
     corroboration: float
     temporal_fit: float
@@ -57,6 +74,21 @@ def _corroboration_factor(distinct_sources: int) -> float:
 
 
 def score_chain(chain: ProvenanceChain | IncidentStory, graph: ProvenanceGraph) -> ConfidenceBreakdown:
+    """Score a chain or story against the provenance graph it came from.
+
+    Parameters
+    ----------
+    chain
+        A path-view chain or an incident story (its ``event_ids``, ``edges`` and
+        ``tampering_flags`` are read).
+    graph
+        The graph holding the events, used for reliability and corroborating sources.
+
+    Returns
+    -------
+    ConfidenceBreakdown
+        All terms plus the final score and grade.
+    """
     events = [graph.get_event(eid) for eid in chain.event_ids]
     events = [e for e in events if e is not None]
 
@@ -100,7 +132,8 @@ def score_chain(chain: ProvenanceChain | IncidentStory, graph: ProvenanceGraph) 
     )
 
 
-def apply_score(chain, graph: ProvenanceGraph):
+def apply_score(chain: ProvenanceChain | IncidentStory, graph: ProvenanceGraph) -> ProvenanceChain | IncidentStory:
+    """Compute `score_chain` and store the score and grade on ``chain`` (returned)."""
     b = score_chain(chain, graph)
     chain.confidence_score = b.score
     chain.grade = b.grade

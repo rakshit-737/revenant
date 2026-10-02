@@ -3,7 +3,7 @@
 The input is the *flattened* shape shared by every Windows source REVENANT
 reads: ``EventID``, ``Channel``, ``Hostname``/``Computer`` plus the EventData
 fields at top level. That is exactly what OTRF Security-Datasets ship (JSON
-lines exported by Logstash/NXLog), and what :mod:`revenant.parsers.evtx`
+lines exported by Logstash/NXLog), and what `revenant.parsers.evtx`
 produces from raw ``.evtx`` files via python-evtx.
 
 Coverage (deliberately the evidence types the causal rules consume):
@@ -100,7 +100,7 @@ def _proc(rec: dict[str, Any], pid_field: str, image_field: str) -> str:
 def map_windows_event(
     rec: dict[str, Any], timestamp: datetime, *, include_noisy: bool = False
 ) -> Event | None:
-    """Map one flattened Windows event to an :class:`Event` (or ``None``)."""
+    """Map one flattened Windows event to an `Event` (or ``None``)."""
     kind = channel_kind(rec)
     if kind is None:
         return None

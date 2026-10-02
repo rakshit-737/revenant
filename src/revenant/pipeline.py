@@ -2,10 +2,10 @@
 
 Two entry points share one engine:
 
-* :func:`run` -- legacy v0.1 API over raw ``(kind, record)`` tuples (synthetic
+* `run` -- legacy v0.1 API over raw ``(kind, record)`` tuples (synthetic
   scenarios, hand-written fixtures).
-* :func:`analyze_paths` / :func:`analyze_events` -- real artefacts (OTRF JSON,
-  ``.evtx``, plaso, Volatility, auth.log) loaded by :mod:`revenant.parsers`.
+* `analyze_paths` / `analyze_events` -- real artefacts (OTRF JSON,
+  ``.evtx``, plaso, Volatility, auth.log) loaded by `revenant.parsers`.
 
 Stages: ingest + integrity hashing -> custody ledger -> provenance graph ->
 cross-artefact fusion (corroboration) -> causal rules -> anti-forensics scan
@@ -148,7 +148,7 @@ def analyze_paths(
 
     Loader options (``year`` and ``utc_offset_hours`` for auth.log, ``host``
     for Volatility output) are routed to the parsers; everything else goes to
-    :func:`analyze_events`.
+    `analyze_events`.
     """
     from .parsers import LoadStats, load_path
 

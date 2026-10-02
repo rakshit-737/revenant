@@ -9,8 +9,9 @@ non-zero if the scripted sequence was not reconstructed. Two kinds of check:
 2. **Kernel ground truth** -- every process-start and effect edge the engine
    inferred is compared with auditd's own ``pid``/``ppid`` fields: the true
    cause of an event is the most recent ``execve`` of that PID before it.
-   The engine never reads ``ppid`` directly for effects, and its keys include
-   the image name, so this measures the rule engine, not the parser.
+   The parser derives each process start's parent from the same ``ppid``
+   field, so this is a near-circular *consistency* check of the end-to-end
+   path (parser + rule engine), not an independent accuracy measurement.
 """
 
 from __future__ import annotations

@@ -3,12 +3,12 @@
 =================  =========================================  ==================
 kind               input                                      module
 =================  =========================================  ==================
-``otrf``           OTRF/Mordor JSON-lines Windows event logs  :mod:`.otrf`
-``evtx``           raw ``.evtx`` (python-evtx)                :mod:`.evtx`
-``plaso``          psort ``json_line`` or ``l2tcsv``          :mod:`.plaso`
-``volatility``     dir of Volatility 3 ``-r json`` outputs    :mod:`.volatility`
-``authlog``        Linux auth.log / secure                    :mod:`.authlog`
-``auditd``         Linux auditd audit.log (raw records)       :mod:`.auditd`
+``otrf``           OTRF/Mordor JSON-lines Windows event logs  `.otrf`
+``evtx``           raw ``.evtx`` (python-evtx)                `.evtx`
+``plaso``          psort ``json_line`` or ``l2tcsv``          `.plaso`
+``volatility``     dir of Volatility 3 ``-r json`` outputs    `.volatility`
+``authlog``        Linux auth.log / secure                    `.authlog`
+``auditd``         Linux auditd audit.log (raw records)       `.auditd`
 =================  =========================================  ==================
 """
 

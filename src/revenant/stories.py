@@ -4,7 +4,7 @@ v0.1 enumerated every simple root-to-leaf path. On a real host that explodes
 (explorer.exe alone has thousands of descendants), and a single path is not
 how an analyst writes up an incident anyway. v0.2 reconstructs **stories**:
 
-1. Every event gets an ATT&CK-tagged *suspicion* score (:mod:`revenant.attack`).
+1. Every event gets an ATT&CK-tagged *suspicion* score (`revenant.attack`).
 2. Each suspicious event (a *seed*) is walked up its causal ancestry to the
    top-most ancestor that is **not** part of the operating system's own
    process skeleton (services.exe, svchost.exe, explorer.exe, ...). That
@@ -30,7 +30,7 @@ from dataclasses import dataclass
 
 from .antiforensics import CHAIN_PENALISING
 from .attack import TACTICS, EventTags, score_events
-from .confidence import score_chain
+from .confidence import ConfidenceBreakdown, score_chain
 from .entities import image_key, split_process_ref
 from .graph import ProvenanceGraph
 from .models import (
@@ -264,7 +264,7 @@ def reconstruct_stories(
     return stories[: cfg.max_stories]
 
 
-def story_breakdown(story: IncidentStory, graph: ProvenanceGraph):
+def story_breakdown(story: IncidentStory, graph: ProvenanceGraph) -> ConfidenceBreakdown:
     """Confidence breakdown of a story.
 
     Only evidence-undermining indicators (timestomp, hash mismatch, clock

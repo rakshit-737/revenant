@@ -56,7 +56,7 @@ def to_dict(analysis: Analysis, *, top: int = 20, include_all_events: bool = Fal
     Parameters
     ----------
     analysis
-        Result of :func:`revenant.pipeline.run` or :func:`revenant.pipeline.analyze_paths`.
+        Result of `revenant.pipeline.run` or `revenant.pipeline.analyze_paths`.
     top
         Number of ranked stories to include.
     include_all_events

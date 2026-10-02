@@ -2,7 +2,7 @@
 
 Supports a small set of source shapes (Sysmon-like, auth logs, a generic
 plaso-style row). The goal is not exhaustive parser coverage (Grade B/C, see
-TODO) but a defensible common schema onto which real parsers can map.
+see the parsers package) but a defensible common schema onto which real parsers can map.
 """
 
 from __future__ import annotations

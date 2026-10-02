@@ -5,9 +5,9 @@ guarantees for a single examiner workstation with zero infrastructure:
 
 * ``BEFORE UPDATE`` / ``BEFORE DELETE`` triggers abort any attempt to rewrite
   history through SQL;
-* every row still carries the hash chain from :class:`CustodyLedger`, so an
+* every row still carries the hash chain from `CustodyLedger`, so an
   edit made *around* SQLite (hex-editing the file) is caught by
-  :func:`verify_store`.
+  `verify_store`.
 
 The same schema ports to PostgreSQL unchanged apart from the trigger syntax
 (see docs/adr/0005-custody-ledger.md).
