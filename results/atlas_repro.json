@@ -1,0 +1,1327 @@
+{
+ "benchmark": "atlas_reproduction",
+ "paper": {
+  "entity": {
+   "precision": 0.9106,
+   "recall": 0.9729,
+   "f1": 0.9376
+  },
+  "event": {
+   "precision": 0.9988,
+   "recall": 0.9989,
+   "f1": 0.9988
+  },
+  "source": "Alsaheel et al., ATLAS, USENIX Security 2021 (abstract and Table 4)"
+ },
+ "source": {
+  "repo": "purseclab/ATLAS",
+  "commit": "e46096d1947e4f059e73a0ac2b9a9707812fd4bc"
+ },
+ "paper_vs_spreadsheet": {
+  "attacks": {
+   "S-1": {
+    "entity": {
+     "tp": 22,
+     "tn": 7445,
+     "fp": 0,
+     "fn": 0,
+     "total": 7467,
+     "relevant": 22,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "event": {
+     "tp": 4598,
+     "tn": 90467,
+     "fp": 0,
+     "fn": 0,
+     "total": 95065,
+     "relevant": 4598,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "S-2": {
+    "entity": {
+     "tp": 12,
+     "tn": 34006,
+     "fp": 2,
+     "fn": 0,
+     "total": 34020,
+     "relevant": 12,
+     "precision": 0.8571,
+     "recall": 1.0,
+     "f1": 0.9231
+    },
+    "event": {
+     "tp": 15073,
+     "tn": 382876,
+     "fp": 3,
+     "fn": 0,
+     "total": 397952,
+     "relevant": 15073,
+     "precision": 0.9998,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "S-3": {
+    "entity": {
+     "tp": 24,
+     "tn": 8972,
+     "fp": 0,
+     "fn": 2,
+     "total": 8998,
+     "relevant": 26,
+     "precision": 1.0,
+     "recall": 0.9231,
+     "f1": 0.96
+    },
+    "event": {
+     "tp": 5155,
+     "tn": 123152,
+     "fp": 0,
+     "fn": 10,
+     "total": 128317,
+     "relevant": 5165,
+     "precision": 1.0,
+     "recall": 0.9981,
+     "f1": 0.999
+    }
+   },
+   "S-4": {
+    "entity": {
+     "tp": 21,
+     "tn": 13011,
+     "fp": 5,
+     "fn": 0,
+     "total": 13037,
+     "relevant": 21,
+     "precision": 0.8077,
+     "recall": 1.0,
+     "f1": 0.8936
+    },
+    "event": {
+     "tp": 18062,
+     "tn": 107506,
+     "fp": 45,
+     "fn": 0,
+     "total": 125613,
+     "relevant": 18062,
+     "precision": 0.9975,
+     "recall": 1.0,
+     "f1": 0.9988
+    }
+   },
+   "M-1": {
+    "entity": {
+     "tp": 28,
+     "tn": 17562,
+     "fp": 3,
+     "fn": 0,
+     "total": 17593,
+     "relevant": 28,
+     "precision": 0.9032,
+     "recall": 1.0,
+     "f1": 0.9492
+    },
+    "event": {
+     "tp": 8168,
+     "tn": 243504,
+     "fp": 3,
+     "fn": 0,
+     "total": 251675,
+     "relevant": 8168,
+     "precision": 0.9996,
+     "recall": 1.0,
+     "f1": 0.9998
+    }
+   },
+   "M-2": {
+    "entity": {
+     "tp": 36,
+     "tn": 24445,
+     "fp": 5,
+     "fn": 0,
+     "total": 24486,
+     "relevant": 36,
+     "precision": 0.878,
+     "recall": 1.0,
+     "f1": 0.9351
+    },
+    "event": {
+     "tp": 34956,
+     "tn": 249316,
+     "fp": 49,
+     "fn": 0,
+     "total": 284321,
+     "relevant": 34956,
+     "precision": 0.9986,
+     "recall": 1.0,
+     "f1": 0.9993
+    }
+   },
+   "M-3": {
+    "entity": {
+     "tp": 35,
+     "tn": 24423,
+     "fp": 1,
+     "fn": 1,
+     "total": 24460,
+     "relevant": 36,
+     "precision": 0.9722,
+     "recall": 0.9722,
+     "f1": 0.9722
+    },
+    "event": {
+     "tp": 34978,
+     "tn": 299147,
+     "fp": 10,
+     "fn": 1,
+     "total": 334136,
+     "relevant": 34979,
+     "precision": 0.9997,
+     "recall": 1.0,
+     "f1": 0.9998
+    }
+   },
+   "M-4": {
+    "entity": {
+     "tp": 24,
+     "tn": 15378,
+     "fp": 0,
+     "fn": 4,
+     "total": 15406,
+     "relevant": 28,
+     "precision": 1.0,
+     "recall": 0.8571,
+     "f1": 0.9231
+    },
+    "event": {
+     "tp": 8161,
+     "tn": 250512,
+     "fp": 0,
+     "fn": 75,
+     "total": 258748,
+     "relevant": 8236,
+     "precision": 1.0,
+     "recall": 0.9909,
+     "f1": 0.9954
+    }
+   },
+   "M-5": {
+    "entity": {
+     "tp": 30,
+     "tn": 35665,
+     "fp": 6,
+     "fn": 0,
+     "total": 35701,
+     "relevant": 30,
+     "precision": 0.8333,
+     "recall": 1.0,
+     "f1": 0.9091
+    },
+    "event": {
+     "tp": 34175,
+     "tn": 667329,
+     "fp": 8,
+     "fn": 0,
+     "total": 701512,
+     "relevant": 34175,
+     "precision": 0.9998,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "M-6": {
+    "entity": {
+     "tp": 41,
+     "tn": 19573,
+     "fp": 7,
+     "fn": 1,
+     "total": 19622,
+     "relevant": 42,
+     "precision": 0.8542,
+     "recall": 0.9762,
+     "f1": 0.9111
+    },
+    "event": {
+     "tp": 9993,
+     "tn": 343959,
+     "fp": 75,
+     "fn": 1,
+     "total": 354028,
+     "relevant": 9994,
+     "precision": 0.9926,
+     "recall": 0.9999,
+     "f1": 0.9962
+    }
+   }
+  },
+  "n_attacks": 10,
+  "entity_macro": {
+   "precision": 0.9106,
+   "recall": 0.9729,
+   "f1": 0.9376
+  },
+  "entity_micro": {
+   "precision": 0.904,
+   "recall": 0.9715,
+   "f1": 0.9365
+  },
+  "entity_macro_minus_paper": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0
+  },
+  "event_macro": {
+   "precision": 0.9988,
+   "recall": 0.9989,
+   "f1": 0.9988
+  },
+  "event_micro": {
+   "precision": 0.9989,
+   "recall": 0.9995,
+   "f1": 0.9992
+  },
+  "event_macro_minus_paper": {
+   "precision": 0.0,
+   "recall": 0.0,
+   "f1": 0.0
+  }
+ },
+ "released_outputs": {
+  "M1/h1/output/eval_seq_graph_testing_preprocessed_logs_M1-CVE-2015-5122_windows_h1.dot.txt.json": {
+   "experiment": "M1/h1",
+   "dataset": "M1-CVE-2015-5122_windows_h1",
+   "events": 121114,
+   "sequences": 1405,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "payload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M1/h2/output/eval_seq_graph_testing_preprocessed_logs_M1-CVE-2015-5122_windows_h1.dot.txt.json": {
+   "experiment": "M1/h2",
+   "dataset": "M1-CVE-2015-5122_windows_h1",
+   "events": 121114,
+   "sequences": 1405,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "payload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M1/h2/output/eval_seq_graph_testing_preprocessed_logs_M1-CVE-2015-5122_windows_h2.dot.txt.json": {
+   "experiment": "M1/h2",
+   "dataset": "M1-CVE-2015-5122_windows_h2",
+   "events": 130561,
+   "sequences": 670,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "8.249.107.254",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/temporaryinternetfiles/counters.dat",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 2,
+   "entity_fn": 0
+  },
+  "M2/h1/output/eval_seq_graph_testing_preprocessed_logs_M2-CVE-2015-5119_windows_py_h1.dot.txt.json": {
+   "experiment": "M2/h1",
+   "dataset": "M2-CVE-2015-5119_windows_py_h1",
+   "events": 145741,
+   "sequences": 1293,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "NOPROCESSNAME_1784",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 1,
+   "entity_fn": 0
+  },
+  "M2/h2/output/eval_seq_graph_testing_preprocessed_logs_M2-CVE-2015-5119_windows_py_h1.dot.txt.json": {
+   "experiment": "M2/h2",
+   "dataset": "M2-CVE-2015-5119_windows_py_h1",
+   "events": 145741,
+   "sequences": 1293,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "NOPROCESSNAME_1784",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 1,
+   "entity_fn": 0
+  },
+  "M2/h2/output/eval_seq_graph_testing_preprocessed_logs_M2-CVE-2015-5119_windows_py_h2.dot.txt.json": {
+   "experiment": "M2/h2",
+   "dataset": "M2-CVE-2015-5119_windows_py_h2",
+   "events": 138651,
+   "sequences": 610,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "23.62.239.24",
+    "c:/users/aalsahee/appdata/roaming/mozilla/firefox/profiles/a6gl280b.default/datareporting/archived/2018-12",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "pypayload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 2,
+   "entity_fn": 0
+  },
+  "M3/h1/output/eval_seq_graph_testing_preprocessed_logs_M3-CVE-2015-3105_windows_py_h1.dot.txt.json": {
+   "experiment": "M3/h1",
+   "dataset": "M3-CVE-2015-3105_windows_py_h1",
+   "events": 138948,
+   "sequences": 689,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "aalsahee/pypayload.exe",
+    "c:/users/aalsahee/appdata/local/temp/ndf8239.tmp"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 2,
+   "entity_fn": 1
+  },
+  "M3/h2/output/eval_seq_graph_testing_preprocessed_logs_M3-CVE-2015-3105_windows_py_h1.dot.txt.json": {
+   "experiment": "M3/h2",
+   "dataset": "M3-CVE-2015-3105_windows_py_h1",
+   "events": 138948,
+   "sequences": 689,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "aalsahee/pypayload.exe",
+    "c:/users/aalsahee/appdata/local/temp/ndf8239.tmp"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "pypayload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 2,
+   "entity_fn": 1
+  },
+  "M3/h2/output/eval_seq_graph_testing_preprocessed_logs_M3-CVE-2015-3105_windows_py_h2.dot.txt.json": {
+   "experiment": "M3/h2",
+   "dataset": "M3-CVE-2015-3105_windows_py_h2",
+   "events": 195395,
+   "sequences": 644,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "pypayload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M4/h1/output/eval_seq_graph_testing_preprocessed_logs_M4-CVE_2018_8174_windows_h1.dot.txt.json": {
+   "experiment": "M4/h1",
+   "dataset": "M4-CVE_2018_8174_windows_h1",
+   "events": 142266,
+   "sequences": 774,
+   "predicted_entities": [],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf_2018_8174.rtf",
+    "payload.exe"
+   ],
+   "entity_tp": 0,
+   "entity_fp": 0,
+   "entity_fn": 5
+  },
+  "M4/h2/output/eval_seq_graph_testing_preprocessed_logs_M4-CVE_2018_8174_windows_h1.dot.txt.json": {
+   "experiment": "M4/h2",
+   "dataset": "M4-CVE_2018_8174_windows_h1",
+   "events": 142266,
+   "sequences": 774,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf_2018_8174.rtf",
+    "payload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 0,
+   "entity_fn": 1
+  },
+  "M4/h2/output/eval_seq_graph_testing_preprocessed_logs_M4-CVE_2018_8174_windows_h2.dot.txt.json": {
+   "experiment": "M4/h2",
+   "dataset": "M4-CVE_2018_8174_windows_h2",
+   "events": 116484,
+   "sequences": 573,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M5/h1/output/eval_seq_graph_testing_preprocessed_logs_M5-CVE-2017-0199_windows_py_h1.dot.txt.json": {
+   "experiment": "M5/h1",
+   "dataset": "M5-CVE-2017-0199_windows_py_h1",
+   "events": 573853,
+   "sequences": 1396,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "entity_tp": 5,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M5/h2/output/eval_seq_graph_testing_preprocessed_logs_M5-CVE-2017-0199_windows_py_h1.dot.txt.json": {
+   "experiment": "M5/h2",
+   "dataset": "M5-CVE-2017-0199_windows_py_h1",
+   "events": 573853,
+   "sequences": 1396,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "entity_tp": 5,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "M5/h2/output/eval_seq_graph_testing_preprocessed_logs_M5-CVE-2017-0199_windows_py_h2.dot.txt.json": {
+   "experiment": "M5/h2",
+   "dataset": "M5-CVE-2017-0199_windows_py_h2",
+   "events": 127659,
+   "sequences": 600,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "172.217.0.2",
+    "192.168.223.3",
+    "52.35.247.242",
+    "54.201.132.73",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "pypayload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 3,
+   "entity_fn": 0
+  },
+  "M6/h1/output/eval_seq_graph_testing_preprocessed_logs_M6-CVE-2017-11882_windows_h1.dot.txt.json": {
+   "experiment": "M6/h1",
+   "dataset": "M6-CVE-2017-11882_windows_h1",
+   "events": 156525,
+   "sequences": 933,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/cversions.1.db",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/{afbf9f1a-8ee8-4c77-af34-c647e37ca0d9}.1.ver0x0000000000000014.db",
+    "c:/users/aalsahee/appdata/locallow/microsoft/cryptneturlcache/metadata/94308059b57b3142e455b38a6eb92015",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.exe",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "entity_tp": 5,
+   "entity_fp": 3,
+   "entity_fn": 1
+  },
+  "M6/h2/output/eval_seq_graph_testing_preprocessed_logs_M6-CVE-2017-11882_windows_h1.dot.txt.json": {
+   "experiment": "M6/h2",
+   "dataset": "M6-CVE-2017-11882_windows_h1",
+   "events": 156525,
+   "sequences": 933,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/cversions.1.db",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/{afbf9f1a-8ee8-4c77-af34-c647e37ca0d9}.1.ver0x0000000000000014.db",
+    "c:/users/aalsahee/appdata/locallow/microsoft/cryptneturlcache/metadata/94308059b57b3142e455b38a6eb92015",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.exe",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "entity_tp": 5,
+   "entity_fp": 3,
+   "entity_fn": 1
+  },
+  "M6/h2/output/eval_seq_graph_testing_preprocessed_logs_M6-CVE-2017-11882_windows_h2.dot.txt.json": {
+   "experiment": "M6/h2",
+   "dataset": "M6-CVE-2017-11882_windows_h2",
+   "events": 197503,
+   "sequences": 785,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "13.107.4.50",
+    "192.168.223.3",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/cversions.1.db",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/caches/{afbf9f1a-8ee8-4c77-af34-c647e37ca0d9}.1.ver0x0000000000000015.db",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 3,
+   "entity_fn": 0
+  },
+  "S1/output/eval_seq_graph_testing_preprocessed_logs_S1-CVE-2015-5122_windows.dot.txt.json": {
+   "experiment": "S1",
+   "dataset": "S1-CVE-2015-5122_windows",
+   "events": 95065,
+   "sequences": 652,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 0,
+   "entity_fn": 0
+  },
+  "S2/output/eval_seq_graph_testing_preprocessed_logs_S2-CVE-2015-3105_windows.dot.txt.json": {
+   "experiment": "S2",
+   "dataset": "S2-CVE-2015-3105_windows",
+   "events": 397952,
+   "sequences": 2162,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "205.185.216.10",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "payload.exe"
+   ],
+   "entity_tp": 3,
+   "entity_fp": 1,
+   "entity_fn": 0
+  },
+  "S3/output/eval_seq_graph_testing_preprocessed_logs_S3-CVE-2017-11882_windows.dot.txt.json": {
+   "experiment": "S3",
+   "dataset": "S3-CVE-2017-11882_windows",
+   "events": 128317,
+   "sequences": 752,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.exe",
+    "msf.rtf",
+    "payload.exe"
+   ],
+   "entity_tp": 4,
+   "entity_fp": 0,
+   "entity_fn": 2
+  },
+  "S4/output/eval_seq_graph_testing_preprocessed_logs_S4-CVE-2017-0199_windows_py.dot.txt.json": {
+   "experiment": "S4",
+   "dataset": "S4-CVE-2017-0199_windows_py",
+   "events": 125613,
+   "sequences": 897,
+   "predicted_entities": [
+    "0xalsaheel.com",
+    "128.210.210.80",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "c:/users/aalsahee/appdata/local/microsoft/windows/temporaryinternetfiles/content.word/~wrf{acf97fcb-2b09-4e80-b817-bda9dcbbf0ba}.tmp",
+    "c:/users/aalsahee/appdata/locallow/microsoft/cryptneturlcache/content/94308059b57b3142e455b38a6eb92015",
+    "c:/users/aalsahee/appdata/locallow/microsoft/cryptneturlcache/metadata/94308059b57b3142e455b38a6eb92015",
+    "c:/users/aalsahee/appdata/roaming/microsoft/office/recent/index.dat",
+    "c:/users/aalsahee/appdata/roaming/microsoft/templates/normal.dotm",
+    "c:/users/aalsahee/appdata/roaming/microsoft/windows/recent/customdestinations/d5p9sm9hisdwiwssoctb.temp",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "malicious_entities": [
+    "0xalsaheel.com",
+    "192.168.223.3",
+    "aalsahee/index.html",
+    "msf.doc",
+    "pypayload.exe"
+   ],
+   "entity_tp": 5,
+   "entity_fp": 7,
+   "entity_fn": 0
+  }
+ },
+ "event_totals_match_spreadsheet": {
+  "M-1": {
+   "released_events": 251675,
+   "sheet_events": 251675,
+   "match": true
+  },
+  "M-2": {
+   "released_events": 284392,
+   "sheet_events": 284321,
+   "match": false
+  },
+  "M-3": {
+   "released_events": 334343,
+   "sheet_events": 334136,
+   "match": false
+  },
+  "M-4": {
+   "released_events": 258750,
+   "sheet_events": 258748,
+   "match": false
+  },
+  "M-5": {
+   "released_events": 701512,
+   "sheet_events": 701512,
+   "match": true
+  },
+  "M-6": {
+   "released_events": 354028,
+   "sheet_events": 354028,
+   "match": true
+  },
+  "S-1": {
+   "released_events": 95065,
+   "sheet_events": 95065,
+   "match": true
+  },
+  "S-2": {
+   "released_events": 397952,
+   "sheet_events": 397952,
+   "match": true
+  },
+  "S-3": {
+   "released_events": 128317,
+   "sheet_events": 128317,
+   "match": true
+  },
+  "S-4": {
+   "released_events": 125613,
+   "sheet_events": 125613,
+   "match": true
+  }
+ },
+ "evaluate_py_logs": {
+  "M1_h1": {
+   "counts": {
+    "entity": {
+     "tp": 9,
+     "tn": 1396,
+     "fp": 0,
+     "fn": 0
+    },
+    "event": {
+     "tp": 4023,
+     "tn": 117091,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M1_h2": {
+   "counts": {
+    "entity": {
+     "tp": 16,
+     "tn": 2056,
+     "fp": 3,
+     "fn": 0
+    },
+    "event": {
+     "tp": 8180,
+     "tn": 243494,
+     "fp": 1,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M2_h1": {
+   "counts": {
+    "entity": {
+     "tp": 15,
+     "tn": 1277,
+     "fp": 1,
+     "fn": 0
+    },
+    "event": {
+     "tp": 17887,
+     "tn": 127854,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M2_h2": {
+   "counts": {
+    "entity": {
+     "tp": 25,
+     "tn": 1873,
+     "fp": 5,
+     "fn": 0
+    },
+    "event": {
+     "tp": 34968,
+     "tn": 249375,
+     "fp": 49,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M3_h1": {
+   "counts": {
+    "entity": {
+     "tp": 11,
+     "tn": 676,
+     "fp": 1,
+     "fn": 1
+    },
+    "event": {
+     "tp": 18106,
+     "tn": 120832,
+     "fp": 10,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M3_h2": {
+   "counts": {
+    "entity": {
+     "tp": 23,
+     "tn": 1308,
+     "fp": 1,
+     "fn": 1
+    },
+    "event": {
+     "tp": 35198,
+     "tn": 299135,
+     "fp": 10,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M4_h1": {
+   "counts": {},
+   "ok": false,
+   "tail": "read from : output/eval_seq_graph_testing_preprocessed_logs_M4-CVE_2018_8174_windows_h1.dot.txt.json\nERROR: Please add the cleaned predicted entities for abstracted and raw logs.\n"
+  },
+  "M4_h2": {
+   "counts": {
+    "entity": {
+     "tp": 17,
+     "tn": 1326,
+     "fp": 0,
+     "fn": 4
+    },
+    "event": {
+     "tp": 8173,
+     "tn": 250502,
+     "fp": 0,
+     "fn": 75
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M5_h1": {
+   "counts": {
+    "entity": {
+     "tp": 16,
+     "tn": 1380,
+     "fp": 0,
+     "fn": 0
+    },
+    "event": {
+     "tp": 17207,
+     "tn": 556646,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M5_h2": {
+   "counts": {
+    "entity": {
+     "tp": 26,
+     "tn": 1964,
+     "fp": 6,
+     "fn": 0
+    },
+    "event": {
+     "tp": 34256,
+     "tn": 667248,
+     "fp": 8,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M6_h1": {
+   "counts": {
+    "entity": {
+     "tp": 18,
+     "tn": 911,
+     "fp": 3,
+     "fn": 1
+    },
+    "event": {
+     "tp": 5808,
+     "tn": 150666,
+     "fp": 46,
+     "fn": 5
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "M6_h2": {
+   "counts": {
+    "entity": {
+     "tp": 28,
+     "tn": 1682,
+     "fp": 7,
+     "fn": 1
+    },
+    "event": {
+     "tp": 9999,
+     "tn": 343949,
+     "fp": 75,
+     "fn": 5
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "S1": {
+   "counts": {
+    "entity": {
+     "tp": 11,
+     "tn": 641,
+     "fp": 0,
+     "fn": 0
+    },
+    "event": {
+     "tp": 4598,
+     "tn": 90467,
+     "fp": 0,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "S2": {
+   "counts": {
+    "entity": {
+     "tp": 7,
+     "tn": 2153,
+     "fp": 2,
+     "fn": 0
+    },
+    "event": {
+     "tp": 15073,
+     "tn": 382876,
+     "fp": 3,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "S3": {
+   "counts": {
+    "entity": {
+     "tp": 17,
+     "tn": 733,
+     "fp": 0,
+     "fn": 2
+    },
+    "event": {
+     "tp": 5162,
+     "tn": 123145,
+     "fp": 0,
+     "fn": 10
+    }
+   },
+   "ok": true,
+   "tail": ""
+  },
+  "S4": {
+   "counts": {
+    "entity": {
+     "tp": 16,
+     "tn": 876,
+     "fp": 5,
+     "fn": 0
+    },
+    "event": {
+     "tp": 18071,
+     "tn": 107497,
+     "fp": 45,
+     "fn": 0
+    }
+   },
+   "ok": true,
+   "tail": ""
+  }
+ },
+ "evaluate_py_rerun": {
+  "attacks": {
+   "S-1": {
+    "entity": {
+     "tp": 11,
+     "tn": 641,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    },
+    "event": {
+     "tp": 4598,
+     "tn": 90467,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0
+    }
+   },
+   "S-2": {
+    "entity": {
+     "tp": 7,
+     "tn": 2153,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.7778,
+     "recall": 1.0,
+     "f1": 0.875
+    },
+    "event": {
+     "tp": 15073,
+     "tn": 382876,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.9998,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "S-3": {
+    "entity": {
+     "tp": 17,
+     "tn": 733,
+     "fp": 0,
+     "fn": 2,
+     "precision": 1.0,
+     "recall": 0.8947,
+     "f1": 0.9444
+    },
+    "event": {
+     "tp": 5162,
+     "tn": 123145,
+     "fp": 0,
+     "fn": 10,
+     "precision": 1.0,
+     "recall": 0.9981,
+     "f1": 0.999
+    }
+   },
+   "S-4": {
+    "entity": {
+     "tp": 16,
+     "tn": 876,
+     "fp": 5,
+     "fn": 0,
+     "precision": 0.7619,
+     "recall": 1.0,
+     "f1": 0.8649
+    },
+    "event": {
+     "tp": 18071,
+     "tn": 107497,
+     "fp": 45,
+     "fn": 0,
+     "precision": 0.9975,
+     "recall": 1.0,
+     "f1": 0.9988
+    }
+   },
+   "M-1": {
+    "entity": {
+     "tp": 16,
+     "tn": 2056,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.8421,
+     "recall": 1.0,
+     "f1": 0.9143
+    },
+    "event": {
+     "tp": 8180,
+     "tn": 243494,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.9999,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "M-2": {
+    "entity": {
+     "tp": 25,
+     "tn": 1873,
+     "fp": 5,
+     "fn": 0,
+     "precision": 0.8333,
+     "recall": 1.0,
+     "f1": 0.9091
+    },
+    "event": {
+     "tp": 34968,
+     "tn": 249375,
+     "fp": 49,
+     "fn": 0,
+     "precision": 0.9986,
+     "recall": 1.0,
+     "f1": 0.9993
+    }
+   },
+   "M-3": {
+    "entity": {
+     "tp": 23,
+     "tn": 1308,
+     "fp": 1,
+     "fn": 1,
+     "precision": 0.9583,
+     "recall": 0.9583,
+     "f1": 0.9583
+    },
+    "event": {
+     "tp": 35198,
+     "tn": 299135,
+     "fp": 10,
+     "fn": 0,
+     "precision": 0.9997,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "M-4": {
+    "entity": {
+     "tp": 17,
+     "tn": 1326,
+     "fp": 0,
+     "fn": 4,
+     "precision": 1.0,
+     "recall": 0.8095,
+     "f1": 0.8947
+    },
+    "event": {
+     "tp": 8173,
+     "tn": 250502,
+     "fp": 0,
+     "fn": 75,
+     "precision": 1.0,
+     "recall": 0.9909,
+     "f1": 0.9954
+    }
+   },
+   "M-5": {
+    "entity": {
+     "tp": 26,
+     "tn": 1964,
+     "fp": 6,
+     "fn": 0,
+     "precision": 0.8125,
+     "recall": 1.0,
+     "f1": 0.8966
+    },
+    "event": {
+     "tp": 34256,
+     "tn": 667248,
+     "fp": 8,
+     "fn": 0,
+     "precision": 0.9998,
+     "recall": 1.0,
+     "f1": 0.9999
+    }
+   },
+   "M-6": {
+    "entity": {
+     "tp": 28,
+     "tn": 1682,
+     "fp": 7,
+     "fn": 1,
+     "precision": 0.8,
+     "recall": 0.9655,
+     "f1": 0.875
+    },
+    "event": {
+     "tp": 9999,
+     "tn": 343949,
+     "fp": 75,
+     "fn": 5,
+     "precision": 0.9926,
+     "recall": 0.9995,
+     "f1": 0.996
+    }
+   }
+  },
+  "n_attacks": 10,
+  "entity_macro": {
+   "precision": 0.8786,
+   "recall": 0.9628,
+   "f1": 0.9132
+  },
+  "event_macro": {
+   "precision": 0.9988,
+   "recall": 0.9989,
+   "f1": 0.9988
+  }
+ },
+ "note": "Produced by the atlas-repro workflow (run 36999888660); evaluate_py_* re-parsed from its eval_logs artefact."
+}

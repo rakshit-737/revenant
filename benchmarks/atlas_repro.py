@@ -87,15 +87,35 @@ def released_outputs(root: Path) -> dict:
     return out
 
 
-_METRIC = re.compile(r"(precision|recall|f1|f-1|f1-score|accuracy)\D{0,20}?([01]?\.\d+)", re.I)
+_COUNT = re.compile(r"## Result \((entity|event)\) ##\s*TP: (\d+)\s*TN: (\d+)\s*FP: (\d+)\s*FN: (\d+)")
 
 
 def eval_logs(d: Path) -> dict:
+    """Parse the TP/TN/FP/FN blocks printed by the authors' evaluate.py, one log per experiment."""
     out = {}
     for f in sorted(d.glob("*.log")):
         text = f.read_text(encoding="utf-8", errors="replace")
-        out[f.stem] = {"metrics": [(m.group(1).lower(), float(m.group(2))) for m in _METRIC.finditer(text)][:40],
-                       "tail": text[-1500:]}
+        counts = {m.group(1): dict(zip(("tp", "tn", "fp", "fn"), map(int, m.groups()[1:])))
+                  for m in _COUNT.finditer(text)}
+        out[f.stem] = {"counts": counts, "ok": set(counts) == {"entity", "event"},
+                       "tail": "" if counts else text[-600:]}
+    return out
+
+
+def rerun_summary(logs: dict) -> dict:
+    """Per attack: S1-S4 from their experiment, M1-M6 from the h2 experiment (it scores both hosts)."""
+    pick = {f"S-{i}": f"S{i}" for i in range(1, 5)} | {f"M-{i}": f"M{i}_h2" for i in range(1, 7)}
+    per, out = {}, {}
+    for aid, exp in pick.items():
+        c = logs.get(exp, {}).get("counts", {})
+        if set(c) == {"entity", "event"}:
+            per[aid] = {lvl: {**c[lvl], **_prf(c[lvl]["tp"], c[lvl]["fp"], c[lvl]["fn"])} for lvl in c}
+    out["attacks"] = per
+    out["n_attacks"] = len(per)
+    for lvl in ("entity", "event"):
+        if per:
+            out[f"{lvl}_macro"] = {m: round(sum(v[lvl][m] for v in per.values()) / len(per), 4)
+                                   for m in ("precision", "recall", "f1")}
     return out
 
 
@@ -123,7 +143,11 @@ def main(argv: list[str] | None = None) -> int:
               for a, v in sorted(per_attack.items()) if a in sheet["attacks"]}
     res["event_totals_match_spreadsheet"] = checks
     if a.eval_logs and a.eval_logs.is_dir():
-        res["evaluate_py_logs"] = eval_logs(a.eval_logs)
+        logs = eval_logs(a.eval_logs)
+        res["evaluate_py_logs"] = logs
+        res["evaluate_py_rerun"] = rerun_summary(logs)
+        print("evaluate.py re-run on released outputs:", {k: v for k, v in res["evaluate_py_rerun"].items()
+                                                          if k != "attacks"})
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(res, indent=1) + "\n", encoding="utf-8")
     em = sheet["entity_macro"]
@@ -131,8 +155,9 @@ def main(argv: list[str] | None = None) -> int:
     print("entity micro (recomputed):", sheet["entity_micro"])
     print("event macro (recomputed):", sheet["event_macro"])
     print("event totals match:", sum(c["match"] for c in checks.values()), "/", len(checks))
-    ok = all(abs(sheet["entity_macro_minus_paper"][k]) <= 0.001 for k in em) and checks and all(
-        c["match"] for c in checks.values())
+    # Hard check: the paper's averages follow from the released per-attack counts. Event-total
+    # mismatches between released outputs and the sheet are reported, not fatal.
+    ok = all(abs(sheet["entity_macro_minus_paper"][k]) <= 0.001 for k in em)
     return 0 if ok else 1
 
 

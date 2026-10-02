@@ -1,0 +1,451 @@
+{
+ "b1": {
+  "otrf_atomic": {
+   "captures_with_effects": 102,
+   "captures": 120,
+   "v01_exact_ref_join": {
+    "f1_ci95": [
+     0.1771,
+     0.3568
+    ],
+    "macro_f1": 0.3062
+   },
+   "v01_exact_ref_join_fused": {
+    "f1_ci95": [
+     0.1904,
+     0.425
+    ],
+    "macro_f1": 0.3956
+   },
+   "pid_nearest": {
+    "f1_ci95": [
+     0.5248,
+     0.9522
+    ],
+    "macro_f1": 0.6864
+   },
+   "pid_nearest_fused": {
+    "f1_ci95": [
+     0.5407,
+     0.9601
+    ],
+    "macro_f1": 0.737
+   },
+   "revenant": {
+    "f1_ci95": [
+     0.7971,
+     0.9764
+    ],
+    "macro_f1": 0.9312
+   },
+   "revenant_no_fallback": {
+    "f1_ci95": [
+     0.5468,
+     0.9641
+    ],
+    "macro_f1": 0.7449
+   },
+   "revenant_no_termination_guard": {
+    "f1_ci95": [
+     0.797,
+     0.9764
+    ],
+    "macro_f1": 0.9312
+   },
+   "revenant_no_image_in_key": {
+    "f1_ci95": [
+     0.7853,
+     0.9731
+    ],
+    "macro_f1": 0.9232
+   },
+   "revenant_no_fusion": {
+    "f1_ci95": [
+     0.6783,
+     0.9298
+    ],
+    "macro_f1": 0.6836
+   },
+   "revenant_minus_pid_nearest_fused_f1_ci95": [
+    0.0051,
+    0.2964
+   ],
+   "revenant_minus_no_fallback_f1_ci95": [
+    0.0021,
+    0.2872
+   ],
+   "top3_capture_share": 0.558
+  },
+  "otrf_apt29_day1": {
+   "captures_with_effects": 1,
+   "captures": 1,
+   "v01_exact_ref_join": {
+    "f1_ci95": [
+     0.2017,
+     0.2017
+    ],
+    "macro_f1": 0.2017
+   },
+   "v01_exact_ref_join_fused": {
+    "f1_ci95": [
+     0.2243,
+     0.2243
+    ],
+    "macro_f1": 0.2243
+   },
+   "pid_nearest": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "pid_nearest_fused": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fallback": {
+    "f1_ci95": [
+     0.9998,
+     0.9998
+    ],
+    "macro_f1": 0.9998
+   },
+   "revenant_no_termination_guard": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_image_in_key": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fusion": {
+    "f1_ci95": [
+     0.9931,
+     0.9931
+    ],
+    "macro_f1": 0.9931
+   },
+   "revenant_minus_pid_nearest_fused_f1_ci95": [
+    0.0,
+    0.0
+   ],
+   "revenant_minus_no_fallback_f1_ci95": [
+    0.0002,
+    0.0002
+   ],
+   "top3_capture_share": 1.0
+  },
+  "otrf_lsass_campaign": {
+   "captures_with_effects": 7,
+   "captures": 7,
+   "v01_exact_ref_join": {
+    "f1_ci95": [
+     0.3867,
+     0.5213
+    ],
+    "macro_f1": 0.4512
+   },
+   "v01_exact_ref_join_fused": {
+    "f1_ci95": [
+     0.4196,
+     0.6188
+    ],
+    "macro_f1": 0.5284
+   },
+   "pid_nearest": {
+    "f1_ci95": [
+     0.7509,
+     0.9839
+    ],
+    "macro_f1": 0.8591
+   },
+   "pid_nearest_fused": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant": {
+    "f1_ci95": [
+     0.9974,
+     0.9993
+    ],
+    "macro_f1": 0.9985
+   },
+   "revenant_no_fallback": {
+    "f1_ci95": [
+     0.9973,
+     0.9994
+    ],
+    "macro_f1": 0.9983
+   },
+   "revenant_no_termination_guard": {
+    "f1_ci95": [
+     0.9985,
+     1.0
+    ],
+    "macro_f1": 0.9993
+   },
+   "revenant_no_image_in_key": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fusion": {
+    "f1_ci95": [
+     0.5166,
+     0.9479
+    ],
+    "macro_f1": 0.7072
+   },
+   "revenant_minus_pid_nearest_fused_f1_ci95": [
+    -0.0026,
+    -0.0007
+   ],
+   "revenant_minus_no_fallback_f1_ci95": [
+    -0.0002,
+    0.0004
+   ],
+   "top3_capture_share": 0.606
+  },
+  "otrf_log4shell": {
+   "captures_with_effects": 1,
+   "captures": 1,
+   "v01_exact_ref_join": {
+    "f1_ci95": [
+     0.9974,
+     0.9974
+    ],
+    "macro_f1": 0.9974
+   },
+   "v01_exact_ref_join_fused": {
+    "f1_ci95": [
+     0.9974,
+     0.9974
+    ],
+    "macro_f1": 0.9974
+   },
+   "pid_nearest": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "pid_nearest_fused": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fallback": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_termination_guard": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_image_in_key": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fusion": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_minus_pid_nearest_fused_f1_ci95": [
+    0.0,
+    0.0
+   ],
+   "revenant_minus_no_fallback_f1_ci95": [
+    0.0,
+    0.0
+   ],
+   "top3_capture_share": 1.0
+  },
+  "otrf_apt29_day2": {
+   "captures_with_effects": 1,
+   "captures": 1,
+   "v01_exact_ref_join": {
+    "f1_ci95": [
+     0.1798,
+     0.1798
+    ],
+    "macro_f1": 0.1798
+   },
+   "v01_exact_ref_join_fused": {
+    "f1_ci95": [
+     0.1967,
+     0.1967
+    ],
+    "macro_f1": 0.1967
+   },
+   "pid_nearest": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "pid_nearest_fused": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fallback": {
+    "f1_ci95": [
+     0.9999,
+     0.9999
+    ],
+    "macro_f1": 0.9999
+   },
+   "revenant_no_termination_guard": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_image_in_key": {
+    "f1_ci95": [
+     1.0,
+     1.0
+    ],
+    "macro_f1": 1.0
+   },
+   "revenant_no_fusion": {
+    "f1_ci95": [
+     0.9981,
+     0.9981
+    ],
+    "macro_f1": 0.9981
+   },
+   "revenant_minus_pid_nearest_fused_f1_ci95": [
+    -0.0,
+    -0.0
+   ],
+   "revenant_minus_no_fallback_f1_ci95": [
+    0.0,
+    0.0
+   ],
+   "top3_capture_share": 1.0
+  }
+ },
+ "b2": {
+  "captures": 107,
+  "revenant_vs_flat": {
+   "hit@1": {
+    "revenant_only": 5,
+    "flat_only": 14,
+    "mcnemar_p": 0.0636
+   },
+   "hit@3": {
+    "revenant_only": 7,
+    "flat_only": 9,
+    "mcnemar_p": 0.8036
+   },
+   "hit@5": {
+    "revenant_only": 0,
+    "flat_only": 5,
+    "mcnemar_p": 0.0625
+   },
+   "story_hit@1": {
+    "revenant_only": 3,
+    "flat_only": 6,
+    "mcnemar_p": 0.5078
+   },
+   "story_hit@3": {
+    "revenant_only": 0,
+    "flat_only": 4,
+    "mcnemar_p": 0.125
+   },
+   "story_hit@5": {
+    "revenant_only": 0,
+    "flat_only": 3,
+    "mcnemar_p": 0.25
+   }
+  }
+ },
+ "b3": {
+  "baseline_1102_104": {
+   "precision_ci95": [
+    0.04,
+    0.2898
+   ],
+   "recall_ci95": [
+    0.1078,
+    0.6032
+   ]
+  },
+  "revenant": {
+   "precision_ci95": [
+    0.095,
+    0.3731
+   ],
+   "recall_ci95": [
+    0.3127,
+    0.8318
+   ]
+  },
+  "revenant_high_only": {
+   "precision_ci95": [
+    0.095,
+    0.3731
+   ],
+   "recall_ci95": [
+    0.3127,
+    0.8318
+   ]
+  }
+ }
+}

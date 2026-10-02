@@ -1,9 +1,9 @@
 {
   "benchmark": "antiforensics_evtx_attack_samples",
   "environment": {
-    "python": "3.14.3",
-    "platform": "Windows-11-10.0.26200-SP0",
-    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel"
+    "python": "3.12.14",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64"
   },
   "files": 278,
   "readable_files": 278,
@@ -15,7 +15,7 @@
     "coverage": 0.0754,
     "supported_channel_records": 4846,
     "coverage_supported_channels": 0.5813,
-    "records_per_s": 20.8,
+    "records_per_s": 340.7,
     "event_types": {
       "process_start": 1533,
       "registry_set": 318,
@@ -93,25 +93,26 @@
       "f1": 0.1667
     },
     "revenant": {
-      "tp": 5,
+      "tp": 6,
       "fp": 24,
-      "fn": 5,
-      "precision": 0.1724,
-      "recall": 0.5,
-      "f1": 0.2564
+      "fn": 4,
+      "precision": 0.2,
+      "recall": 0.6,
+      "f1": 0.3
     },
     "revenant_high_only": {
-      "tp": 5,
+      "tp": 6,
       "fp": 24,
-      "fn": 5,
-      "precision": 0.1724,
-      "recall": 0.5,
-      "f1": 0.2564
+      "fn": 4,
+      "precision": 0.2,
+      "recall": 0.6,
+      "f1": 0.3
     }
   },
   "indicator_counts_positive_files": {
     "timestomp_sysmon": 4,
-    "log_cleared": 3
+    "log_cleared": 3,
+    "audit_tamper": 2
   },
   "indicator_counts_negative_files": {
     "log_cleared": 23,
@@ -177,17 +178,6 @@
       "indicators": {}
     },
     {
-      "file": "panache_sysmon_vs_EDRTestingScript.evtx",
-      "tactic_dir": "AutomatedTestingTools",
-      "positive": false,
-      "unreadable": false,
-      "events": 114,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "PanacheSysmon_vs_AtomicRedTeam01.evtx",
       "tactic_dir": "AutomatedTestingTools",
       "positive": false,
@@ -210,11 +200,11 @@
       "indicators": {}
     },
     {
-      "file": "bits_openvpn.evtx",
-      "tactic_dir": "Command and Control",
+      "file": "panache_sysmon_vs_EDRTestingScript.evtx",
+      "tactic_dir": "AutomatedTestingTools",
       "positive": false,
       "unreadable": false,
-      "events": 0,
+      "events": 114,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -267,6 +257,17 @@
       "indicators": {}
     },
     {
+      "file": "bits_openvpn.evtx",
+      "tactic_dir": "Command and Control",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
       "file": "tunna_iis_rdp_smb_tunneling_sysmon_3.evtx",
       "tactic_dir": "Command and Control",
       "positive": false,
@@ -303,22 +304,44 @@
       }
     },
     {
-      "file": "babyshark_mimikatz_powershell.evtx",
+      "file": "CA_4624_4625_LogonType2_LogonProc_chrome.evtx",
       "tactic_dir": "Credential Access",
       "positive": false,
       "unreadable": false,
-      "events": 19,
+      "events": 4,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
       "indicators": {}
     },
     {
-      "file": "CA_4624_4625_LogonType2_LogonProc_chrome.evtx",
+      "file": "CA_DCSync_4662.evtx",
       "tactic_dir": "Credential Access",
       "positive": false,
       "unreadable": false,
-      "events": 4,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "CA_Mimikatz_Memssp_Default_Logs_Sysmon_11.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "CA_PetiPotam_etw_rpc_efsr_5_6.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -336,17 +359,6 @@
       "indicators": {
         "log_cleared": 1
       }
-    },
-    {
-      "file": "CA_DCSync_4662.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
     },
     {
       "file": "CA_hashdump_4663_4656_lsass_access.evtx",
@@ -382,28 +394,6 @@
       "indicators": {}
     },
     {
-      "file": "CA_Mimikatz_Memssp_Default_Logs_Sysmon_11.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "CA_PetiPotam_etw_rpc_efsr_5_6.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "CA_protectedstorage_5145_rpc_masterkey.evtx",
       "tactic_dir": "Credential Access",
       "positive": false,
@@ -431,6 +421,98 @@
       "positive": false,
       "unreadable": false,
       "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LsassSilentProcessExit_process_exit_monitor_3001_lsass.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "MSSQL_multiple_failed_logon_EventID_18456.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Powershell_4104_MiniDumpWriteDump_Lsass.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon13_MachineAccount_Password_Hash_Changed_via_LsarSetSecret.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 4,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_13_Local_Admin_Password_Changed.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Zerologon_CVE-2020-1472_DFIR_System_NetLogon_Error_EventID_5805.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "file": "Zerologon_VoidSec_CVE-2020-1472_4626_LT3_Anonym_follwedby_4742_DC_Anony_DC.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 8,
+      "baseline_1102_104": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "file": "babyshark_mimikatz_powershell.evtx",
+      "tactic_dir": "Credential Access",
+      "positive": false,
+      "unreadable": false,
+      "events": 19,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -483,44 +565,11 @@
       }
     },
     {
-      "file": "LsassSilentProcessExit_process_exit_monitor_3001_lsass.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "MSSQL_multiple_failed_logon_EventID_18456.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "phish_windows_credentials_powershell_scriptblockLog_4104.evtx",
       "tactic_dir": "Credential Access",
       "positive": false,
       "unreadable": false,
       "events": 2,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Powershell_4104_MiniDumpWriteDump_Lsass.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -562,17 +611,6 @@
       "indicators": {
         "log_cleared": 1
       }
-    },
-    {
-      "file": "Sysmon13_MachineAccount_Password_Hash_Changed_via_LsarSetSecret.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 4,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
     },
     {
       "file": "sysmon17_18_kekeo_tsssp_default_np.evtx",
@@ -641,17 +679,6 @@
       "indicators": {}
     },
     {
-      "file": "Sysmon_13_Local_Admin_Password_Changed.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "sysmon_2x10_lsass_with_different_pid_RtlCreateProcessReflection.evtx",
       "tactic_dir": "Credential Access",
       "positive": false,
@@ -690,43 +717,6 @@
       "positive": false,
       "unreadable": false,
       "events": 13,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Zerologon_CVE-2020-1472_DFIR_System_NetLogon_Error_EventID_5805.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": true,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "log_cleared": 1
-      }
-    },
-    {
-      "file": "Zerologon_VoidSec_CVE-2020-1472_4626_LT3_Anonym_follwedby_4742_DC_Anony_DC.evtx",
-      "tactic_dir": "Credential Access",
-      "positive": false,
-      "unreadable": false,
-      "events": 8,
-      "baseline_1102_104": true,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "log_cleared": 1
-      }
-    },
-    {
-      "file": "apt10_jjs_sideloading_prochollowing_persist_as_service_sysmon_1_7_8_13.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 9,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -792,33 +782,11 @@
       "indicators": {}
     },
     {
-      "file": "de_hiding_files_via_attrib_cmdlet.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "DE_KernelDebug_and_TestSigning_ON_Security_4826.evtx",
       "tactic_dir": "Defense Evasion",
       "positive": false,
       "unreadable": false,
       "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "de_portforward_netsh_rdp_sysmon_13_1.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -836,17 +804,6 @@
       "indicators": {}
     },
     {
-      "file": "de_powershell_execpolicy_changed_sysmon_13.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 5,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "DE_ProcessHerpaderping_Sysmon_11_10_1_7.evtx",
       "tactic_dir": "Defense Evasion",
       "positive": false,
@@ -858,11 +815,22 @@
       "indicators": {}
     },
     {
-      "file": "de_PsScriptBlockLogging_disabled_sysmon12_13.evtx",
+      "file": "DE_UAC_Disabled_Sysmon_12_13.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "DE_WinEventLogSvc_Crash_System_7036.evtx",
       "tactic_dir": "Defense Evasion",
       "positive": true,
       "unreadable": false,
-      "events": 2,
+      "events": 0,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -904,50 +872,6 @@
       }
     },
     {
-      "file": "de_sysmon_13_VBA_Security_AccessVBOM.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "DE_UAC_Disabled_Sysmon_12_13.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "de_unmanagedpowershell_psinject_sysmon_7_8_10.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 83,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "DE_WinEventLogSvc_Crash_System_7036.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": true,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "DE_xp_cmdshell_enabled_MSSQL_EID_15457.evtx",
       "tactic_dir": "Defense Evasion",
       "positive": false,
@@ -964,6 +888,140 @@
       "positive": false,
       "unreadable": false,
       "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon 7  Update Session Orchestrator Dll Hijack.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 24,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon 7 dllhijack_cdpsshims_CDPSvc.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 12,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_10_Evasion_Suspicious_NtOpenProcess_CallTrace.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_12_DE_AntiForensics_MRU_DeleteKey.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": true,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Win_4985_T1186_Process_Doppelganging.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "apt10_jjs_sideloading_prochollowing_persist_as_service_sysmon_1_7_8_13.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 9,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "de_PsScriptBlockLogging_disabled_sysmon12_13.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": true,
+      "unreadable": false,
+      "events": 2,
+      "baseline_1102_104": false,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "audit_tamper": 2
+      }
+    },
+    {
+      "file": "de_hiding_files_via_attrib_cmdlet.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "de_portforward_netsh_rdp_sysmon_13_1.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "de_powershell_execpolicy_changed_sysmon_13.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 5,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "de_sysmon_13_VBA_Security_AccessVBOM.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "de_unmanagedpowershell_psinject_sysmon_7_8_10.evtx",
+      "tactic_dir": "Defense Evasion",
+      "positive": false,
+      "unreadable": false,
+      "events": 83,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1036,55 +1094,11 @@
       "indicators": {}
     },
     {
-      "file": "Sysmon 7  Update Session Orchestrator Dll Hijack.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 24,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Sysmon 7 dllhijack_cdpsshims_CDPSvc.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 12,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "sysmon_10_1_ppid_spoofing.evtx",
       "tactic_dir": "Defense Evasion",
       "positive": false,
       "unreadable": false,
       "events": 5,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Sysmon_10_Evasion_Suspicious_NtOpenProcess_CallTrace.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Sysmon_12_DE_AntiForensics_MRU_DeleteKey.evtx",
-      "tactic_dir": "Defense Evasion",
-      "positive": true,
-      "unreadable": false,
-      "events": 3,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1115,8 +1129,8 @@
       }
     },
     {
-      "file": "Win_4985_T1186_Process_Doppelganging.evtx",
-      "tactic_dir": "Defense Evasion",
+      "file": "4799_remote_local_groups_enumeration.evtx",
+      "tactic_dir": "Discovery",
       "positive": false,
       "unreadable": false,
       "events": 0,
@@ -1126,11 +1140,11 @@
       "indicators": {}
     },
     {
-      "file": "4799_remote_local_groups_enumeration.evtx",
+      "file": "Discovery_Remote_System_NamedPipes_Sysmon_18.evtx",
       "tactic_dir": "Discovery",
       "positive": false,
       "unreadable": false,
-      "events": 0,
+      "events": 20,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1148,6 +1162,17 @@
       "indicators": {
         "log_cleared": 1
       }
+    },
+    {
+      "file": "discovery_UEFI_Settings_rweverything_sysmon_6.evtx",
+      "tactic_dir": "Discovery",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
     },
     {
       "file": "discovery_bloodhound.evtx",
@@ -1209,17 +1234,6 @@
       }
     },
     {
-      "file": "Discovery_Remote_System_NamedPipes_Sysmon_18.evtx",
-      "tactic_dir": "Discovery",
-      "positive": false,
-      "unreadable": false,
-      "events": 20,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "discovery_sysmon_18_Invoke_UserHunter_NetSessionEnum_DC-srvsvc.evtx",
       "tactic_dir": "Discovery",
       "positive": false,
@@ -1242,11 +1256,46 @@
       "indicators": {}
     },
     {
-      "file": "discovery_UEFI_Settings_rweverything_sysmon_6.evtx",
-      "tactic_dir": "Discovery",
+      "file": "Exec_sysmon_meterpreter_reversetcp_msipackage.evtx",
+      "tactic_dir": "Execution",
+      "positive": false,
+      "unreadable": false,
+      "events": 7,
+      "baseline_1102_104": false,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "timestomp_sysmon": 2
+      }
+    },
+    {
+      "file": "Exec_via_cpl_Application_Experience_EventID_17_ControlPanelApplet.evtx",
+      "tactic_dir": "Execution",
       "positive": false,
       "unreadable": false,
       "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_Exec_CompiledHTML.evtx",
+      "tactic_dir": "Execution",
+      "positive": false,
+      "unreadable": false,
+      "events": 2,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_meterpreter_ReflectivePEInjection_to_notepad_.evtx",
+      "tactic_dir": "Execution",
+      "positive": false,
+      "unreadable": false,
+      "events": 13,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1407,30 +1456,6 @@
       "indicators": {}
     },
     {
-      "file": "Exec_sysmon_meterpreter_reversetcp_msipackage.evtx",
-      "tactic_dir": "Execution",
-      "positive": false,
-      "unreadable": false,
-      "events": 7,
-      "baseline_1102_104": false,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "timestomp_sysmon": 2
-      }
-    },
-    {
-      "file": "Exec_via_cpl_Application_Experience_EventID_17_ControlPanelApplet.evtx",
-      "tactic_dir": "Execution",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "exec_wmic_xsl_internet_sysmon_3_1_11.evtx",
       "tactic_dir": "Execution",
       "positive": false,
@@ -1519,17 +1544,6 @@
       "indicators": {}
     },
     {
-      "file": "Sysmon_Exec_CompiledHTML.evtx",
-      "tactic_dir": "Execution",
-      "positive": false,
-      "unreadable": false,
-      "events": 2,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "sysmon_exec_from_vss_persistence.evtx",
       "tactic_dir": "Execution",
       "positive": false,
@@ -1557,17 +1571,6 @@
       "positive": false,
       "unreadable": false,
       "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Sysmon_meterpreter_ReflectivePEInjection_to_notepad_.evtx",
-      "tactic_dir": "Execution",
-      "positive": false,
-      "unreadable": false,
-      "events": 13,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1640,33 +1643,11 @@
       "indicators": {}
     },
     {
-      "file": "dfir_rdpsharp_target_RdpCoreTs_168_68_131.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "ImpersonateUser-via local Pass The Hash Sysmon and Security.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
       "unreadable": false,
       "events": 13,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "lateral_movement_startup_3_11.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 2,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1697,17 +1678,6 @@
       "indicators": {}
     },
     {
-      "file": "LM_add_new_namedpipe_tp_nullsession_registry_turla_like_ttp.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "LM_DCOM_MSHTA_LethalHTA_Sysmon_3_1.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
@@ -1719,33 +1689,11 @@
       "indicators": {}
     },
     {
-      "file": "LM_dcom_shwnd_shbrwnd_mmc20_failed_traces_system_10016.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "LM_ImageLoad_NFSH_Sysmon_7.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
       "unreadable": false,
       "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "LM_impacket_docmexec_mmc_sysmon_01.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 9,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1774,33 +1722,11 @@
       "indicators": {}
     },
     {
-      "file": "LM_regsvc_DirectoryServiceExtPt_Lsass_NTDS_AdamXpn.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "LM_REMCOM_5145_TargetHost.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
       "unreadable": false,
       "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "lm_remote_registry_sysmon_1_13_3.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 4,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1829,17 +1755,6 @@
       "indicators": {}
     },
     {
-      "file": "LM_renamed_psexecsvc_5145.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "LM_ScheduledTask_ATSVC_target_host.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
@@ -1853,11 +1768,79 @@
       }
     },
     {
-      "file": "lm_sysmon_18_remshell_over_namedpipe.evtx",
+      "file": "LM_WMIC_4648_rpcss.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
       "unreadable": false,
-      "events": 7,
+      "events": 2,
+      "baseline_1102_104": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "file": "LM_WMI_4624_4688_TargetHost.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 8,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LM_add_new_namedpipe_tp_nullsession_registry_turla_like_ttp.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LM_dcom_shwnd_shbrwnd_mmc20_failed_traces_system_10016.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LM_impacket_docmexec_mmc_sysmon_01.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 9,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LM_regsvc_DirectoryServiceExtPt_Lsass_NTDS_AdamXpn.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "LM_renamed_psexecsvc_5145.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -1963,17 +1946,6 @@
       "indicators": {}
     },
     {
-      "file": "LM_WMI_4624_4688_TargetHost.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 8,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "LM_wmi_PoisonHandler_Mr-Un1k0d3r_sysmon_1_13.evtx",
       "tactic_dir": "Lateral Movement",
       "positive": false,
@@ -1983,19 +1955,6 @@
       "revenant": false,
       "revenant_high_only": false,
       "indicators": {}
-    },
-    {
-      "file": "LM_WMIC_4648_rpcss.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 2,
-      "baseline_1102_104": true,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "log_cleared": 1
-      }
     },
     {
       "file": "LM_wmiexec_impacket_sysmon_whoami.evtx",
@@ -2025,6 +1984,61 @@
       "positive": false,
       "unreadable": false,
       "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "RemotePowerShell_MS_Windows-Remote_Management_EventID_169.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "dfir_rdpsharp_target_RdpCoreTs_168_68_131.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "lateral_movement_startup_3_11.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 2,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "lm_remote_registry_sysmon_1_13_3.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 4,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "lm_sysmon_18_remshell_over_namedpipe.evtx",
+      "tactic_dir": "Lateral Movement",
+      "positive": false,
+      "unreadable": false,
+      "events": 7,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2073,17 +2087,6 @@
       "positive": false,
       "unreadable": false,
       "events": 2,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "RemotePowerShell_MS_Windows-Remote_Management_EventID_169.evtx",
-      "tactic_dir": "Lateral Movement",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2257,22 +2260,44 @@
       }
     },
     {
-      "file": "evasion_persis_hidden_run_keyvalue_sysmon_13.evtx",
+      "file": "Network_Service_Guest_added_to_admins_4732.evtx",
       "tactic_dir": "Persistence",
       "positive": false,
       "unreadable": false,
-      "events": 1,
+      "events": 2,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
       "indicators": {}
     },
     {
-      "file": "Network_Service_Guest_added_to_admins_4732.evtx",
+      "file": "Persistence_Shime_Microsoft-Windows-Application-Experience_Program-Telemetry_500.evtx",
       "tactic_dir": "Persistence",
       "positive": false,
       "unreadable": false,
-      "events": 2,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Persistence_Winsock_Catalog Change EventId_1.evtx",
+      "tactic_dir": "Persistence",
+      "positive": false,
+      "unreadable": false,
+      "events": 0,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "evasion_persis_hidden_run_keyvalue_sysmon_13.evtx",
+      "tactic_dir": "Persistence",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2317,6 +2342,17 @@
       "positive": false,
       "unreadable": false,
       "events": 4,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "persistence_SilentProcessExit_ImageHijack_sysmon_13_1.evtx",
+      "tactic_dir": "Persistence",
+      "positive": false,
+      "unreadable": false,
+      "events": 13,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2369,28 +2405,6 @@
       }
     },
     {
-      "file": "Persistence_Shime_Microsoft-Windows-Application-Experience_Program-Telemetry_500.evtx",
-      "tactic_dir": "Persistence",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "persistence_SilentProcessExit_ImageHijack_sysmon_13_1.evtx",
-      "tactic_dir": "Persistence",
-      "positive": false,
-      "unreadable": false,
-      "events": 13,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "persistence_startup_UserShellStartup_Folder_Changed_sysmon_13.evtx",
       "tactic_dir": "Persistence",
       "positive": false,
@@ -2407,17 +2421,6 @@
       "positive": false,
       "unreadable": false,
       "events": 237,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Persistence_Winsock_Catalog Change EventId_1.evtx",
-      "tactic_dir": "Persistence",
-      "positive": false,
-      "unreadable": false,
-      "events": 0,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2536,17 +2539,6 @@
       "indicators": {}
     },
     {
-      "file": "eop_appcontainer_il_broker_filewrite.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "Invoke_TokenDuplication_UAC_Bypass4624.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
@@ -2593,17 +2585,6 @@
       "indicators": {}
     },
     {
-      "file": "privesc_KrbRelayUp_windows_4624.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "PrivEsc_NetSvc_SessionToken_Retrival_via_localSMB_Auth_5145.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
@@ -2615,110 +2596,11 @@
       "indicators": {}
     },
     {
-      "file": "privesc_registry_symlink_CVE-2020-1377.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 30,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_roguepotato_sysmon_17_18.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_rotten_potato_from_webshell_metasploit_sysmon_1_8_3.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 13,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_seimpersonate_tosys_spoolsv_sysmon_17_18.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 7,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "PrivEsc_SeImpersonatePriv_enabled_back_for_upnp_localsvc_4698.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
       "unreadable": false,
       "events": 1,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_spoolfool_mahdihtm_sysmon_1_11_7_13.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_spoolsv_spl_file_write_sysmon11.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 35,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_sysmon_cve_20201030_spooler.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privesc_unquoted_svc_sysmon_1_11.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 87,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "privexchange_dirkjan.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -2749,109 +2631,6 @@
       }
     },
     {
-      "file": "samaccount_spoofing_CVE-2021-42287_CVE-2021-42278_DC_securitylogs.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 8,
-      "baseline_1102_104": true,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "log_cleared": 1
-      }
-    },
-    {
-      "file": "security_4624_4673_token_manip.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 10,
-      "baseline_1102_104": true,
-      "revenant": true,
-      "revenant_high_only": true,
-      "indicators": {
-        "log_cleared": 1
-      }
-    },
-    {
-      "file": "sysmon_11_1_15_WScriptBypassUAC.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 15,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_11_1_7_uacbypass_cliconfg.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 7,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_11_7_1_uacbypass_windirectory_mocking.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 9,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_13_1_12_11_perfmonUACBypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 5,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_13_1_compmgmtlauncherUACBypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 4,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_13_1_meterpreter_getsystem_NamedPipeImpersonation.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 4,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "Sysmon_13_1_UAC_Bypass_EventVwrBypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "Sysmon_13_1_UACBypass_SDCLTBypass.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
@@ -2863,110 +2642,11 @@
       "indicators": {}
     },
     {
-      "file": "sysmon_1_11_exec_as_system_via_schedtask.evtx",
+      "file": "Sysmon_13_1_UAC_Bypass_EventVwrBypass.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
       "unreadable": false,
       "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_13_11_cmstp_ini_uacbypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 5,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_13_UACBypass_AppPath_Control.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_7_11_mcx2prov_uacbypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 8,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_7_11_migwiz.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_7_11_sysprep_uacbypass.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_1_7_elevate_uacbypass_sysprep.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 14,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_privesc_from_admin_to_system_handle_inheritance.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 3,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_privesc_psexec_dwell.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 12,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
-      "file": "sysmon_uacbypass_CDSSync_schtask_hijack_byeintegrity5.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 7,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -3149,17 +2829,6 @@
       "indicators": {}
     },
     {
-      "file": "Sysmon_uacme_58.evtx",
-      "tactic_dir": "Privilege Escalation",
-      "positive": false,
-      "unreadable": false,
-      "events": 6,
-      "baseline_1102_104": false,
-      "revenant": false,
-      "revenant_high_only": false,
-      "indicators": {}
-    },
-    {
       "file": "Sysmon_UACME_63.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
@@ -3176,6 +2845,17 @@
       "positive": false,
       "unreadable": false,
       "events": 19,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "Sysmon_uacme_58.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
       "baseline_1102_104": false,
       "revenant": false,
       "revenant_high_only": false,
@@ -3215,6 +2895,329 @@
       "indicators": {}
     },
     {
+      "file": "eop_appcontainer_il_broker_filewrite.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_KrbRelayUp_windows_4624.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 1,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_registry_symlink_CVE-2020-1377.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 30,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_roguepotato_sysmon_17_18.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_rotten_potato_from_webshell_metasploit_sysmon_1_8_3.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 13,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_seimpersonate_tosys_spoolsv_sysmon_17_18.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 7,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_spoolfool_mahdihtm_sysmon_1_11_7_13.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_spoolsv_spl_file_write_sysmon11.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 35,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_sysmon_cve_20201030_spooler.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privesc_unquoted_svc_sysmon_1_11.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 87,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "privexchange_dirkjan.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "samaccount_spoofing_CVE-2021-42287_CVE-2021-42278_DC_securitylogs.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 8,
+      "baseline_1102_104": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "file": "security_4624_4673_token_manip.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 10,
+      "baseline_1102_104": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "file": "sysmon_11_1_15_WScriptBypassUAC.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 15,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_11_1_7_uacbypass_cliconfg.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 7,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_11_7_1_uacbypass_windirectory_mocking.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 9,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_13_1_12_11_perfmonUACBypass.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 5,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_13_1_compmgmtlauncherUACBypass.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 4,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_13_1_meterpreter_getsystem_NamedPipeImpersonation.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 4,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_11_exec_as_system_via_schedtask.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_13_11_cmstp_ini_uacbypass.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 5,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_13_UACBypass_AppPath_Control.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_7_11_mcx2prov_uacbypass.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 8,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_7_11_migwiz.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_7_11_sysprep_uacbypass.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 6,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_1_7_elevate_uacbypass_sysprep.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 14,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_privesc_from_admin_to_system_handle_inheritance.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 3,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_privesc_psexec_dwell.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 12,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
+      "file": "sysmon_uacbypass_CDSSync_schtask_hijack_byeintegrity5.evtx",
+      "tactic_dir": "Privilege Escalation",
+      "positive": false,
+      "unreadable": false,
+      "events": 7,
+      "baseline_1102_104": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "indicators": {}
+    },
+    {
       "file": "win10_4703_SeDebugPrivilege_enabled.evtx",
       "tactic_dir": "Privilege Escalation",
       "positive": false,
@@ -3239,9 +3242,8 @@
   ],
   "missed_positives": [
     "DE_EventLog_Service_Crashed.evtx",
-    "de_PsScriptBlockLogging_disabled_sysmon12_13.evtx",
-    "DE_remote_eventlog_svc_crash_byt3bl33d3r_sysmon_17_1_3.evtx",
     "DE_WinEventLogSvc_Crash_System_7036.evtx",
+    "DE_remote_eventlog_svc_crash_byt3bl33d3r_sysmon_17_1_3.evtx",
     "Sysmon_12_DE_AntiForensics_MRU_DeleteKey.evtx"
   ]
 }
