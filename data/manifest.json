@@ -1568,6 +1568,76 @@
    "url": "https://codeload.github.com/sbousseaden/EVTX-ATTACK-SAMPLES/zip/4ceed2f4706daf601c212a8f91c113dd85349a2c",
    "sha256": "ea8bf4cd30f673907f2ad0ca2ccff501bac55fd28573ee77c0940d9b85396da5",
    "bytes": 6114472
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_01/metasploit_logonpasswords_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_01/metasploit_logonpasswords_lsass_memory_dump.zip",
+   "git_sha1": "64e3b70fcec0c8c3ece5a20ac241e146d2bb0f86",
+   "bytes": 3405389
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_02/metasploit_procdump_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_02/metasploit_procdump_lsass_memory_dump.zip",
+   "git_sha1": "ae799fc64ecd0c8e93f4ce0d11b700a673dc3b37",
+   "bytes": 2551462
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_03/metasploit_comsvcs_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_03/metasploit_comsvcs_lsass_memory_dump.zip",
+   "git_sha1": "d2add33994becb665619f3f0ab305539d7df05da",
+   "bytes": 2332754
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_04/metasploit_out-minidump_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_04/metasploit_out-minidump_lsass_memory_dump.zip",
+   "git_sha1": "03109ce4864db44edf27d27a80b3c2ba8feb3e58",
+   "bytes": 2431111
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_05/metasploit_sharpdump_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_05/metasploit_sharpdump_lsass_memory_dump.zip",
+   "git_sha1": "ef78d97c284100b8337ea015a40c484ec0b45b4c",
+   "bytes": 3428302
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_06/metasploit_outflank-dumpert_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_06/metasploit_outflank-dumpert_lsass_memory_dump.zip",
+   "git_sha1": "e833afb24aa8c67651182d356c9f3f7195611897",
+   "bytes": 3326923
+  },
+  {
+   "group": "otrf-lsass",
+   "path": "otrf/compound/LSASS_campaign_07/metasploit_nanodump_lsass_memory_dump.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/LSASS_campaign_07/metasploit_nanodump_lsass_memory_dump.zip",
+   "git_sha1": "42ae40805a74250dcf8bc2aa178013ec453d909d",
+   "bytes": 3545590
+  },
+  {
+   "group": "otrf-log4shell",
+   "path": "otrf/compound/Log4Shell/securityauditing_log4shell_cve2021_44228_java_serialized_object.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/Log4Shell/securityauditing_log4shell_cve2021_44228_java_serialized_object.zip",
+   "git_sha1": "f2c3c5ec60f39facaf0c208e274d32f58c626fd4",
+   "bytes": 5336
+  },
+  {
+   "group": "otrf-log4shell",
+   "path": "otrf/compound/Log4Shell/sysmon_log4shell_cve2021_44228_java_serialized_object.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/Log4Shell/sysmon_log4shell_cve2021_44228_java_serialized_object.zip",
+   "git_sha1": "62674fa22c21b2124a7a226d3e381b4747da7bda",
+   "bytes": 33080
+  },
+  {
+   "group": "otrf-apt29-day2",
+   "path": "otrf/compound/apt29/day2/apt29_evals_day2_manual.zip",
+   "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/compound/apt29/day2/apt29_evals_day2_manual.zip",
+   "git_sha1": "15e1e9d2d88a729b832c6430fa285c3e87bb70e4",
+   "bytes": 43033041
   }
  ]
 }

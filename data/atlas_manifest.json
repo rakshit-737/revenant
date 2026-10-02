@@ -1,0 +1,135 @@
+{
+ "source": {
+  "repo": "purseclab/ATLAS",
+  "commit": "e46096d1947e4f059e73a0ac2b9a9707812fd4bc",
+  "license": "Apache-2.0"
+ },
+ "files": [
+  {
+   "path": "paper_experiments/docs/atlas.xlsx",
+   "bytes": 16173,
+   "git_sha1": "68acd1f3ac0813a4fc437e889a0cf9848024b542",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M1.zip",
+   "bytes": 67946790,
+   "git_sha1": "2d5c914fc1400e8aabf6b8c8a1ec52303015d8c9",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M2.zip",
+   "bytes": 60496347,
+   "git_sha1": "5c2342c23f3cd7f56a94b475362b9f85c77ba0d9",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M3.zip",
+   "bytes": 27825370,
+   "git_sha1": "f50ab3897fb3d672429f3d836a5ec0bc234ae5aa",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M4.zip",
+   "bytes": 47096599,
+   "git_sha1": "1a9d4e37db653c1de896399e5b7cdef9c83b8050",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M5.zip",
+   "bytes": 43517810,
+   "git_sha1": "e231053a0012b3399fd0895743113e4f9ee6867b",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/M6.zip",
+   "bytes": 47796446,
+   "git_sha1": "84a1e2ca260dbdd48ac4216c0a3b9544888700c1",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/S1.zip",
+   "bytes": 33563971,
+   "git_sha1": "e1481bed1f0894eabebde87036868da551b8ab52",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/S2.zip",
+   "bytes": 90794418,
+   "git_sha1": "7636e758b9018446c642f35be95ae00c154aa22f",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/S3.zip",
+   "bytes": 44611154,
+   "git_sha1": "7fa2b687880c7d8f7c41d44fdb9ff5d557704c29",
+   "sha256": ""
+  },
+  {
+   "path": "raw_logs/S4.zip",
+   "bytes": 38721585,
+   "git_sha1": "eded8cd687c81b3d1429e262203d9892edc16fde",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M1.zip",
+   "bytes": 61929024,
+   "git_sha1": "a1b40e3aa32dc17a7b0e77fcc4595b958b4bd81e",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M2.zip",
+   "bytes": 43743158,
+   "git_sha1": "7169aceb72e6527c6869995020aa498bf94e7a91",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M3.zip",
+   "bytes": 51290874,
+   "git_sha1": "173504fa152c32619ebb2fcb4721e1fed95979fa",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M4.zip",
+   "bytes": 38498442,
+   "git_sha1": "276182c20c3589affa2e3472e8b6b9e2d6ece5c2",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M5.zip",
+   "bytes": 48684139,
+   "git_sha1": "16124158c54b5420b69a58848a01719b0c79b857",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/M6.zip",
+   "bytes": 42174245,
+   "git_sha1": "9d076f3040a47d18fbc892be5eb8e6b49a67a00c",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/S1.zip",
+   "bytes": 13735107,
+   "git_sha1": "ab2a2f2c508b517bb0fbe2130603a5aecf21ffa5",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/S2.zip",
+   "bytes": 15110814,
+   "git_sha1": "b62f951287cb4fff5d472b7252b3d215812b0db7",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/S3.zip",
+   "bytes": 12927291,
+   "git_sha1": "d393f390c7f7becac18bfac3bd21b8c2d9cc4815",
+   "sha256": ""
+  },
+  {
+   "path": "paper_experiments/S4.zip",
+   "bytes": 13543208,
+   "git_sha1": "9b2ec2dde121743f669a476a604325e3a5d7e03f",
+   "sha256": ""
+  }
+ ]
+}

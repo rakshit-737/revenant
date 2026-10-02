@@ -6,11 +6,16 @@ Sources (all public, downloaded -- never redistributed in this repo):
 * OTRF Security-Datasets (MIT) -- Windows atomic host datasets (Sysmon +
   Security + PowerShell event logs as JSON lines) and the APT29 ATT&CK-Evals
   day-1 compound dataset, pinned to a commit.
+* OTRF compound captures (opt-in groups): ``otrf-lsass`` (7 LSASS-dump
+  campaign host logs), ``otrf-log4shell`` (2) and ``otrf-apt29-day2``
+  (43 MB compressed, ~1.7 GB of JSON -- run it in GitHub Actions). These
+  are verified against the git blob SHA-1 of the pinned OTRF tree.
 * EVTX-ATTACK-SAMPLES by @sbousseaden (GPL-3.0) -- raw ``.evtx`` files grouped
   by ATT&CK tactic, pinned to a commit. Used only to exercise the binary EVTX
   parser; nothing from it is committed here.
 
-Every file is verified against ``data/manifest.json`` (SHA-256 + size). Run
+Every file is verified against ``data/manifest.json`` (SHA-256 and/or git
+blob SHA-1 + size); entries with no pin are refused unless ``--pin``. Run
 with ``--refresh-manifest`` to rebuild the manifest from the pinned commits
 (requires network access to api.github.com).
 
@@ -43,15 +48,16 @@ OTRF_REPO = "OTRF/Security-Datasets"
 OTRF_COMMIT = "d9d40ef123d2c87d5d3df28c96bcab4f0faccc87"
 EVTX_REPO = "sbousseaden/EVTX-ATTACK-SAMPLES"
 EVTX_COMMIT = "4ceed2f4706daf601c212a8f91c113dd85349a2c"
+OPT_IN_GROUPS = {"otrf-apt29-day2", "otrf-lsass", "otrf-log4shell"}  # large; fetch with --only
 MAX_ATOMIC_BYTES = 8_000_000  # skip the few very large atomic captures
 
 
 def _get(url: str, retries: int = 4) -> bytes:
-    headers = {"User-Agent": "revenant-downloader"}
+    req = urllib.request.Request(url, headers={"User-Agent": "revenant-downloader"})
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if token and url.startswith("https://api.github.com/"):
-        headers["Authorization"] = f"Bearer {token}"  # only to lift the API rate limit
-    req = urllib.request.Request(url, headers=headers)
+        # only to lift the API rate limit; never forwarded on redirects
+        req.add_unredirected_header("Authorization", f"Bearer {token}")
     for attempt in range(1, retries + 1):
         try:
             with urllib.request.urlopen(req, timeout=300) as resp:  # noqa: S310 - fixed https URLs
@@ -62,6 +68,13 @@ def _get(url: str, retries: int = 4) -> bytes:
             print(f"  retry {attempt}/{retries - 1} after {exc!r}", file=sys.stderr)
             time.sleep(2 * attempt)
     raise RuntimeError("unreachable")
+
+
+def _git_sha1(path: Path) -> str:
+    """Git blob id: lets a first download be verified against the pinned commit's tree."""
+    h = hashlib.sha1(f"blob {path.stat().st_size}\0".encode(), usedforsecurity=False)
+    h.update(path.read_bytes())
+    return h.hexdigest()
 
 
 def _sha256(path: Path) -> str:
@@ -93,9 +106,16 @@ def refresh_manifest() -> dict:
             group = "otrf-atomic"
         elif p == "datasets/compound/apt29/day1/apt29_evals_day1_manual.zip":
             group = "otrf-apt29"
+        elif p == "datasets/compound/apt29/day2/apt29_evals_day2_manual.zip":
+            group = "otrf-apt29-day2"
+        elif p.startswith("datasets/compound/LSASS_campaign_") and p.endswith("_lsass_memory_dump.zip"):
+            group = "otrf-lsass"  # host logs only; the pcaps are skipped
+        elif p.startswith("datasets/compound/Log4Shell/") and p.split("/")[-1].startswith(("sysmon_", "securityauditing_")):
+            group = "otrf-log4shell"
         else:
             continue
-        entries.append({"group": group, "path": p.replace("datasets/", "otrf/", 1), "url": raw + p})
+        entries.append({"group": group, "path": p.replace("datasets/", "otrf/", 1), "url": raw + p,
+                        "git_sha1": node["sha"]})
     entries.append(
         {
             "group": "evtx-attack-samples",
@@ -123,7 +143,7 @@ def extract(archive: Path) -> None:
         with zipfile.ZipFile(archive) as zf:
             for m in zf.infolist():
                 target = (out / m.filename).resolve()
-                if not str(target).startswith(str(out.resolve())):
+                if not target.is_relative_to(out.resolve()):
                     raise RuntimeError(f"unsafe path in {archive}: {m.filename}")
             zf.extractall(out)
     elif archive.name.endswith(".tar.gz"):
@@ -143,6 +163,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--only", action="append", help="restrict to manifest group(s)")
     ap.add_argument("--refresh-manifest", action="store_true")
     ap.add_argument("--no-extract", action="store_true")
+    ap.add_argument("--pin", action="store_true",
+                    help="trust the first download of entries that carry no git_sha1/sha256 pin")
     args = ap.parse_args(argv)
 
     if args.refresh_manifest or not MANIFEST.exists():
@@ -157,6 +179,8 @@ def main(argv: list[str] | None = None) -> int:
     for entry in manifest["files"]:
         if args.only and entry["group"] not in args.only:
             continue
+        if not args.only and entry["group"] in OPT_IN_GROUPS:
+            continue
         target = dest / entry["path"]
         target.parent.mkdir(parents=True, exist_ok=True)
         try:
@@ -166,12 +190,24 @@ def main(argv: list[str] | None = None) -> int:
                 tmp.write_bytes(_get(entry["url"]))
                 tmp.replace(target)
             digest, size = _sha256(target), target.stat().st_size
-            if "sha256" in entry:
+            if entry.get("sha256"):
                 if digest != entry["sha256"]:
-                    print(f"[FAIL] checksum mismatch: {entry['path']}", file=sys.stderr)
+                    print(f"[FAIL] checksum mismatch (deleted): {entry['path']}", file=sys.stderr)
+                    target.unlink()
                     bad += 1
                     continue
             else:
+                if not entry.get("git_sha1") and not args.pin:
+                    print(f"[FAIL] no pinned digest for {entry['path']} (pass --pin to trust first fetch)",
+                          file=sys.stderr)
+                    target.unlink()
+                    bad += 1
+                    continue
+                if entry.get("git_sha1") and _git_sha1(target) != entry["git_sha1"]:
+                    print(f"[FAIL] git blob mismatch (deleted): {entry['path']}", file=sys.stderr)
+                    target.unlink()
+                    bad += 1
+                    continue
                 entry["sha256"], entry["bytes"] = digest, size  # first fetch pins the hash
                 dirty = True
             total += size
