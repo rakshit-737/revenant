@@ -38,7 +38,8 @@ _TAMPER_REG = re.compile(
     r"services[\\/]eventlog[\\/](start$|.*[\\/](file|maxsize|retention|autobackuplogfiles)$)"
     r"|control[\\/]minint"
     r"|processcreationincludecmdline_enabled"
-    r"|windows[\\/]eventlog[\\/].*[\\/]enabled",
+    r"|windows[\\/]eventlog[\\/].*[\\/]enabled"
+    r"|powershell[\\/](scriptblocklogging[\\/]enablescriptblocklogging|modulelogging[\\/]enablemodulelogging)$",
     re.IGNORECASE,
 )
 _TAMPER_CMD = re.compile(
