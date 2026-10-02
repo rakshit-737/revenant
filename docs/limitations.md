@@ -6,16 +6,23 @@ not require.
 
 ## Limitations
 
-- **B1** covers process lineage and process→action edges only. Cross-entity edges (dropped
-  file executed, logon session) have no public ground truth, so they are untested.
-- **B2** uses REVENANT's own heuristics to decide "found", so it measures ranking and
-  grouping, not detection quality. The gain over a flat suspicion-sorted list is small.
-- **B3** precision is low, and the labels come from file names. Service-crash style log
-  suppression is not modelled.
+- **Story confidence is not calibrated.** Edge constants are calibrated per rule against
+  GUID truth, but story confidence is a hand-weighted sum (0.3/0.3/0.2/0.2) with hand-set grade
+  cut-offs, and the GUID rules keep hand-set confidences. No benchmark yet shows CONFIRMED
+  stories are correct more often than HIGH ones.
+- **Stories do not speed up triage (B2).** Under equal reading budgets they are slightly worse
+  than a suspicion-sorted flat list (hit@1 0.28 vs 0.36, p = 0.06). B2 uses REVENANT's own
+  heuristics to decide "found", and the calibration table was fitted on the same captures.
+- **B1** gains over PID-nearest on one corpus (OTRF atomic) and come from the image-keyed
+  fallback rules; four other corpora show no difference. Only process lineage and
+  process→action edges have ground truth; cross-entity edges are exercised only by the live
+  auditd consistency check.
+- **B3** has 10 positives and file-name labels; service-crash style log suppression and MRU
+  deletes are not modelled.
 - `.evtx` parsing through python-evtx is slow (about 21 records/s on the benchmark machine).
   Converting to JSON first with `evtx_dump` is much faster.
-- No published numbers exist for these exact tasks on these corpora. The comparisons are
-  against baselines only.
+- ATLAS's published numbers are reproduced from its release, but REVENANT has not yet been
+  scored under the ATLAS protocol.
 - Anti-forensics checks on MFT against `$LogFile`/`$UsnJrnl` are limited to plaso's
   `$SI`/`$FN` fields. There is no raw NTFS parser.
 - The LLM report-drafting assistant from the spec is intentionally **not** built. No claim
@@ -23,6 +30,9 @@ not require.
 
 ## Roadmap
 
+- [ ] Score REVENANT under the ATLAS protocol, with a BackTracker-style reachability baseline
+- [ ] Re-run ATLAS's released model (TensorFlow 2.3) and retrain with seeds
+- [ ] Story-level confidence validation against labelled stories
 - [ ] `evtx_dump` / Hayabusa JSON ingest for fast `.evtx` handling
 - [ ] Event-log service-crash and MRU-deletion tamper indicators (the B3 misses)
 - [ ] Labelled cross-entity edges from a self-captured lab scenario

@@ -18,7 +18,7 @@ services:
   neo4j:
     image: neo4j:5-community
     environment:
-      - NEO4J_AUTH=neo4j/revenantlab   # lab-only default; change before any shared use
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD:?set NEO4J_PASSWORD}   # lab-only
     ports:
       - "127.0.0.1:7474:7474"
       - "127.0.0.1:7687:7687"

@@ -1,13 +1,14 @@
 # Architecture
 
 ```mermaid
-flowchart LR
+flowchart TB
   subgraph Evidence["Evidence: read-only"]
     OTRF["OTRF / Mordor JSON"] --> P
     EVTX[".evtx via python-evtx"] --> P
     PL["plaso json_line / l2tcsv"] --> P
     VOL["Volatility 3 JSON"] --> P
     AUTH["auth.log"] --> P
+    AUD["auditd audit.log"] --> P
   end
   P["parsers/*<br/>map to Event + SHA-256"] --> L[("custody ledger<br/>hash chain to SQLite")]
   P --> G[("provenance graph<br/>networkx or in-memory")]

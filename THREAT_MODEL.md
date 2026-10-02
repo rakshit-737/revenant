@@ -24,7 +24,9 @@ in investigations, so **evidentiary integrity is the primary asset**.
   cross-checks them; it never fabricates events to fill gaps.
 - The tool **never writes back** to source artifacts. Ingest is one-way.
 - The custody ledger is **append-only and hash-chained**; each record commits to
-  the previous record's hash, so silent edits/deletions break `verify()`.
+  the previous record's hash, so silent edits of records break `verify()`.
+  Tail truncation or a full rewrite is caught only against an external anchor
+  (report head hash + record count: `revenant verify --expect-head --expect-count`).
 
 ## Adversary: anti-forensics (modeled)
 

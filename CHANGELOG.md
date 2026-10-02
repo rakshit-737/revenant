@@ -4,6 +4,54 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+- **Packaging:** the wheel, sdist and Docker image now ship `rule_calibration.json`; v1.0.0
+  artefacts silently ran with hand-set edge confidences. A missing table now raises instead
+  of falling back. The sdist carries the test fixtures; `setuptools>=77`.
+- **Custody verification:** `revenant verify` opens the store read-only, never creates or
+  repairs it, fails on a missing or empty ledger and on dropped append-only triggers, and
+  accepts external anchors (`--expect-head`, `--expect-count`) that detect truncation. The
+  ledger is written before the optional PDF.
+- **Evidence confinement:** symlinks and NTFS junctions inside evidence are never followed
+  (and are recorded in the ledger); API paths are validated lexically before any filesystem
+  access (no UNC/SMB lookups); TrustedHost and Origin checks against DNS rebinding; 64 KiB
+  body cap; `serve` refuses non-loopback addresses without `--allow-remote`.
+- **Parser robustness:** an oversized CSV field or a deeply nested JSON line becomes one bad
+  row instead of aborting the case.
+- Office-spawned PowerShell is tagged T1059.001 (was T1059.003).
+- CLI: `--kind auditd`, `--host`, `--version`, help for every option, one-line errors with
+  the extra to install, exit 2 for missing inputs.
+
+### Added
+- **Linux auditd connector** and a **live-auditd CI job** that captures a benign scripted
+  sequence on the runner and asserts its reconstruction (a consistency check).
+- **More data:** OTRF APT29 day 2, the 7-capture LSASS-dump campaign and Log4Shell (Microsoft
+  Sentinel exports are now parsed); the ATLAS release downloader. Every archive is pinned by
+  SHA-256 and verification fails closed.
+- **Evaluation:** equal-input baselines, an ablation grid, per-capture rows,
+  capture-clustered bootstrap CIs, macro F1, Brier/AUROC, Wilson intervals and McNemar
+  tests; `bench-extended` and `atlas-repro` workflows; ATLAS reproduction (`results/atlas_repro.json`).
+- Docs: landing page, How it works, Evaluation and Reproduce pages; the demo is generated
+  by `scripts/build_demo.py` and defaults to the real OTRF capture.
+- CI: wheel/sdist/Docker smoke jobs, README Quickstart run verbatim, Python 3.14, strict
+  bandit/pip-audit/gitleaks, SHA-pinned actions, least-privilege permissions, dependabot,
+  issue/PR templates, CODEOWNERS, CITATION.cff.
+- Anti-forensics: PowerShell script-block/module-logging disables are flagged.
+
+### Changed (published numbers; several are worse)
+- B1 baselines now see the same fused events as REVENANT, and the corpus runs on GitHub
+  Actions with every capture readable: OTRF atomic F1 0.910 vs PID-nearest 0.822 (was 0.955
+  vs 0.898 on the AV-reduced local corpus). The ablation shows the gain comes from the
+  image-keyed fallback rules.
+- B2 now gives every method the same reading budget: stories are slightly **worse** than a
+  suspicion-sorted flat list (hit@1 0.28 vs 0.36, p = 0.06); the earlier "stories help"
+  claim is withdrawn.
+- Calibration fitted on APT29 and tested on atomic: ECE 0.106 (was 0.035); hand-set
+  confidences were under-, not over-confident. Calibrated constants are capped at 0.99.
+- B3: recall 0.60, precision 0.20 (was 0.50 / 0.17).
+
 ## [1.0.0] - 2026-09-26
 
 First stable release. No engine behaviour changes from 0.2.0; this release adds the

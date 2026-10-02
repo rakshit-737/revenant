@@ -45,6 +45,7 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.magiclink
   - pymdownx.snippets:
       base_path: ["."]
       check_paths: true
@@ -65,9 +66,11 @@ plugins:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
+  - How it works: how-it-works.md
+  - Evaluation: evaluation.md
+  - Reproduce: reproduce.md
   - Architecture: architecture.md
   - Datasets: datasets.md
-  - Benchmarks & results: benchmarks.md
   - CLI & API reference: reference.md
   - Threat model: threat-model.md
   - Security: security.md

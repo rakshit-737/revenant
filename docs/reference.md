@@ -7,9 +7,12 @@ revenant scenarios                          list built-in synthetic scenarios
 revenant demo [--scenario NAME]             run a scenario end-to-end, print report
 revenant analyze PATH [PATH ...]            analyse artefacts (OTRF JSON, .evtx, plaso
                                             json_line/l2tcsv, Volatility dir, auth.log)
-     --kind K  --format md|html|json|cypher  --out FILE  --pdf FILE
+     --kind otrf|evtx|plaso|volatility|authlog|auditd  --host H
+     --format md|html|json|cypher  --out FILE  --pdf FILE
      --ledger custody.sqlite  --top N  --include-noisy
-revenant verify FILE|LEDGER.sqlite          custody-ledger integrity check
+revenant verify FILE|LEDGER.sqlite          custody-ledger integrity check (read-only)
+     --expect-head HASH  --expect-count N   external anchors (detect truncation/rewrite)
+revenant --version
 revenant serve [--host --port]              FastAPI + timeline/graph UI
 ```
 

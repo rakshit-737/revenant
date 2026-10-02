@@ -12,13 +12,15 @@ several clocks:
 - `EventTime` / `TimeCreated`: when Windows wrote the record, in the
   **collector's local time**, sometimes with a misleading `Z` suffix, and
   whole seconds only.
-- `@timestamp`: when **Logstash ingested** the row. On the APT29 capture it lags
-  real time by 1–45 s.
+- `@timestamp`: when **Logstash ingested** the row, which lags real time on the
+  APT29 capture (we observed lags of up to tens of seconds during development;
+  that run's log was not kept, so treat the figure as anecdotal).
 
 The first v0.2 benchmark run preferred `@timestamp` for non-Sysmon rows. Security
-4688 records then landed up to 45 s after their Sysmon twins, fusion failed to
-merge them, and the orphaned 4688 became the "nearest cause" of later events.
-APT29 edge F1 read 0.635 because of a clock choice, not a reasoning error.
+4688 records then landed after their Sysmon twins, fusion failed to merge them,
+and the orphaned 4688 became the "nearest cause" of later events, which visibly
+depressed APT29 edge F1 (the exact figure from that development run was not
+committed and is not reported here).
 
 ## Decision
 

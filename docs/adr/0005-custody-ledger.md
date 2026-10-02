@@ -23,9 +23,14 @@ offline, and a database server is a heavy dependency for that setting.
 
 ## Consequences
 
-- An edit made through SQL is blocked. An edit made around SQL (dropping the
-  trigger, hex-editing the file) is **detected** by `verify_store` because the
-  hash chain breaks. This is tested.
+- An edit made through SQL is blocked. Editing a record around SQL
+  (hex-editing the file) breaks the hash chain and is **detected** by
+  `verify_store`; a dropped trigger also fails verification, and `verify`
+  opens the store read-only so it never repairs (and hides) tampering.
+  Truncating the tail or rewriting the whole chain keeps the chain internally
+  consistent: it is detected only against an external anchor (the head hash and
+  record count printed in the report, passed as `--expect-head/--expect-count`).
+  All of this is tested.
 - The schema ports to PostgreSQL unchanged apart from trigger syntax. Doing so
   would add multi-user access, not stronger integrity.
 - The ledger shows tampering but cannot prevent someone replacing the whole
