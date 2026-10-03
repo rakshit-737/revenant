@@ -58,3 +58,30 @@ def test_refused_ledger_append_leaves_no_report(tmp_path, capsys):
     assert "refusing to append" in capsys.readouterr().err
     digest = head.split("`")[1] if "`" in head else head.rsplit(" ", 1)[-1]
     assert main(["verify", str(store), "--expect-head", digest.strip()]) == 0
+
+
+def test_evidence_text_cannot_break_out_of_markdown():
+    """A crafted command line or object name renders as text in both the .md and .html reports."""
+    import re
+    from datetime import datetime, timezone
+
+    from revenant.graph import ProvenanceGraph
+    from revenant.integrity import finalize_event
+    from revenant.models import Event, EventType
+    from revenant.report import _hop_line, _inline
+
+    payload = "<img src=x onerror=alert(1)> `</code><svg onload=alert(2)>` **<b>bold</b>**"
+    ev = finalize_event(Event(
+        event_id="pending", timestamp=datetime(2024, 1, 1, tzinfo=timezone.utc), event_type=EventType.PROCESS_START,
+        actor=r"process:1:C:\x\a.exe", action="spawned", object=r"process:2:C:\x\<b>[l](javascript:x)*.exe",
+        source_artifact="sysmon", attributes={"command_line": payload}))
+    g = ProvenanceGraph(backend="memory")
+    g.add_event(ev)
+    md = _hop_line(g, ev.event_id)
+    assert "`` " + payload + " ``" in md  # fence longer than the payload's backtick runs
+    outside = re.sub(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)", "", md)  # CommonMark code spans removed
+    assert not re.search(r"(?<!\\)[<>\[\]`]", outside), outside  # every other <, >, [, ], ` is escaped
+    html = _inline(md)
+    for tag in ("<img", "<svg", "<b>", "</code><svg"):
+        assert tag not in html
+    assert html.count("<code>") == 2  # the event id and the command line

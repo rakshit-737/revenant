@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import html
 import re
+import string
 from typing import TYPE_CHECKING
 
 from .attack import TACTICS
@@ -31,6 +32,37 @@ from .stories import story_breakdown, story_gaps
 
 if TYPE_CHECKING:  # pragma: no cover
     from .pipeline import Analysis
+
+# Evidence text is attacker-influenced (command lines, file and registry names). In the
+# Markdown report it is either a code span whose fence is longer than any backtick run
+# inside it (CommonMark), or plain text with Markdown/HTML punctuation backslash-escaped,
+# so a crafted value can neither close its span nor inject raw HTML.
+_MD_SPECIAL = frozenset("`*[]<>|")
+
+
+def md_code(text: str) -> str:
+    """A CommonMark code span that ``text`` (backticks included) cannot break out of."""
+    longest = max((len(r) for r in re.findall(r"`+", text)), default=0)
+    if not longest:
+        return f"`{text}`"
+    fence = "`" * (longest + 1)
+    return f"{fence} {text} {fence}"
+
+
+def md_text(text: str) -> str:
+    """Backslash-escape Markdown and HTML punctuation in evidence-derived plain text.
+
+    A backslash is doubled only where it would otherwise escape the next character, so
+    Windows paths such as ``C:\\Users`` stay readable.
+    """
+    t = str(text)
+    out = []
+    for i, ch in enumerate(t):
+        if ch in _MD_SPECIAL or (ch == "\\" and i + 1 < len(t) and t[i + 1] in string.punctuation):
+            out.append("\\" + ch)
+        else:
+            out.append(ch)
+    return "".join(out)
 
 
 def _hop_line(graph: ProvenanceGraph, event_id: str, analysis: Analysis | None = None) -> str:
@@ -48,12 +80,12 @@ def _hop_line(graph: ProvenanceGraph, event_id: str, analysis: Analysis | None =
             srcs = sorted(graph.sources_for(event_id))
             extra += f" (corroborated by {n}: {'/'.join(srcs)})"
     cmd = e.attributes.get("command_line", "")
-    cmd = f" `{cmd[:140]}`" if cmd else ""
+    cmd = f" {md_code(cmd[:140])}" if cmd else ""
     host = e.attributes.get("host", "")
-    host = f"[{host}] " if host else ""
+    host = f"[{md_text(host)}] " if host else ""
     return (
-        f"- `{e.event_id}` {e.timestamp.isoformat()} {host}**{e.actor}** {e.action} "
-        f"*{e.object}*{cmd}{extra} (source: {e.source_artifact}/{e.source_reliability.value}, "
+        f"- `{e.event_id}` {e.timestamp.isoformat()} {host}**{md_text(e.actor)}** {md_text(e.action)} "
+        f"*{md_text(e.object)}*{cmd}{extra} (source: {e.source_artifact}/{e.source_reliability.value}, "
         f"sha256:{h}...)"
     )
 
@@ -72,7 +104,7 @@ def narrative_for(chain: ProvenanceChain, graph: ProvenanceGraph) -> str:
         lines.append("")
         lines.append("**Tampering indicators (confidence reduced):**")
         for f in chain.tampering_flags:
-            lines.append(f"- {f}")
+            lines.append(f"- {md_text(f)}")
     return "\n".join(lines)
 
 
@@ -99,7 +131,7 @@ def story_narrative(story: IncidentStory, analysis: Analysis, *, max_hops: int =
         f"### {story.story_id} - suspicion {story.suspicion:.2f}, confidence {story.grade.value} "
         f"({story.confidence_score:.2f})",
         "",
-        f"- **Root:** `{story.root_event_id}` {root.object if root else '?'}",
+        f"- **Root:** `{story.root_event_id}` {md_text(root.object) if root else '?'}",
         f"- **Hosts:** {', '.join(story.hosts) or 'n/a'}",
         f"- **ATT&CK techniques:** {', '.join(story.techniques) or 'none tagged'}",
         f"- **Tactics:** {', '.join(f'{t} ({TACTICS.get(t, t)})' for t in story.tactics) or 'n/a'}",
@@ -129,7 +161,7 @@ def story_narrative(story: IncidentStory, analysis: Analysis, *, max_hops: int =
         lines += ["", f"**Causal rules used:** {', '.join(rules)}"]
     if story.tampering_flags:
         lines += ["", "**Tampering indicators touching this story:**"]
-        lines += [f"- {f}" for f in story.tampering_flags]
+        lines += [f"- {md_text(f)}" for f in story.tampering_flags]
     gaps = story_gaps(g, story)
     if gaps:
         lines += ["", "**Unknown windows inside this story:**"]
@@ -172,7 +204,7 @@ def generate_report(analysis: Analysis, *, top: int = 5, title: str = "Forensic 
     if analysis.artefacts:
         parts += ["## Scope and evidence", "", "| Artefact | SHA-256 |", "| --- | --- |"]
         for a in analysis.artefacts[:50]:
-            parts.append(f"| `{a['path'].replace(chr(92), '/').rsplit('/', 1)[-1]}` | `{a['sha256']}` |")
+            parts.append(f"| {md_code(a['path'].replace(chr(92), '/').rsplit('/', 1)[-1])} | `{a['sha256']}` |")
         if len(analysis.artefacts) > 50:
             parts.append(f"| ... {len(analysis.artefacts) - 50} more | |")
         parts.append("")
@@ -205,7 +237,7 @@ def generate_report(analysis: Analysis, *, top: int = 5, title: str = "Forensic 
     parts.append("## Tampering indicators")
     if tamper:
         for i in tamper[:50]:
-            parts.append(f"- **{i.indicator}** ({i.severity}): {i.detail} [{', '.join(i.event_ids[:3])}]")
+            parts.append(f"- **{i.indicator}** ({i.severity}): {md_text(i.detail)} [{', '.join(i.event_ids[:3])}]")
         if len(tamper) > 50:
             parts.append(f"- ... {len(tamper) - 50} more")
     else:
@@ -249,12 +281,28 @@ blockquote{color:#555;border-left:3px solid #aaa;margin:0;padding-left:1rem}
 """
 
 
+_CODE_SPAN = re.compile(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)")
+_ESCAPED = re.compile(r"\\([\\`*_\[\]<>|])")
+
+
 def _inline(s: str) -> str:
+    """Render the report's Markdown subset to HTML; every character of evidence ends up escaped."""
+    codes: list[str] = []
+
+    def stash_code(m: re.Match) -> str:
+        body = m.group(2)
+        if len(m.group(1)) > 1 and body.startswith(" ") and body.endswith(" ") and body.strip():
+            body = body[1:-1]  # CommonMark strips one padding space
+        codes.append(html.escape(body, quote=False))
+        return f"\x00c{len(codes) - 1}\x00"
+
+    s = _CODE_SPAN.sub(stash_code, s)  # code spans first: backslashes inside them are literal
+    s = _ESCAPED.sub(lambda m: f"\x00e{ord(m.group(1))}\x00", s)
     s = html.escape(s, quote=False)
-    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
     s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
     s = re.sub(r"(?<![\w*])\*([^*]+)\*(?!\w)", r"<em>\1</em>", s)
-    return s
+    s = re.sub(r"\x00e(\d+)\x00", lambda m: html.escape(chr(int(m.group(1))), quote=False), s)
+    return re.sub(r"\x00c(\d+)\x00", lambda m: f"<code>{codes[int(m.group(1))]}</code>", s)
 
 
 def markdown_to_html(md: str, title: str = "REVENANT report") -> str:
