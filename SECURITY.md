@@ -50,7 +50,7 @@ The CI workflow (`.github/workflows/ci.yml`) runs on every push and PR:
 ## Reporting a vulnerability
 
 This is a student/portfolio project. Please report privately through a GitHub
-security advisory: <https://github.com/rakshit-737/revenant/security/advisories/new>.
+security advisory: <https://github.com/rakshit-737/revenant-dfir-timeline/security/advisories/new>.
 Do not open a public issue. There is no production deployment and no SLA.
 
 ## Handling real evidence

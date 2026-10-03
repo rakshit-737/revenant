@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/rakshit-737/revenant/security/advisories/new
+    url: https://github.com/rakshit-737/revenant-dfir-timeline/security/advisories/new
     about: Report privately, never in a public issue.

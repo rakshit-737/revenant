@@ -3,8 +3,8 @@
 ## Try it in 60 seconds
 
 - **No install:** the [live demo](demo/index.html) shows a real public OTRF capture.
-- **pip (recommended):** `pip install "git+https://github.com/rakshit-737/revenant" && revenant demo --scenario intrusion`
-- **Docker:** `docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion`.
+- **pip (recommended):** `pip install "git+https://github.com/rakshit-737/revenant-dfir-timeline" && revenant demo --scenario intrusion`
+- **Docker:** `docker run --rm ghcr.io/rakshit-737/revenant-dfir-timeline:latest demo --scenario intrusion`.
   Images from v1.1.0 on ship the calibration table; avoid `:1.0.0`.
 
 The first story should read `story-907cbcd159 - suspicion 0.91, confidence HIGH (0.74)`.
@@ -19,8 +19,8 @@ REVENANT is a pure-Python package (3.10–3.14, all tested in CI). Core dependen
 `pydantic` and `networkx`; everything else is an optional extra.
 
 ```bash
-git clone https://github.com/rakshit-737/revenant
-cd revenant
+git clone https://github.com/rakshit-737/revenant-dfir-timeline
+cd revenant-dfir-timeline
 pip install -e .            # core
 pip install -e '.[evtx,api,pdf]'   # raw .evtx, FastAPI UI, PDF reports
 ```
@@ -78,7 +78,7 @@ A pre-computed, server-less version is published as the [Live demo](demo/index.h
 ```bash
 docker run --rm -p 127.0.0.1:8000:8000 \
   -v "$PWD/tests/fixtures:/evidence:ro" \
-  ghcr.io/rakshit-737/revenant:latest
+  ghcr.io/rakshit-737/revenant-dfir-timeline:latest
 # the API has no authentication: always publish the port on 127.0.0.1
 ```
 

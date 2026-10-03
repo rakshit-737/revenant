@@ -8,13 +8,13 @@ process GUIDs using named, deterministic rules whose per-rule confidences are fi
 Sysmon-GUID lineage hidden at inference, and attaches the rule, its confidence and the hash of
 the supporting event to every claim it reports.
 
-[![CI](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml/badge.svg)](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml)
-[![docs](https://github.com/rakshit-737/revenant/actions/workflows/docs.yml/badge.svg)](https://rakshit-737.github.io/revenant/)
+[![CI](https://github.com/rakshit-737/revenant-dfir-timeline/actions/workflows/ci.yml/badge.svg)](https://github.com/rakshit-737/revenant-dfir-timeline/actions/workflows/ci.yml)
+[![docs](https://github.com/rakshit-737/revenant-dfir-timeline/actions/workflows/docs.yml/badge.svg)](https://rakshit-737.github.io/revenant-dfir-timeline/)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.14-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-research%20prototype-orange)
 
-[![REVENANT demo: the real OTRF PsExec capture as a ranked story with timeline, causal graph and evidence hashes](docs/img/demo.png)](https://rakshit-737.github.io/revenant/demo/)
+[![REVENANT demo: the real OTRF PsExec capture as a ranked story with timeline, causal graph and evidence hashes](docs/img/demo.png)](https://rakshit-737.github.io/revenant-dfir-timeline/demo/)
 
 **What the evidence shows.** With GUIDs hidden, REVENANT's causal edges beat a PID-nearest
 analyst baseline on OTRF atomic but are at parity with a careful PID-then-image heuristic;
@@ -23,45 +23,45 @@ stories do not speed up triage; and under the ATLAS protocol it scores far below
 hand-cleaned output. What it adds is explainability and custody, not accuracy. Every number
 below carries a 95% interval or a test and the workflow run that produced it.
 
-**Documentation:** <https://rakshit-737.github.io/revenant/> · [Live demo](https://rakshit-737.github.io/revenant/demo/) ·
-[Evaluation](https://rakshit-737.github.io/revenant/evaluation/) · [Reproduce](https://rakshit-737.github.io/revenant/reproduce/)
+**Documentation:** <https://rakshit-737.github.io/revenant-dfir-timeline/> · [Live demo](https://rakshit-737.github.io/revenant-dfir-timeline/demo/) ·
+[Evaluation](https://rakshit-737.github.io/revenant-dfir-timeline/evaluation/) · [Reproduce](https://rakshit-737.github.io/revenant-dfir-timeline/reproduce/)
 
 ## Headline results
 
 <!-- headline:start -->
 | Benchmark (public data, ground truth) | REVENANT | Best baseline | Verdict | Source run |
 |---|---|---|---|---|
-| B1 causal edges, OTRF atomic (120 captures, 102 with scorable effects; Sysmon GUIDs hidden as a proxy for GUID-less sources) | F1 0.910 [0.79, 0.98]; macro 0.931 | PID-then-image-nearest 0.906 [0.78, 0.97]; macro 0.923 | macro difference vs PID-nearest +0.194 [+0.129, +0.266], sign test p=4.6e-07; vs PID-then-image +0.008 [-0.000, +0.025], p=0.289 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| B1, APT29 day 1 + day 2, LSASS (7), Log4Shell | F1 0.999-1.000 | PID-nearest 1.000-1.000 | no difference (fewer than 10 captures per corpus: no CI) | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| Edge calibration, fit APT29 -> test atomic | ECE 0.098 [0.011, 0.260], AUROC 0.66 [0.42, 0.94] | hand-set ECE 0.233 [0.179, 0.300] | improved, not solved | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.20, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | lower, not significant (McNemar p=0.064) | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| B3 anti-forensics, EVTX-ATTACK-SAMPLES (10 positives) | recall 0.80 [0.49, 0.94], precision 0.25 [0.13, 0.42] | 1102/104 recall 0.30; Sigma-equivalent recall 0.60, precision 0.20 | vs Sigma-equivalent on positives 2/0 discordant, p=0.500 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| B3b anti-forensics, OTRF T1562.002 captures (17 positives) | recall 1.00 [0.82, 1.00], precision 0.29 [0.19, 0.42] | 1102/104 recall 0.29; Sigma-equivalent recall 1.00, precision 0.29 | vs Sigma-equivalent on positives 0/0 discordant, p=1.000 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
-| C ATLAS paper, authors' release and `evaluate.py` | event F1 0.9988, entity F1 0.913; model re-run (TF 2.3) identical predictions on 15/16 test graphs | paper 0.9988 / 0.9376 | recomputed: macro event figures match Table 4's average; per-attack event counts differ for 8 of 10 attacks | [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948) |
-| C2 REVENANT under the ATLAS protocol (10 attacks) | entity F1 0.556 [0.46, 0.64], event F1 0.574 [0.49, 0.65] | ATLAS (hand-cleaned) 0.913 / 0.9988 | **worse** on 10/10 attacks (sign test p=0.002) | [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948) |
-| B5 live auditd capture in CI (scripted benign sequence) | 7/7 chain checks; 25/25 edges agree [0.86, 1.00] | - | consistency check, not accuracy | [37093169673](https://github.com/rakshit-737/revenant/actions/runs/37093169673) |
+| B1 causal edges, OTRF atomic (120 captures, 102 with scorable effects; Sysmon GUIDs hidden as a proxy for GUID-less sources) | F1 0.910 [0.79, 0.98]; macro 0.931 | PID-then-image-nearest 0.906 [0.78, 0.97]; macro 0.923 | macro difference vs PID-nearest +0.194 [+0.129, +0.266], sign test p=4.6e-07; vs PID-then-image +0.008 [-0.000, +0.025], p=0.289 | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| B1, APT29 day 1 + day 2, LSASS (7), Log4Shell | F1 0.999-1.000 | PID-nearest 1.000-1.000 | no difference (fewer than 10 captures per corpus: no CI) | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| Edge calibration, fit APT29 -> test atomic | ECE 0.098 [0.011, 0.260], AUROC 0.66 [0.42, 0.94] | hand-set ECE 0.233 [0.179, 0.300] | improved, not solved | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.20, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | lower, not significant (McNemar p=0.064) | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| B3 anti-forensics, EVTX-ATTACK-SAMPLES (10 positives) | recall 0.80 [0.49, 0.94], precision 0.25 [0.13, 0.42] | 1102/104 recall 0.30; Sigma-equivalent recall 0.60, precision 0.20 | vs Sigma-equivalent on positives 2/0 discordant, p=0.500 | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| B3b anti-forensics, OTRF T1562.002 captures (17 positives) | recall 1.00 [0.82, 1.00], precision 0.29 [0.19, 0.42] | 1102/104 recall 0.29; Sigma-equivalent recall 1.00, precision 0.29 | vs Sigma-equivalent on positives 0/0 discordant, p=1.000 | [37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942) |
+| C ATLAS paper, authors' release and `evaluate.py` | event F1 0.9988, entity F1 0.913; model re-run (TF 2.3) identical predictions on 15/16 test graphs | paper 0.9988 / 0.9376 | recomputed: macro event figures match Table 4's average; per-attack event counts differ for 8 of 10 attacks | [37090608948](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37090608948) |
+| C2 REVENANT under the ATLAS protocol (10 attacks) | entity F1 0.556 [0.46, 0.64], event F1 0.574 [0.49, 0.65] | ATLAS (hand-cleaned) 0.913 / 0.9988 | **worse** on 10/10 attacks (sign test p=0.002) | [37090608948](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37090608948) |
+| B5 live auditd capture in CI (scripted benign sequence) | 7/7 chain checks; 25/25 edges agree [0.86, 1.00] | - | consistency check, not accuracy | [37093169673](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169673) |
 <!-- headline:end -->
 
 The table is generated by `benchmarks/make_figures.py` from the committed
 [`results/*.json`](results); full tables with every interval are in
 [`results/RESULTS.md`](results/RESULTS.md) and on the
-[Evaluation page](https://rakshit-737.github.io/revenant/evaluation/).
+[Evaluation page](https://rakshit-737.github.io/revenant-dfir-timeline/evaluation/).
 
 > Lab-only and defensive. REVENANT reads evidence and never changes it. It contains no
 > offensive code. All benchmark data is public (see [Datasets](#datasets)).
 
 ## Try it in 60 seconds
 
-1. **No install:** open the [live demo](https://rakshit-737.github.io/revenant/demo/) (a real
+1. **No install:** open the [live demo](https://rakshit-737.github.io/revenant-dfir-timeline/demo/) (a real
    public OTRF capture, pre-computed).
 2. **From source (recommended)** (REVENANT is not on PyPI; `pip install revenant` is an unrelated package):
    ```bash
-   pip install "git+https://github.com/rakshit-737/revenant"
+   pip install "git+https://github.com/rakshit-737/revenant-dfir-timeline"
    revenant demo --scenario intrusion
    ```
-3. **Docker** (published image; tags `:latest`, `:1.1.2`, `:1.1`, and from v1.1.2 on also the git tag, e.g. `:v1.1.2`):
+3. **Docker** (published image; tags `:latest`, `:1.1.3`, `:1.1`, and from v1.1.2 on also the git tag, e.g. `:v1.1.2`):
    ```bash
-   docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion
+   docker run --rm ghcr.io/rakshit-737/revenant-dfir-timeline:latest demo --scenario intrusion
    ```
    > Images from v1.1.0 on ship the calibration table; v1.0.0 (`:1.0.0`) did not, so avoid it.
 
@@ -139,7 +139,7 @@ from host, PID, image and time alone, on the **same fused, de-duplicated events*
 proxy for GUID-less sources: the Sysmon events keep their PID and image.
 
 On OTRF atomic (102 captures with effects, 142,175 effects; run
-[37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942)):
+[37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942)):
 
 | Method | F1 [95% CI] | macro F1 [95% CI] | REVENANT macro difference [95% CI], sign test |
 |---|---|---|---|
@@ -191,7 +191,7 @@ Stories do **not** reach the labelled technique faster than a suspicion-sorted f
 the same heuristics; hit@1 is lower but not significantly (5 captures REVENANT-only vs 14
 flat-only, exact McNemar p = 0.064; hit@5 p = 0.062). What stories add is grouping, per-hop
 explanation and confidence, not faster triage (run
-[37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942)).
+[37093169942](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169942)).
 
 ![B2 stories](results/stories_hitk.png)
 
@@ -237,7 +237,7 @@ trace and an MRU key delete.
 The `live-auditd` CI job starts auditd inside the runner, records benign background load plus a
 scripted stage → fetch (127.0.0.1 only) → archive → delete sequence on dummy files, and
 reconstructs it with `revenant analyze --kind auditd`. In run
-[37093169673](https://github.com/rakshit-737/revenant/actions/runs/37093169673)
+[37093169673](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37093169673)
 ([`results/live_auditd.json`](results/live_auditd.json)): 63 events, all 7 chain checks pass,
 the covering story ranks first (coverage 0.857, HIGH), and 25/25 inferred edges agree with
 auditd's pid/ppid fields (95% Clopper-Pearson [0.863, 1]). The parser reads the same fields, so
@@ -248,7 +248,7 @@ this is an **end-to-end consistency and regression check**, not an independent a
 ATLAS (Alsaheel et al., USENIX Security 2021) reports entity-level precision/recall/F1 of
 91.06/97.29/93.76% (abstract, p. 3005; Table 4 Avg row, p. 3016) and event-level 99.88/99.89/99.88%
 (Table 4 Avg row, p. 3016; Table 5, p. 3017). The `atlas-repro` workflow (run
-[37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948)) downloads the
+[37090608948](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37090608948)) downloads the
 authors' release (pinned commit, git-blob and SHA-256 verified, no executables) and:
 
 1. **recomputes** each attack's P/R/F1 from the released per-attack counts (which equal Table 4's
@@ -279,8 +279,8 @@ A new connector (`--kind atlas`) parses ATLAS's preprocessed Windows-Security/DN
 after stripping their ground-truth suffix (a test flips every label and gets identical events).
 For each attack and host, REVENANT seeds a story with the symptom entity the authors' code used
 (`malicious_labels[0]`), maps the story's entities to ATLAS's label strings by a
-[documented mapping](https://rakshit-737.github.io/revenant/atlas-mapping/), and the authors'
-`evaluate.py` scores them (run [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948)):
+[documented mapping](https://rakshit-737.github.io/revenant-dfir-timeline/atlas-mapping/), and the authors'
+`evaluate.py` scores them (run [37090608948](https://github.com/rakshit-737/revenant-dfir-timeline/actions/runs/37090608948)):
 
 | Method (10 attacks) | entity F1 [95% CI] | event F1 [95% CI] |
 |---|---|---|
@@ -303,7 +303,7 @@ REVENANT is **not on PyPI** -- `pip install revenant` installs an unrelated pack
 
 <!-- quickstart -->
 ```bash
-git clone https://github.com/rakshit-737/revenant && cd revenant
+git clone https://github.com/rakshit-737/revenant-dfir-timeline && cd revenant-dfir-timeline
 python -m pip install -e ".[dev,evtx,api]"          # core: pydantic + networkx; extras optional
 python -m pytest -q                                  # committed fixtures; real-data tests skip without data
 
@@ -350,7 +350,7 @@ print(analysis.stories[0].story_id, analysis.stories[0].grade.value)
 ## Reproducibility
 
 Exact commands, expected numbers and runtimes are on the
-[Reproduce page](https://rakshit-737.github.io/revenant/reproduce/). In short:
+[Reproduce page](https://rakshit-737.github.io/revenant-dfir-timeline/reproduce/). In short:
 
 | Step | Command | Notes |
 |---|---|---|

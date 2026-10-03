@@ -1,8 +1,8 @@
 site_name: REVENANT
 site_description: Evidence-graph forensic timeline reconstruction with confidence grading (lab-only DFIR).
-site_url: https://rakshit-737.github.io/revenant/
-repo_url: https://github.com/rakshit-737/revenant
-repo_name: rakshit-737/revenant
+site_url: https://rakshit-737.github.io/revenant-dfir-timeline/
+repo_url: https://github.com/rakshit-737/revenant-dfir-timeline
+repo_name: rakshit-737/revenant-dfir-timeline
 edit_uri: edit/main/docs/
 copyright: MIT licensed. All benchmark data is public; see Datasets.
 

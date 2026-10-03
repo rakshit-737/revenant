@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-10-03
+
+### Changed
+- Repository renamed to `rakshit-737/revenant-dfir-timeline`. Repo, docs-site
+  (`https://rakshit-737.github.io/revenant-dfir-timeline/`), badge, CITATION, mkdocs and
+  container image (`ghcr.io/rakshit-737/revenant-dfir-timeline`) references updated.
+  Older entries below keep the original `revenant` names; old Pages URLs now 404.
+
 ## [1.1.2] - 2026-10-03
 
 ### Fixed

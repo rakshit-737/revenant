@@ -92,5 +92,5 @@ written as `<revenant:no-prediction>`, which matches nothing, because
   first label of that host), in one folder holding both hosts' files, as the
   authors do for ATLAS.
 
-Results: [`results/atlas_revenant.json`](https://github.com/rakshit-737/revenant/blob/main/results/atlas_revenant.json)
+Results: [`results/atlas_revenant.json`](https://github.com/rakshit-737/revenant-dfir-timeline/blob/main/results/atlas_revenant.json)
 and the [Evaluation](evaluation.md) page.

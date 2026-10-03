@@ -152,7 +152,7 @@ def clopper_pearson(k: int, n: int, alpha: float = 0.05) -> tuple[float, float]:
 def provenance(workflow: str) -> dict[str, str]:
     """Where a result file came from: the Actions run (GITHUB_RUN_ID, GITHUB_SHA) or ``local`` + git SHA."""
     run = os.environ.get("GITHUB_RUN_ID")
-    repo = os.environ.get("GITHUB_REPOSITORY", "rakshit-737/revenant")
+    repo = os.environ.get("GITHUB_REPOSITORY", "rakshit-737/revenant-dfir-timeline")
     if run:
         return {"workflow": os.environ.get("GITHUB_WORKFLOW", workflow), "run_id": run,
                 "run_url": f"https://github.com/{repo}/actions/runs/{run}",

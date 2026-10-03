@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir --upgrade pip build \
 FROM python:3.12-slim
 LABEL org.opencontainers.image.title="REVENANT" \
       org.opencontainers.image.description="Evidence-graph forensic timeline reconstruction with confidence grading (lab-only DFIR)." \
-      org.opencontainers.image.source="https://github.com/rakshit-737/revenant" \
+      org.opencontainers.image.source="https://github.com/rakshit-737/revenant-dfir-timeline" \
       org.opencontainers.image.licenses="MIT"
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 REVENANT_EVIDENCE_ROOT=/evidence
 RUN useradd --create-home --uid 10001 revenant && mkdir -p /evidence && chown revenant /evidence

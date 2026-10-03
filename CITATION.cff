@@ -10,9 +10,9 @@ type: software
 authors:
   - name: Rakshit
     affiliation: "VIT Chennai"
-repository-code: "https://github.com/rakshit-737/revenant"
-url: "https://rakshit-737.github.io/revenant/"
+repository-code: "https://github.com/rakshit-737/revenant-dfir-timeline"
+url: "https://rakshit-737.github.io/revenant-dfir-timeline/"
 license: MIT
-version: 1.1.2
+version: 1.1.3
 date-released: 2026-10-03
 keywords: [dfir, digital-forensics, timeline, provenance, sysmon, auditd]
