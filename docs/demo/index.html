@@ -56,6 +56,7 @@ main{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:.75rem;paddi
   </section>
 </main>
 <script>
+function plural(n, one, many){ return `${n} ${n === 1 ? one : (many || one + "s")}`; }
 const $ = s => document.querySelector(s);
 let caseData = null, timeline = null, network = null;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -65,7 +66,7 @@ async function json(url){ const r = await fetch(url); if(!r.ok) throw new Error(
 
 async function init(){
   const idx = await json("cases/index.json");
-  $("#scenario").innerHTML = idx.map(s => `<option value="${esc(s.name)}">${esc(s.title || s.name)} (${s.events} events, ${s.stories} stories)</option>`).join("");
+  $("#scenario").innerHTML = idx.map(s => `<option value="${esc(s.name)}">${esc(s.title || s.name)} (${plural(s.events, "event")}, ${plural(s.stories, "story", "stories")})</option>`).join("");
   $("#scenario").value = idx[0].name;
   $("#scenario").onchange = () => load($("#scenario").value);
   load($("#scenario").value);
@@ -74,8 +75,8 @@ async function init(){
 async function load(name){
   caseData = await json(`cases/${name}.json`);
   const s = caseData.summary;
-  $("#summary").innerHTML = `<b>${esc(name)}</b><br>${s.events} events &middot; ${s.edges} causal edges &middot; ` +
-    `${s.corroborations} corroborations &middot; ${s.stories} stories &middot; ${s.indicators} indicators &middot; ` +
+  $("#summary").innerHTML = `<b>${esc(name)}</b><br>${plural(s.events, "event")} &middot; ${plural(s.edges, "causal edge")} &middot; ` +
+    `${s.corroborations} corroborations &middot; ${plural(s.stories, "story", "stories")} &middot; ${s.indicators} indicators &middot; ` +
     `custody ${s.ledger_ok ? "verified" : "BROKEN"}` +
     (caseData.indicators.length ? `<div style="margin-top:.4rem"><b>Tampering indicators</b><ul style="margin:.2rem 0;padding-left:1.1rem">` +
       caseData.indicators.slice(0, 8).map(x => `<li>${esc(x.indicator)} (${esc(x.severity || "")}): ${esc(x.detail || "")}</li>`).join("") + `</ul></div>` : "");
@@ -83,11 +84,11 @@ async function load(name){
     `<div class="s" data-i="${i}"><b>#${i + 1}</b> suspicion ${st.suspicion.toFixed(2)} &middot; ` +
     `<span class="grade-${st.grade}">${st.grade}</span> (${st.confidence.toFixed(2)})<br>` +
     st.techniques.map(t => `<span class="badge">${esc(t)}</span>`).join("") +
-    `<br><small>${st.event_ids.length} events${st.tampering_flags.length ? " &middot; tamper flags " + st.tampering_flags.length : ""}</small></div>`);
+    `<br><small>${plural(st.event_ids.length, "event")}${st.tampering_flags.length ? " &middot; tamper flags " + st.tampering_flags.length : ""}</small></div>`);
   (caseData.chains || []).forEach((c, k) => rows.push(
     `<div class="s" data-c="${k}"><b>Chain ${k + 1}</b> (path view) &middot; <span class="grade-${c.grade}">${c.grade}</span> (${c.confidence.toFixed(2)})` +
-    `<br><small>${c.event_ids.length} events${c.tampering_flags.length ? " &middot; tamper flags " + c.tampering_flags.length : ""}</small></div>`));
-  rows.push(`<div class="s" data-i="-1"><b>Full timeline</b><br><small>all ${caseData.events.length} events, ungrouped</small></div>`);
+    `<br><small>${plural(c.event_ids.length, "event")}${c.tampering_flags.length ? " &middot; tamper flags " + c.tampering_flags.length : ""}</small></div>`));
+  rows.push(`<div class="s" data-i="-1"><b>Full timeline</b><br><small>all ${plural(caseData.events.length, "event")}, ungrouped</small></div>`);
   $("#stories").innerHTML = rows.join("");
   document.querySelectorAll("#stories .s").forEach(el => el.onclick = () =>
     el.dataset.c !== undefined ? show(-2, el, caseData.chains[+el.dataset.c]) : show(+el.dataset.i, el));
@@ -118,7 +119,7 @@ function show(i, el, chain){
     physics: false, interaction: {hover: true}});
   network.on("click", p => p.nodes[0] && detail(byId[p.nodes[0]]));
   if (i === -1){ $("#detail").innerHTML = "Full event timeline (no single story selected). Click an event."; }
-  else if (i === -2){ $("#detail").innerHTML = `<b>Chain ${esc(chain.id)}</b> (path view): ${chain.event_ids.length} events` +
+  else if (i === -2){ $("#detail").innerHTML = `<b>Chain ${esc(chain.id)}</b> (path view): ${plural(chain.event_ids.length, "event")}` +
     (chain.tampering_flags.length ? `<ul>${chain.tampering_flags.map(f => `<li>${esc(f)}</li>`).join("")}</ul>` : ""); }
   else {
     const st = caseData.stories[i];

@@ -55,6 +55,7 @@ main{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:.75rem;paddi
   </section>
 </main>
 <script>
+function plural(n, one, many){ return `${n} ${n === 1 ? one : (many || one + "s")}`; }
 const $ = s => document.querySelector(s);
 let caseData = null, timeline = null, network = null;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -71,8 +72,8 @@ async function init() {
 async function openCase(meta) {
   caseData = await api(`/api/cases/${meta.id}?top=30`);
   const s = caseData.summary;
-  $("#summary").innerHTML = `<b>${esc(meta.name)}</b><br>${s.events} events &middot; ${s.edges} causal edges &middot; ` +
-    `${s.corroborations} corroborations &middot; ${s.stories} stories &middot; ${s.indicators} indicators &middot; ` +
+  $("#summary").innerHTML = `<b>${esc(meta.name)}</b><br>${plural(s.events, "event")} &middot; ${plural(s.edges, "causal edge")} &middot; ` +
+    `${s.corroborations} corroborations &middot; ${plural(s.stories, "story", "stories")} &middot; ${s.indicators} indicators &middot; ` +
     `custody ${s.ledger_ok ? "verified" : "BROKEN"}`;
   $("#links").innerHTML = `<a href="/api/cases/${meta.id}/report.html" target="_blank">report</a>` +
     `<a href="/api/cases/${meta.id}/report.md" target="_blank">markdown</a>` +
@@ -82,7 +83,7 @@ async function openCase(meta) {
     `<div class="s" data-i="${i}"><b>#${i + 1}</b> suspicion ${st.suspicion.toFixed(2)} &middot; ` +
     `<span class="grade-${st.grade}">${st.grade}</span> (${st.confidence.toFixed(2)})<br>` +
     st.techniques.map(t => `<span class="badge">${esc(t)}</span>`).join("") +
-    `<br><small>${st.event_ids.length} events &middot; ${esc(st.hosts.join(", "))}` +
+    `<br><small>${plural(st.event_ids.length, "event")} &middot; ${esc(st.hosts.join(", "))}` +
     `${st.tampering_flags.length ? " &middot; tamper flags " + st.tampering_flags.length : ""}</small></div>`).join("")
     || "<div class='summary'>No stories: nothing crossed the suspicion threshold.</div>";
   document.querySelectorAll("#stories .s").forEach(el => el.onclick = () => showStory(+el.dataset.i, el));
