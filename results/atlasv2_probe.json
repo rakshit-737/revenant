@@ -1,0 +1,29 @@
+{
+ "url": "https://uofi.box.com/s/feunur7280afxrfeb0af73recexa73yc",
+ "stated_size": "https://bitbucket.org/sts-lab/atlasv2 (README: 12 GB compressed, 160 GB uncompressed)",
+ "requests": [
+  {
+   "method": "HEAD",
+   "status": 404,
+   "location": null,
+   "content_type": "text/html; charset=UTF-8"
+  },
+  {
+   "method": "GET",
+   "status": 301,
+   "location": "https://uofi.app.box.com/s/feunur7280afxrfeb0af73recexa73yc",
+   "content_type": "text/html; charset=UTF-8"
+  },
+  {
+   "url": "https://uofi.app.box.com/s/feunur7280afxrfeb0af73recexa73yc",
+   "method": "HEAD",
+   "status": 404,
+   "location": null,
+   "content_type": "text/html; charset=UTF-8"
+  }
+ ],
+ "probed_at_utc": "2026-10-03T03:02:35+00:00",
+ "link_alive": true,
+ "is_direct_file": false,
+ "interpretation": "the share link redirects to Box's web app, which serves HTML and rejects HEAD: no file URL is exposed for a scripted, checksum-pinned download, and the stated 160 GB uncompressed exceeds a standard GitHub-hosted runner's disk (14 GB SSD guaranteed)"
+}

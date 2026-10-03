@@ -1,0 +1,2402 @@
+{
+ "benchmark": "revenant_under_atlas_protocol",
+ "protocol": {
+  "symptom": "per host, the first line of malicious_labels.txt, as the authors' atlas.py sets user_artifact (field 2 of the released eval_*.json)",
+  "scoring": "the authors' evaluate.py from each attack's experiment folder, run offline in python:3.7; multi-host attacks are scored in one folder holding both hosts' files (ATLAS README)",
+  "mapping": "docs/atlas-mapping.md (revenant.parsers.atlas.entity_labels)",
+  "labels_read_by_revenant": false,
+  "atlas_outputs_hand_cleaned": true,
+  "note": "ATLAS's released predictions (field 0) were cleaned by hand before scoring (ATLAS README: 'manual cleaning'); REVENANT's are produced automatically."
+ },
+ "attacks": {
+  "S-1": {
+   "experiment": "S1",
+   "table4_symptom_type": "malicious host",
+   "hosts": [
+    {
+     "dataset": "S1-CVE-2015-5122_windows",
+     "host": "s1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 95065,
+     "lines_mapped": 64371,
+     "events": 38144,
+     "edges": 29184,
+     "seeds": 291,
+     "story_events": {
+      "revenant": 294,
+      "revenant_uncapped": 295,
+      "backtracker": 295,
+      "symptom_only": 291
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.1,
+      "engine": 2.0
+     }
+    }
+   ]
+  },
+  "S-2": {
+   "experiment": "S2",
+   "table4_symptom_type": "leaked file",
+   "hosts": [
+    {
+     "dataset": "S2-CVE-2015-3105_windows",
+     "host": "s2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 397952,
+     "lines_mapped": 257414,
+     "events": 162657,
+     "edges": 148949,
+     "seeds": 181,
+     "story_events": {
+      "revenant": 188,
+      "revenant_uncapped": 189,
+      "backtracker": 188,
+      "symptom_only": 181
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe",
+       "svchost.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 9.2,
+      "engine": 10.8
+     }
+    }
+   ]
+  },
+  "S-3": {
+   "experiment": "S3",
+   "table4_symptom_type": "malicious host",
+   "hosts": [
+    {
+     "dataset": "S3-CVE-2017-11882_windows",
+     "host": "s3",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 128317,
+     "lines_mapped": 87713,
+     "events": 49590,
+     "edges": 48961,
+     "seeds": 132,
+     "story_events": {
+      "revenant": 140,
+      "revenant_uncapped": 141,
+      "backtracker": 145,
+      "symptom_only": 132
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "explorer.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe",
+       "services.exe",
+       "svchost.exe",
+       "userinit.exe",
+       "winlogon.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.9,
+      "engine": 3.3
+     }
+    }
+   ]
+  },
+  "S-4": {
+   "experiment": "S4",
+   "table4_symptom_type": "leaked file",
+   "hosts": [
+    {
+     "dataset": "S4-CVE-2017-0199_windows_py",
+     "host": "s4",
+     "symptom": "192.168.223.3",
+     "dns_aliases": [],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 125613,
+     "lines_mapped": 85384,
+     "events": 53501,
+     "edges": 53276,
+     "seeds": 386,
+     "story_events": {
+      "revenant": 398,
+      "revenant_uncapped": 398,
+      "backtracker": 399,
+      "symptom_only": 386
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "149.165.180.19",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "winword.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "149.165.180.19",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "winword.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "explorer.exe",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "searchindexer.exe",
+       "services.exe",
+       "svchost.exe",
+       "winword.exe"
+      ],
+      "symptom_only": [
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 3.0,
+      "engine": 3.8
+     }
+    }
+   ]
+  },
+  "M-1": {
+   "experiment": "M1/h2",
+   "table4_symptom_type": "leaked file",
+   "hosts": [
+    {
+     "dataset": "M1-CVE-2015-5122_windows_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.130"
+     ],
+     "lines": 121114,
+     "lines_mapped": 82697,
+     "events": 49469,
+     "edges": 32978,
+     "seeds": 217,
+     "story_events": {
+      "revenant": 220,
+      "revenant_uncapped": 221,
+      "backtracker": 221,
+      "symptom_only": 217
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "plugin-container.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.7,
+      "engine": 2.6
+     }
+    },
+    {
+     "dataset": "M1-CVE-2015-5122_windows_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 130561,
+     "lines_mapped": 88763,
+     "events": 48796,
+     "edges": 40219,
+     "seeds": 121,
+     "story_events": {
+      "revenant": 122,
+      "revenant_uncapped": 122,
+      "backtracker": 123,
+      "symptom_only": 121
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "payload.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.7,
+      "engine": 2.6
+     }
+    }
+   ]
+  },
+  "M-2": {
+   "experiment": "M2/h2",
+   "table4_symptom_type": "leaked file",
+   "hosts": [
+    {
+     "dataset": "M2-CVE-2015-5119_windows_py_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.130"
+     ],
+     "lines": 145741,
+     "lines_mapped": 98071,
+     "events": 58250,
+     "edges": 42894,
+     "seeds": 404,
+     "story_events": {
+      "revenant": 409,
+      "revenant_uncapped": 409,
+      "backtracker": 408,
+      "symptom_only": 404
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 3.4,
+      "engine": 4.0
+     }
+    },
+    {
+     "dataset": "M2-CVE-2015-5119_windows_py_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 138651,
+     "lines_mapped": 94004,
+     "events": 54864,
+     "edges": 43818,
+     "seeds": 243,
+     "story_events": {
+      "revenant": 245,
+      "revenant_uncapped": 245,
+      "backtracker": 246,
+      "symptom_only": 243
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "pypayload.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 3.0,
+      "engine": 3.7
+     }
+    }
+   ]
+  },
+  "M-3": {
+   "experiment": "M3/h2",
+   "table4_symptom_type": "malicious file",
+   "hosts": [
+    {
+     "dataset": "M3-CVE-2015-3105_windows_py_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.130"
+     ],
+     "lines": 138948,
+     "lines_mapped": 93721,
+     "events": 53118,
+     "edges": 40441,
+     "seeds": 338,
+     "story_events": {
+      "revenant": 341,
+      "revenant_uncapped": 343,
+      "backtracker": 341,
+      "symptom_only": 338
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "plugin-container.exe",
+       "pypayload.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 1.8,
+      "engine": 2.1
+     }
+    },
+    {
+     "dataset": "M3-CVE-2015-3105_windows_py_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 195395,
+     "lines_mapped": 132180,
+     "events": 68757,
+     "edges": 47700,
+     "seeds": 252,
+     "story_events": {
+      "revenant": 253,
+      "revenant_uncapped": 253,
+      "backtracker": 254,
+      "symptom_only": 252
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "pypayload.exe",
+       "svchost.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.2,
+      "engine": 2.9
+     }
+    }
+   ]
+  },
+  "M-4": {
+   "experiment": "M4/h2",
+   "table4_symptom_type": "malicious file",
+   "hosts": [
+    {
+     "dataset": "M4-CVE_2018_8174_windows_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.2"
+     ],
+     "lines": 142266,
+     "lines_mapped": 96696,
+     "events": 53206,
+     "edges": 43724,
+     "seeds": 125,
+     "story_events": {
+      "revenant": 129,
+      "revenant_uncapped": 130,
+      "backtracker": 129,
+      "symptom_only": 125
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "winword.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "winword.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "cmd.exe",
+       "firefox.exe",
+       "payload.exe",
+       "winword.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 3.2,
+      "engine": 3.4
+     }
+    },
+    {
+     "dataset": "M4-CVE_2018_8174_windows_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 116484,
+     "lines_mapped": 79158,
+     "events": 43631,
+     "edges": 38400,
+     "seeds": 124,
+     "story_events": {
+      "revenant": 126,
+      "revenant_uncapped": 126,
+      "backtracker": 127,
+      "symptom_only": 124
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "payload.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.4,
+      "engine": 2.7
+     }
+    }
+   ]
+  },
+  "M-5": {
+   "experiment": "M5/h2",
+   "table4_symptom_type": "malicious host",
+   "hosts": [
+    {
+     "dataset": "M5-CVE-2017-0199_windows_py_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.130"
+     ],
+     "lines": 573853,
+     "lines_mapped": 379298,
+     "events": 142682,
+     "edges": 141380,
+     "seeds": 253,
+     "story_events": {
+      "revenant": 290,
+      "revenant_uncapped": 292,
+      "backtracker": 262,
+      "symptom_only": 253
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "149.165.180.35",
+       "192.168.223.3",
+       "cmd.exe",
+       "conhost.exe",
+       "dllhost.exe",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "searchfilterhost.exe",
+       "searchindexer.exe",
+       "searchprotocolhost.exe",
+       "vmtoolsd.exe",
+       "vmwareresolutionset.exe",
+       "winword.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "149.165.180.35",
+       "192.168.223.3",
+       "cmd.exe",
+       "conhost.exe",
+       "dllhost.exe",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "searchfilterhost.exe",
+       "searchindexer.exe",
+       "searchprotocolhost.exe",
+       "vmtoolsd.exe",
+       "vmwareresolutionset.exe",
+       "winword.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "mshta.exe",
+       "powershell.exe",
+       "pypayload.exe",
+       "searchindexer.exe",
+       "svchost.exe",
+       "vmtoolsd.exe",
+       "winword.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 11.2,
+      "engine": 10.5
+     }
+    },
+    {
+     "dataset": "M5-CVE-2017-0199_windows_py_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 127659,
+     "lines_mapped": 86814,
+     "events": 53440,
+     "edges": 52244,
+     "seeds": 244,
+     "story_events": {
+      "revenant": 245,
+      "revenant_uncapped": 245,
+      "backtracker": 251,
+      "symptom_only": 244
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "pypayload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "explorer.exe",
+       "firefox.exe",
+       "pypayload.exe",
+       "services.exe",
+       "userinit.exe",
+       "winlogon.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.9,
+      "engine": 3.4
+     }
+    }
+   ]
+  },
+  "M-6": {
+   "experiment": "M6/h2",
+   "table4_symptom_type": "malicious host",
+   "hosts": [
+    {
+     "dataset": "M6-CVE-2017-11882_windows_h1",
+     "host": "h1",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.2"
+     ],
+     "lines": 156525,
+     "lines_mapped": 106473,
+     "events": 57627,
+     "edges": 46745,
+     "seeds": 143,
+     "story_events": {
+      "revenant": 147,
+      "revenant_uncapped": 148,
+      "backtracker": 150,
+      "symptom_only": 143
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "eqnedt32.exe",
+       "firefox.exe",
+       "msf.exe",
+       "payload.exe",
+       "svchost.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.4,
+      "engine": 2.8
+     }
+    },
+    {
+     "dataset": "M6-CVE-2017-11882_windows_h2",
+     "host": "h2",
+     "symptom": "0xalsaheel.com",
+     "dns_aliases": [
+      "192.168.223.3"
+     ],
+     "local_addresses": [
+      "192.168.223.128"
+     ],
+     "lines": 197503,
+     "lines_mapped": 134371,
+     "events": 67829,
+     "edges": 49113,
+     "seeds": 158,
+     "story_events": {
+      "revenant": 159,
+      "revenant_uncapped": 159,
+      "backtracker": 160,
+      "symptom_only": 158
+     },
+     "predicted": {
+      "revenant": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe",
+       "svchost.exe"
+      ],
+      "revenant_uncapped": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "payload.exe",
+       "svchost.exe"
+      ],
+      "backtracker": [
+       "0xalsaheel.com",
+       "192.168.223.3",
+       "firefox.exe",
+       "payload.exe",
+       "svchost.exe"
+      ],
+      "symptom_only": [
+       "0xalsaheel.com",
+       "192.168.223.3"
+      ]
+     },
+     "seconds": {
+      "parse": 2.9,
+      "engine": 3.5
+     }
+    }
+   ]
+  }
+ },
+ "methods": {
+  "revenant": {
+   "per_attack": {
+    "S-1": {
+     "entity": {
+      "tp": 11,
+      "tn": 632,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.55,
+      "recall": 1.0,
+      "f1": 0.7097
+     },
+     "event": {
+      "tp": 4598,
+      "tn": 79903,
+      "fp": 10564,
+      "fn": 0,
+      "precision": 0.3033,
+      "recall": 1.0,
+      "f1": 0.4654
+     }
+    },
+    "S-2": {
+     "entity": {
+      "tp": 7,
+      "tn": 2129,
+      "fp": 26,
+      "fn": 0,
+      "precision": 0.2121,
+      "recall": 1.0,
+      "f1": 0.35
+     },
+     "event": {
+      "tp": 15073,
+      "tn": 368476,
+      "fp": 14403,
+      "fn": 0,
+      "precision": 0.5114,
+      "recall": 1.0,
+      "f1": 0.6767
+     }
+    },
+    "S-3": {
+     "entity": {
+      "tp": 13,
+      "tn": 723,
+      "fp": 10,
+      "fn": 6,
+      "precision": 0.5652,
+      "recall": 0.6842,
+      "f1": 0.619
+     },
+     "event": {
+      "tp": 5090,
+      "tn": 110125,
+      "fp": 13020,
+      "fn": 82,
+      "precision": 0.2811,
+      "recall": 0.9841,
+      "f1": 0.4372
+     }
+    },
+    "S-4": {
+     "entity": {
+      "tp": 9,
+      "tn": 865,
+      "fp": 16,
+      "fn": 7,
+      "precision": 0.36,
+      "recall": 0.5625,
+      "f1": 0.439
+     },
+     "event": {
+      "tp": 17999,
+      "tn": 93420,
+      "fp": 14122,
+      "fn": 72,
+      "precision": 0.5603,
+      "recall": 0.996,
+      "f1": 0.7172
+     }
+    },
+    "M-1": {
+     "entity": {
+      "tp": 15,
+      "tn": 2049,
+      "fp": 10,
+      "fn": 1,
+      "precision": 0.6,
+      "recall": 0.9375,
+      "f1": 0.7317
+     },
+     "event": {
+      "tp": 8172,
+      "tn": 228905,
+      "fp": 14590,
+      "fn": 8,
+      "precision": 0.359,
+      "recall": 0.999,
+      "f1": 0.5282
+     }
+    },
+    "M-2": {
+     "entity": {
+      "tp": 24,
+      "tn": 1850,
+      "fp": 28,
+      "fn": 1,
+      "precision": 0.4615,
+      "recall": 0.96,
+      "f1": 0.6234
+     },
+     "event": {
+      "tp": 34960,
+      "tn": 223191,
+      "fp": 26233,
+      "fn": 8,
+      "precision": 0.5713,
+      "recall": 0.9998,
+      "f1": 0.7271
+     }
+    },
+    "M-3": {
+     "entity": {
+      "tp": 23,
+      "tn": 1283,
+      "fp": 26,
+      "fn": 1,
+      "precision": 0.4694,
+      "recall": 0.9583,
+      "f1": 0.6301
+     },
+     "event": {
+      "tp": 35190,
+      "tn": 267500,
+      "fp": 31645,
+      "fn": 8,
+      "precision": 0.5265,
+      "recall": 0.9998,
+      "f1": 0.6898
+     }
+    },
+    "M-4": {
+     "entity": {
+      "tp": 16,
+      "tn": 1314,
+      "fp": 12,
+      "fn": 5,
+      "precision": 0.5714,
+      "recall": 0.7619,
+      "f1": 0.6531
+     },
+     "event": {
+      "tp": 8210,
+      "tn": 234607,
+      "fp": 15895,
+      "fn": 38,
+      "precision": 0.3406,
+      "recall": 0.9954,
+      "f1": 0.5075
+     }
+    },
+    "M-5": {
+     "entity": {
+      "tp": 20,
+      "tn": 1861,
+      "fp": 109,
+      "fn": 6,
+      "precision": 0.155,
+      "recall": 0.7692,
+      "f1": 0.2581
+     },
+     "event": {
+      "tp": 34165,
+      "tn": 629377,
+      "fp": 37879,
+      "fn": 91,
+      "precision": 0.4742,
+      "recall": 0.9973,
+      "f1": 0.6428
+     }
+    },
+    "M-6": {
+     "entity": {
+      "tp": 23,
+      "tn": 1657,
+      "fp": 32,
+      "fn": 6,
+      "precision": 0.4182,
+      "recall": 0.7931,
+      "f1": 0.5476
+     },
+     "event": {
+      "tp": 9936,
+      "tn": 305970,
+      "fp": 38054,
+      "fn": 68,
+      "precision": 0.207,
+      "recall": 0.9932,
+      "f1": 0.3427
+     }
+    }
+   },
+   "n_attacks": 10,
+   "entity_macro": {
+    "precision": 0.4363,
+    "recall": 0.8427,
+    "f1": 0.5562
+   },
+   "entity_pooled": {
+    "tp": 161,
+    "fp": 278,
+    "fn": 33,
+    "tn": 14363,
+    "precision": 0.3667,
+    "recall": 0.8299,
+    "f1": 0.5087,
+    "precision_wilson95": [
+     0.323,
+     0.4128
+    ],
+    "recall_wilson95": [
+     0.7707,
+     0.8762
+    ]
+   },
+   "entity_macro_f1_bootstrap95": [
+    0.4561,
+    0.6417
+   ],
+   "event_macro": {
+    "precision": 0.4135,
+    "recall": 0.9965,
+    "f1": 0.5735
+   },
+   "event_pooled": {
+    "tp": 173393,
+    "fp": 216405,
+    "fn": 375,
+    "tn": 2541474,
+    "precision": 0.4448,
+    "recall": 0.9978,
+    "f1": 0.6153,
+    "precision_wilson95": [
+     0.4433,
+     0.4464
+    ],
+    "recall_wilson95": [
+     0.9976,
+     0.998
+    ]
+   },
+   "event_macro_f1_bootstrap95": [
+    0.4921,
+    0.6537
+   ]
+  },
+  "revenant_uncapped": {
+   "per_attack": {
+    "S-1": {
+     "entity": {
+      "tp": 11,
+      "tn": 632,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.55,
+      "recall": 1.0,
+      "f1": 0.7097
+     },
+     "event": {
+      "tp": 4598,
+      "tn": 79903,
+      "fp": 10564,
+      "fn": 0,
+      "precision": 0.3033,
+      "recall": 1.0,
+      "f1": 0.4654
+     }
+    },
+    "S-2": {
+     "entity": {
+      "tp": 7,
+      "tn": 2129,
+      "fp": 26,
+      "fn": 0,
+      "precision": 0.2121,
+      "recall": 1.0,
+      "f1": 0.35
+     },
+     "event": {
+      "tp": 15073,
+      "tn": 368476,
+      "fp": 14403,
+      "fn": 0,
+      "precision": 0.5114,
+      "recall": 1.0,
+      "f1": 0.6767
+     }
+    },
+    "S-3": {
+     "entity": {
+      "tp": 13,
+      "tn": 723,
+      "fp": 10,
+      "fn": 6,
+      "precision": 0.5652,
+      "recall": 0.6842,
+      "f1": 0.619
+     },
+     "event": {
+      "tp": 5090,
+      "tn": 110125,
+      "fp": 13020,
+      "fn": 82,
+      "precision": 0.2811,
+      "recall": 0.9841,
+      "f1": 0.4372
+     }
+    },
+    "S-4": {
+     "entity": {
+      "tp": 9,
+      "tn": 865,
+      "fp": 16,
+      "fn": 7,
+      "precision": 0.36,
+      "recall": 0.5625,
+      "f1": 0.439
+     },
+     "event": {
+      "tp": 17999,
+      "tn": 93420,
+      "fp": 14122,
+      "fn": 72,
+      "precision": 0.5603,
+      "recall": 0.996,
+      "f1": 0.7172
+     }
+    },
+    "M-1": {
+     "entity": {
+      "tp": 15,
+      "tn": 2049,
+      "fp": 10,
+      "fn": 1,
+      "precision": 0.6,
+      "recall": 0.9375,
+      "f1": 0.7317
+     },
+     "event": {
+      "tp": 8172,
+      "tn": 228905,
+      "fp": 14590,
+      "fn": 8,
+      "precision": 0.359,
+      "recall": 0.999,
+      "f1": 0.5282
+     }
+    },
+    "M-2": {
+     "entity": {
+      "tp": 24,
+      "tn": 1850,
+      "fp": 28,
+      "fn": 1,
+      "precision": 0.4615,
+      "recall": 0.96,
+      "f1": 0.6234
+     },
+     "event": {
+      "tp": 34960,
+      "tn": 223191,
+      "fp": 26233,
+      "fn": 8,
+      "precision": 0.5713,
+      "recall": 0.9998,
+      "f1": 0.7271
+     }
+    },
+    "M-3": {
+     "entity": {
+      "tp": 23,
+      "tn": 1283,
+      "fp": 26,
+      "fn": 1,
+      "precision": 0.4694,
+      "recall": 0.9583,
+      "f1": 0.6301
+     },
+     "event": {
+      "tp": 35190,
+      "tn": 267500,
+      "fp": 31645,
+      "fn": 8,
+      "precision": 0.5265,
+      "recall": 0.9998,
+      "f1": 0.6898
+     }
+    },
+    "M-4": {
+     "entity": {
+      "tp": 16,
+      "tn": 1314,
+      "fp": 12,
+      "fn": 5,
+      "precision": 0.5714,
+      "recall": 0.7619,
+      "f1": 0.6531
+     },
+     "event": {
+      "tp": 8210,
+      "tn": 234607,
+      "fp": 15895,
+      "fn": 38,
+      "precision": 0.3406,
+      "recall": 0.9954,
+      "f1": 0.5075
+     }
+    },
+    "M-5": {
+     "entity": {
+      "tp": 20,
+      "tn": 1861,
+      "fp": 109,
+      "fn": 6,
+      "precision": 0.155,
+      "recall": 0.7692,
+      "f1": 0.2581
+     },
+     "event": {
+      "tp": 34165,
+      "tn": 629377,
+      "fp": 37879,
+      "fn": 91,
+      "precision": 0.4742,
+      "recall": 0.9973,
+      "f1": 0.6428
+     }
+    },
+    "M-6": {
+     "entity": {
+      "tp": 23,
+      "tn": 1657,
+      "fp": 32,
+      "fn": 6,
+      "precision": 0.4182,
+      "recall": 0.7931,
+      "f1": 0.5476
+     },
+     "event": {
+      "tp": 9936,
+      "tn": 305970,
+      "fp": 38054,
+      "fn": 68,
+      "precision": 0.207,
+      "recall": 0.9932,
+      "f1": 0.3427
+     }
+    }
+   },
+   "n_attacks": 10,
+   "entity_macro": {
+    "precision": 0.4363,
+    "recall": 0.8427,
+    "f1": 0.5562
+   },
+   "entity_pooled": {
+    "tp": 161,
+    "fp": 278,
+    "fn": 33,
+    "tn": 14363,
+    "precision": 0.3667,
+    "recall": 0.8299,
+    "f1": 0.5087,
+    "precision_wilson95": [
+     0.323,
+     0.4128
+    ],
+    "recall_wilson95": [
+     0.7707,
+     0.8762
+    ]
+   },
+   "entity_macro_f1_bootstrap95": [
+    0.4561,
+    0.6417
+   ],
+   "event_macro": {
+    "precision": 0.4135,
+    "recall": 0.9965,
+    "f1": 0.5735
+   },
+   "event_pooled": {
+    "tp": 173393,
+    "fp": 216405,
+    "fn": 375,
+    "tn": 2541474,
+    "precision": 0.4448,
+    "recall": 0.9978,
+    "f1": 0.6153,
+    "precision_wilson95": [
+     0.4433,
+     0.4464
+    ],
+    "recall_wilson95": [
+     0.9976,
+     0.998
+    ]
+   },
+   "event_macro_f1_bootstrap95": [
+    0.4921,
+    0.6537
+   ]
+  },
+  "backtracker": {
+   "per_attack": {
+    "S-1": {
+     "entity": {
+      "tp": 11,
+      "tn": 632,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.55,
+      "recall": 1.0,
+      "f1": 0.7097
+     },
+     "event": {
+      "tp": 4598,
+      "tn": 79903,
+      "fp": 10564,
+      "fn": 0,
+      "precision": 0.3033,
+      "recall": 1.0,
+      "f1": 0.4654
+     }
+    },
+    "S-2": {
+     "entity": {
+      "tp": 7,
+      "tn": 2126,
+      "fp": 29,
+      "fn": 0,
+      "precision": 0.1944,
+      "recall": 1.0,
+      "f1": 0.3256
+     },
+     "event": {
+      "tp": 15073,
+      "tn": 349565,
+      "fp": 33314,
+      "fn": 0,
+      "precision": 0.3115,
+      "recall": 1.0,
+      "f1": 0.475
+     }
+    },
+    "S-3": {
+     "entity": {
+      "tp": 13,
+      "tn": 697,
+      "fp": 36,
+      "fn": 6,
+      "precision": 0.2653,
+      "recall": 0.6842,
+      "f1": 0.3824
+     },
+     "event": {
+      "tp": 5120,
+      "tn": 95668,
+      "fp": 27477,
+      "fn": 52,
+      "precision": 0.1571,
+      "recall": 0.9899,
+      "f1": 0.2711
+     }
+    },
+    "S-4": {
+     "entity": {
+      "tp": 9,
+      "tn": 848,
+      "fp": 33,
+      "fn": 7,
+      "precision": 0.2143,
+      "recall": 0.5625,
+      "f1": 0.3103
+     },
+     "event": {
+      "tp": 18051,
+      "tn": 79188,
+      "fp": 28354,
+      "fn": 20,
+      "precision": 0.389,
+      "recall": 0.9989,
+      "f1": 0.5599
+     }
+    },
+    "M-1": {
+     "entity": {
+      "tp": 15,
+      "tn": 2046,
+      "fp": 13,
+      "fn": 1,
+      "precision": 0.5357,
+      "recall": 0.9375,
+      "f1": 0.6818
+     },
+     "event": {
+      "tp": 8172,
+      "tn": 221929,
+      "fp": 21566,
+      "fn": 8,
+      "precision": 0.2748,
+      "recall": 0.999,
+      "f1": 0.431
+     }
+    },
+    "M-2": {
+     "entity": {
+      "tp": 24,
+      "tn": 1852,
+      "fp": 26,
+      "fn": 1,
+      "precision": 0.48,
+      "recall": 0.96,
+      "f1": 0.64
+     },
+     "event": {
+      "tp": 34960,
+      "tn": 215485,
+      "fp": 33939,
+      "fn": 8,
+      "precision": 0.5074,
+      "recall": 0.9998,
+      "f1": 0.6732
+     }
+    },
+    "M-3": {
+     "entity": {
+      "tp": 23,
+      "tn": 1284,
+      "fp": 25,
+      "fn": 1,
+      "precision": 0.4792,
+      "recall": 0.9583,
+      "f1": 0.6389
+     },
+     "event": {
+      "tp": 35190,
+      "tn": 259635,
+      "fp": 39510,
+      "fn": 8,
+      "precision": 0.4711,
+      "recall": 0.9998,
+      "f1": 0.6404
+     }
+    },
+    "M-4": {
+     "entity": {
+      "tp": 16,
+      "tn": 1311,
+      "fp": 15,
+      "fn": 5,
+      "precision": 0.5161,
+      "recall": 0.7619,
+      "f1": 0.6154
+     },
+     "event": {
+      "tp": 8210,
+      "tn": 227638,
+      "fp": 22864,
+      "fn": 38,
+      "precision": 0.2642,
+      "recall": 0.9954,
+      "f1": 0.4176
+     }
+    },
+    "M-5": {
+     "entity": {
+      "tp": 20,
+      "tn": 1931,
+      "fp": 39,
+      "fn": 6,
+      "precision": 0.339,
+      "recall": 0.7692,
+      "f1": 0.4706
+     },
+     "event": {
+      "tp": 34145,
+      "tn": 565524,
+      "fp": 101732,
+      "fn": 111,
+      "precision": 0.2513,
+      "recall": 0.9968,
+      "f1": 0.4014
+     }
+    },
+    "M-6": {
+     "entity": {
+      "tp": 23,
+      "tn": 1636,
+      "fp": 53,
+      "fn": 6,
+      "precision": 0.3026,
+      "recall": 0.7931,
+      "f1": 0.4381
+     },
+     "event": {
+      "tp": 9936,
+      "tn": 284947,
+      "fp": 59077,
+      "fn": 68,
+      "precision": 0.144,
+      "recall": 0.9932,
+      "f1": 0.2515
+     }
+    }
+   },
+   "n_attacks": 10,
+   "entity_macro": {
+    "precision": 0.3877,
+    "recall": 0.8427,
+    "f1": 0.5213
+   },
+   "entity_pooled": {
+    "tp": 161,
+    "fp": 278,
+    "fn": 33,
+    "tn": 14363,
+    "precision": 0.3667,
+    "recall": 0.8299,
+    "f1": 0.5087,
+    "precision_wilson95": [
+     0.323,
+     0.4128
+    ],
+    "recall_wilson95": [
+     0.7707,
+     0.8762
+    ]
+   },
+   "entity_macro_f1_bootstrap95": [
+    0.4306,
+    0.607
+   ],
+   "event_macro": {
+    "precision": 0.3074,
+    "recall": 0.9973,
+    "f1": 0.4587
+   },
+   "event_pooled": {
+    "tp": 173455,
+    "fp": 378397,
+    "fn": 313,
+    "tn": 2379482,
+    "precision": 0.3143,
+    "recall": 0.9982,
+    "f1": 0.4781,
+    "precision_wilson95": [
+     0.3131,
+     0.3155
+    ],
+    "recall_wilson95": [
+     0.998,
+     0.9984
+    ]
+   },
+   "event_macro_f1_bootstrap95": [
+    0.3776,
+    0.5417
+   ]
+  },
+  "symptom_only": {
+   "per_attack": {
+    "S-1": {
+     "entity": {
+      "tp": 7,
+      "tn": 641,
+      "fp": 0,
+      "fn": 4,
+      "precision": 1.0,
+      "recall": 0.6364,
+      "f1": 0.7778
+     },
+     "event": {
+      "tp": 1344,
+      "tn": 90467,
+      "fp": 0,
+      "fn": 3254,
+      "precision": 1.0,
+      "recall": 0.2923,
+      "f1": 0.4524
+     }
+    },
+    "S-2": {
+     "entity": {
+      "tp": 5,
+      "tn": 2155,
+      "fp": 0,
+      "fn": 2,
+      "precision": 1.0,
+      "recall": 0.7143,
+      "f1": 0.8333
+     },
+     "event": {
+      "tp": 6593,
+      "tn": 382879,
+      "fp": 0,
+      "fn": 8480,
+      "precision": 1.0,
+      "recall": 0.4374,
+      "f1": 0.6086
+     }
+    },
+    "S-3": {
+     "entity": {
+      "tp": 8,
+      "tn": 733,
+      "fp": 0,
+      "fn": 11,
+      "precision": 1.0,
+      "recall": 0.4211,
+      "f1": 0.5926
+     },
+     "event": {
+      "tp": 2251,
+      "tn": 123145,
+      "fp": 0,
+      "fn": 2921,
+      "precision": 1.0,
+      "recall": 0.4352,
+      "f1": 0.6065
+     }
+    },
+    "S-4": {
+     "entity": {
+      "tp": 4,
+      "tn": 881,
+      "fp": 0,
+      "fn": 12,
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4
+     },
+     "event": {
+      "tp": 6147,
+      "tn": 107542,
+      "fp": 0,
+      "fn": 11924,
+      "precision": 1.0,
+      "recall": 0.3402,
+      "f1": 0.5076
+     }
+    },
+    "M-1": {
+     "entity": {
+      "tp": 7,
+      "tn": 2059,
+      "fp": 0,
+      "fn": 9,
+      "precision": 1.0,
+      "recall": 0.4375,
+      "f1": 0.6087
+     },
+     "event": {
+      "tp": 2399,
+      "tn": 243495,
+      "fp": 0,
+      "fn": 5781,
+      "precision": 1.0,
+      "recall": 0.2933,
+      "f1": 0.4535
+     }
+    },
+    "M-2": {
+     "entity": {
+      "tp": 13,
+      "tn": 1878,
+      "fp": 0,
+      "fn": 12,
+      "precision": 1.0,
+      "recall": 0.52,
+      "f1": 0.6842
+     },
+     "event": {
+      "tp": 11895,
+      "tn": 249424,
+      "fp": 0,
+      "fn": 23073,
+      "precision": 1.0,
+      "recall": 0.3402,
+      "f1": 0.5076
+     }
+    },
+    "M-3": {
+     "entity": {
+      "tp": 12,
+      "tn": 1309,
+      "fp": 0,
+      "fn": 12,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667
+     },
+     "event": {
+      "tp": 12084,
+      "tn": 299145,
+      "fp": 0,
+      "fn": 23114,
+      "precision": 1.0,
+      "recall": 0.3433,
+      "f1": 0.5111
+     }
+    },
+    "M-4": {
+     "entity": {
+      "tp": 7,
+      "tn": 1326,
+      "fp": 0,
+      "fn": 14,
+      "precision": 1.0,
+      "recall": 0.3333,
+      "f1": 0.5
+     },
+     "event": {
+      "tp": 2413,
+      "tn": 250502,
+      "fp": 0,
+      "fn": 5835,
+      "precision": 1.0,
+      "recall": 0.2926,
+      "f1": 0.4527
+     }
+    },
+    "M-5": {
+     "entity": {
+      "tp": 9,
+      "tn": 1970,
+      "fp": 0,
+      "fn": 17,
+      "precision": 1.0,
+      "recall": 0.3462,
+      "f1": 0.5143
+     },
+     "event": {
+      "tp": 11582,
+      "tn": 667256,
+      "fp": 0,
+      "fn": 22674,
+      "precision": 1.0,
+      "recall": 0.3381,
+      "f1": 0.5053
+     }
+    },
+    "M-6": {
+     "entity": {
+      "tp": 14,
+      "tn": 1689,
+      "fp": 0,
+      "fn": 15,
+      "precision": 1.0,
+      "recall": 0.4828,
+      "f1": 0.6512
+     },
+     "event": {
+      "tp": 4177,
+      "tn": 344024,
+      "fp": 0,
+      "fn": 5827,
+      "precision": 1.0,
+      "recall": 0.4175,
+      "f1": 0.5891
+     }
+    }
+   },
+   "n_attacks": 10,
+   "entity_macro": {
+    "precision": 1.0,
+    "recall": 0.4641,
+    "f1": 0.6229
+   },
+   "entity_pooled": {
+    "tp": 86,
+    "fp": 0,
+    "fn": 108,
+    "tn": 14641,
+    "precision": 1.0,
+    "recall": 0.4433,
+    "f1": 0.6143,
+    "precision_wilson95": [
+     0.9572,
+     1.0
+    ],
+    "recall_wilson95": [
+     0.3752,
+     0.5136
+    ]
+   },
+   "entity_macro_f1_bootstrap95": [
+    0.5445,
+    0.6981
+   ],
+   "event_macro": {
+    "precision": 1.0,
+    "recall": 0.353,
+    "f1": 0.5195
+   },
+   "event_pooled": {
+    "tp": 60885,
+    "fp": 0,
+    "fn": 112883,
+    "tn": 2757879,
+    "precision": 1.0,
+    "recall": 0.3504,
+    "f1": 0.5189,
+    "precision_wilson95": [
+     0.9999,
+     1.0
+    ],
+    "recall_wilson95": [
+     0.3481,
+     0.3526
+    ]
+   },
+   "event_macro_f1_bootstrap95": [
+    0.4852,
+    0.5563
+   ]
+  },
+  "atlas_released": {
+   "note": "ATLAS's released, hand-cleaned predictions scored by the same evaluate.py (atlas_repro.json)",
+   "per_attack": {
+    "S-1": {
+     "entity": {
+      "tp": 11,
+      "tn": 641,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     },
+     "event": {
+      "tp": 4598,
+      "tn": 90467,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     }
+    },
+    "S-2": {
+     "entity": {
+      "tp": 7,
+      "tn": 2153,
+      "fp": 2,
+      "fn": 0,
+      "precision": 0.7778,
+      "recall": 1.0,
+      "f1": 0.875
+     },
+     "event": {
+      "tp": 15073,
+      "tn": 382876,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.9998,
+      "recall": 1.0,
+      "f1": 0.9999
+     }
+    },
+    "S-3": {
+     "entity": {
+      "tp": 17,
+      "tn": 733,
+      "fp": 0,
+      "fn": 2,
+      "precision": 1.0,
+      "recall": 0.8947,
+      "f1": 0.9444
+     },
+     "event": {
+      "tp": 5162,
+      "tn": 123145,
+      "fp": 0,
+      "fn": 10,
+      "precision": 1.0,
+      "recall": 0.9981,
+      "f1": 0.999
+     }
+    },
+    "S-4": {
+     "entity": {
+      "tp": 16,
+      "tn": 876,
+      "fp": 5,
+      "fn": 0,
+      "precision": 0.7619,
+      "recall": 1.0,
+      "f1": 0.8649
+     },
+     "event": {
+      "tp": 18071,
+      "tn": 107497,
+      "fp": 45,
+      "fn": 0,
+      "precision": 0.9975,
+      "recall": 1.0,
+      "f1": 0.9988
+     }
+    },
+    "M-1": {
+     "entity": {
+      "tp": 16,
+      "tn": 2056,
+      "fp": 3,
+      "fn": 0,
+      "precision": 0.8421,
+      "recall": 1.0,
+      "f1": 0.9143
+     },
+     "event": {
+      "tp": 8180,
+      "tn": 243494,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.9999,
+      "recall": 1.0,
+      "f1": 0.9999
+     }
+    },
+    "M-2": {
+     "entity": {
+      "tp": 25,
+      "tn": 1873,
+      "fp": 5,
+      "fn": 0,
+      "precision": 0.8333,
+      "recall": 1.0,
+      "f1": 0.9091
+     },
+     "event": {
+      "tp": 34968,
+      "tn": 249375,
+      "fp": 49,
+      "fn": 0,
+      "precision": 0.9986,
+      "recall": 1.0,
+      "f1": 0.9993
+     }
+    },
+    "M-3": {
+     "entity": {
+      "tp": 23,
+      "tn": 1308,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.9583,
+      "recall": 0.9583,
+      "f1": 0.9583
+     },
+     "event": {
+      "tp": 35198,
+      "tn": 299135,
+      "fp": 10,
+      "fn": 0,
+      "precision": 0.9997,
+      "recall": 1.0,
+      "f1": 0.9999
+     }
+    },
+    "M-4": {
+     "entity": {
+      "tp": 17,
+      "tn": 1326,
+      "fp": 0,
+      "fn": 4,
+      "precision": 1.0,
+      "recall": 0.8095,
+      "f1": 0.8947
+     },
+     "event": {
+      "tp": 8173,
+      "tn": 250502,
+      "fp": 0,
+      "fn": 75,
+      "precision": 1.0,
+      "recall": 0.9909,
+      "f1": 0.9954
+     }
+    },
+    "M-5": {
+     "entity": {
+      "tp": 26,
+      "tn": 1964,
+      "fp": 6,
+      "fn": 0,
+      "precision": 0.8125,
+      "recall": 1.0,
+      "f1": 0.8966
+     },
+     "event": {
+      "tp": 34256,
+      "tn": 667248,
+      "fp": 8,
+      "fn": 0,
+      "precision": 0.9998,
+      "recall": 1.0,
+      "f1": 0.9999
+     }
+    },
+    "M-6": {
+     "entity": {
+      "tp": 28,
+      "tn": 1682,
+      "fp": 7,
+      "fn": 1,
+      "precision": 0.8,
+      "recall": 0.9655,
+      "f1": 0.875
+     },
+     "event": {
+      "tp": 9999,
+      "tn": 343949,
+      "fp": 75,
+      "fn": 5,
+      "precision": 0.9926,
+      "recall": 0.9995,
+      "f1": 0.996
+     }
+    }
+   },
+   "n_attacks": 10,
+   "entity_macro": {
+    "precision": 0.8786,
+    "recall": 0.9628,
+    "f1": 0.9132
+   },
+   "entity_pooled": {
+    "tp": 186,
+    "fp": 29,
+    "fn": 8,
+    "tn": 14612,
+    "precision": 0.8651,
+    "recall": 0.9588,
+    "f1": 0.9095,
+    "precision_wilson95": [
+     0.813,
+     0.9044
+    ],
+    "recall_wilson95": [
+     0.9208,
+     0.979
+    ]
+   },
+   "entity_macro_f1_bootstrap95": [
+    0.8899,
+    0.9398
+   ],
+   "event_macro": {
+    "precision": 0.9988,
+    "recall": 0.9988,
+    "f1": 0.9988
+   },
+   "event_pooled": {
+    "tp": 173678,
+    "fp": 191,
+    "fn": 90,
+    "tn": 2757688,
+    "precision": 0.9989,
+    "recall": 0.9995,
+    "f1": 0.9992,
+    "precision_wilson95": [
+     0.9987,
+     0.999
+    ],
+    "recall_wilson95": [
+     0.9994,
+     0.9996
+    ]
+   },
+   "event_macro_f1_bootstrap95": [
+    0.9977,
+    0.9997
+   ]
+  }
+ },
+ "bootstrap": {
+  "reps": 10000,
+  "seed": 7,
+  "unit": "attack"
+ },
+ "source": {
+  "workflow": "atlas-repro",
+  "run_id": "37090608948",
+  "run_url": "https://github.com/rakshit-737/revenant/actions/runs/37090608948",
+  "head_sha": "680cfb827d8c61d7582703a075f4e885f94f66c0"
+ },
+ "paired_vs_atlas": {
+  "revenant": {
+   "entity": {
+    "n": 10,
+    "mean_f1_difference": -0.3571,
+    "bootstrap95": [
+     -0.4423,
+     -0.2833
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   },
+   "event": {
+    "n": 10,
+    "mean_f1_difference": -0.4253,
+    "bootstrap95": [
+     -0.5076,
+     -0.349
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   }
+  },
+  "revenant_uncapped": {
+   "entity": {
+    "n": 10,
+    "mean_f1_difference": -0.3571,
+    "bootstrap95": [
+     -0.4423,
+     -0.2833
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   },
+   "event": {
+    "n": 10,
+    "mean_f1_difference": -0.4253,
+    "bootstrap95": [
+     -0.5076,
+     -0.349
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   }
+  },
+  "backtracker": {
+   "entity": {
+    "n": 10,
+    "mean_f1_difference": -0.392,
+    "bootstrap95": [
+     -0.4685,
+     -0.3175
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   },
+   "event": {
+    "n": 10,
+    "mean_f1_difference": -0.5402,
+    "bootstrap95": [
+     -0.6218,
+     -0.4597
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   }
+  },
+  "symptom_only": {
+   "entity": {
+    "n": 10,
+    "mean_f1_difference": -0.2904,
+    "bootstrap95": [
+     -0.3584,
+     -0.2158
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   },
+   "event": {
+    "n": 10,
+    "mean_f1_difference": -0.4794,
+    "bootstrap95": [
+     -0.5139,
+     -0.4415
+    ],
+    "a_better": 0,
+    "b_better": 10,
+    "ties": 0,
+    "sign_test_p": 0.001953
+   }
+  }
+ },
+ "paired_revenant_vs_backtracker": {
+  "entity": {
+   "n": 10,
+   "mean_f1_difference": 0.0349,
+   "bootstrap95": [
+    -0.0347,
+    0.1013
+   ],
+   "a_better": 6,
+   "b_better": 3,
+   "ties": 1,
+   "sign_test_p": 0.5078
+  },
+  "event": {
+   "n": 10,
+   "mean_f1_difference": 0.1148,
+   "bootstrap95": [
+    0.0721,
+    0.16
+   ],
+   "a_better": 9,
+   "b_better": 0,
+   "ties": 1,
+   "sign_test_p": 0.003906
+  }
+ },
+ "missing_runs": []
+}
