@@ -782,12 +782,12 @@
  },
  "calibration": {
   "atomic_capture_bootstrap": {
-   "handset_ece": 0.2331,
+   "handset_ece": 0.23306872894290748,
    "handset_ece_ci95": [
     0.1795,
     0.3001
    ],
-   "fit_apt29_ece": 0.0978,
+   "fit_apt29_ece": 0.09781566542170476,
    "fit_apt29_ece_ci95": [
     0.0112,
     0.2595
@@ -796,52 +796,52 @@
     -0.2449,
     -0.0228
    ],
-   "fit_apt29_auroc": 0.6624,
+   "fit_apt29_auroc": 0.6624245777149463,
    "fit_apt29_auroc_ci95": [
     0.4173,
     0.9392
    ],
-   "fit_apt29_precision_at_coverage_0.5": 0.9469,
+   "fit_apt29_precision_at_coverage_0.5": 0.9469056353027917,
    "fit_apt29_precision_at_coverage_0.5_ci95": [
     0.79,
     0.998
    ],
-   "fit_apt29_precision_at_coverage_0.8": 0.927,
+   "fit_apt29_precision_at_coverage_0.8": 0.9269867365374571,
    "fit_apt29_precision_at_coverage_0.8_ci95": [
     0.7925,
     0.998
    ],
-   "fit_apt29_precision_at_coverage_0.9": 0.9137,
+   "fit_apt29_precision_at_coverage_0.9": 0.9136971344363933,
    "fit_apt29_precision_at_coverage_0.9_ci95": [
     0.7937,
     0.9959
    ],
-   "fit_apt29_precision_at_coverage_1.0": 0.9102,
+   "fit_apt29_precision_at_coverage_1.0": 0.9101517165706569,
    "fit_apt29_precision_at_coverage_1.0_ci95": [
     0.7956,
     0.9786
    ],
-   "handset_auroc": 0.7685,
+   "handset_auroc": 0.7684820427660697,
    "handset_auroc_ci95": [
     0.5676,
     0.9458
    ],
-   "handset_precision_at_coverage_0.5": 0.9967,
+   "handset_precision_at_coverage_0.5": 0.9967094624049049,
    "handset_precision_at_coverage_0.5_ci95": [
     0.8092,
     0.9995
    ],
-   "handset_precision_at_coverage_0.8": 0.9101,
+   "handset_precision_at_coverage_0.8": 0.9101003976423475,
    "handset_precision_at_coverage_0.8_ci95": [
     0.7958,
     0.998
    ],
-   "handset_precision_at_coverage_0.9": 0.9101,
+   "handset_precision_at_coverage_0.9": 0.9101003976423475,
    "handset_precision_at_coverage_0.9_ci95": [
     0.7947,
     0.9958
    ],
-   "handset_precision_at_coverage_1.0": 0.9102,
+   "handset_precision_at_coverage_1.0": 0.9101517165706569,
    "handset_precision_at_coverage_1.0_ci95": [
     0.7956,
     0.9786

@@ -152,21 +152,21 @@ Per-rule constants fitted on one corpus, tested on another, capped at 0.99 as th
 
 | test corpus | fitted on | ECE hand-set | ECE fitted (all edges) | ECE fitted (table rules only) | edges left hand-set | Brier | AUROC | test accuracy |
 |---|---|---|---|---|---|---|---|---|
-| otrf_apt29_day1 | otrf_atomic | 0.274 | 0.040 | 0.0403 | 0 | 0.0054 | n/a (all correct) | 1.0 |
+| otrf_apt29_day1 | otrf_atomic | 0.274 | 0.040 | 0.040 | 0 | 0.005 | n/a (all correct) | 1.0 |
 | otrf_atomic | otrf_apt29_day1 | 0.233 | 0.098 | 0.043 | 32191 | 0.097 | 0.6624 | 0.9102 |
-| otrf_atomic | otrf_lsass_campaign | 0.233 | 0.137 | 0.134 | 2341 | 0.1259 | 0.674 | 0.9102 |
-| otrf_atomic | otrf_log4shell | 0.233 | 0.113 | 0.0099 | 71779 | 0.0994 | 0.7681 | 0.9102 |
+| otrf_atomic | otrf_lsass_campaign | 0.233 | 0.137 | 0.134 | 2341 | 0.126 | 0.674 | 0.9102 |
+| otrf_atomic | otrf_log4shell | 0.233 | 0.113 | 0.010 | 71779 | 0.099 | 0.7681 | 0.9102 |
 
-Capture bootstrap on OTRF atomic (102 captures, APT29-fitted table vs hand-set): ECE 0.0978 [0.011, 0.260] vs 0.2331 [0.179, 0.300] (difference [-0.245, -0.023]); AUROC 0.6624 [0.417, 0.939] vs hand-set 0.7685 [0.568, 0.946].
+Capture bootstrap on OTRF atomic (102 captures, APT29-fitted table vs hand-set): ECE 0.098 [0.011, 0.260] vs 0.233 [0.179, 0.300] (difference [-0.245, -0.023]); AUROC 0.662 [0.417, 0.939] vs hand-set 0.768 [0.568, 0.946].
 
 **Selective prediction** (keep only the highest-confidence edges; precision at a given share of edges kept):
 
 | edges kept | hand-set confidences | APT29-fitted constants | gain [95% CI] |
 |---|---|---|---|
-| 50% | 0.9967 [0.809, 1.000] | 0.9469 [0.790, 0.998] | [-0.110, +0.015] |
-| 80% | 0.9101 [0.796, 0.998] | 0.927 [0.792, 0.998] | [-0.018, +0.066] |
-| 90% | 0.9101 [0.795, 0.996] | 0.9137 [0.794, 0.996] | [-0.009, +0.046] |
-| 100% | 0.9102 [0.796, 0.979] | 0.9102 [0.796, 0.979] | - |
+| 50% | 0.997 [0.809, 1.000] | 0.947 [0.790, 0.998] | [-0.110, +0.015] |
+| 80% | 0.910 [0.796, 0.998] | 0.927 [0.792, 0.998] | [-0.018, +0.066] |
+| 90% | 0.910 [0.795, 0.996] | 0.914 [0.794, 0.996] | [-0.009, +0.046] |
+| 100% | 0.910 [0.796, 0.979] | 0.910 [0.796, 0.979] | - |
 
 **The table REVENANT ships** (`src/revenant/data/rule_calibration.json`, SHA-256 `7e353c2c7291…`) is refitted in this run on OTRF atomic (102 captures with effects, 142,173 edges). Its ECE on every corpus (held out except atomic), and that of the table shipped before this run:
 
