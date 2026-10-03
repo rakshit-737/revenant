@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-10-03
+
+### Fixed
+- Release workflow: the container image now also carries the `v`-prefixed git tag
+  (`type=ref,event=tag`); `type=semver,pattern={{raw}}` stripped the `v`, so v1.1.1 was
+  published only as `1.1.1`. README Docker tags corrected accordingly.
+
 ## [1.1.1] - 2026-10-03
 
 ### Added

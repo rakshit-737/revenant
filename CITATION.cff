@@ -13,6 +13,6 @@ authors:
 repository-code: "https://github.com/rakshit-737/revenant"
 url: "https://rakshit-737.github.io/revenant/"
 license: MIT
-version: 1.1.1
+version: 1.1.2
 date-released: 2026-10-03
 keywords: [dfir, digital-forensics, timeline, provenance, sysmon, auditd]

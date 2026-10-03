@@ -10,7 +10,7 @@ from __future__ import annotations
 import importlib
 from typing import TYPE_CHECKING, Any
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 _LAZY = {
     "Analysis": "pipeline", "run": "pipeline",
