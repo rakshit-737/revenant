@@ -1,20 +1,23 @@
 # OPTIONAL. REVENANT runs fully in-memory; nothing here is needed for the CLI,
 # the tests or the benchmarks.
 #
-#   docker compose up neo4j            # then: revenant analyze ... --format cypher | cypher-shell -u neo4j -p revenantlab
-#   docker compose up api              # UI on http://127.0.0.1:8000, evidence mounted read-only
+# Compose reads the whole file, so set NEO4J_PASSWORD (any lab value) for either service:
+#   NEO4J_PASSWORD=... docker compose up neo4j   # then: revenant analyze ... --format cypher | cypher-shell -u neo4j -p "$NEO4J_PASSWORD"
+#   NEO4J_PASSWORD=... docker compose up api     # UI on http://127.0.0.1:8000, evidence mounted read-only
 services:
   api:
     image: python:3.12-slim
     working_dir: /app
-    command: sh -c "pip install -q -e '.[evtx,api]' && revenant serve --host 0.0.0.0 --port 8000"
+    command: sh -c "pip install -q -e '.[evtx,api]' && revenant serve --host 0.0.0.0 --port 8000 --allow-remote"
     environment:
       - REVENANT_EVIDENCE_ROOT=/evidence
     volumes:
       - ./:/app
       - ${EVIDENCE_DIR:-./tests/fixtures}:/evidence:ro
     ports:
-      - "127.0.0.1:8000:8000"   # published on localhost only: the API has no auth
+      # inside the container the API must bind 0.0.0.0 (--allow-remote); the host side is
+      # published on 127.0.0.1 only because the API has no authentication
+      - "127.0.0.1:8000:8000"
   neo4j:
     image: neo4j:5-community
     environment:

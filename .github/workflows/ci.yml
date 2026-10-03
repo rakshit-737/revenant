@@ -85,6 +85,19 @@ jobs:
           docker build -t revenant:ci .
           docker run --rm revenant:ci --help
           docker run --rm -v "$PWD/tests/fixtures:/evidence:ro" revenant:ci analyze /evidence/otrf_psexec_lsa_secrets.jsonl --top 1
+      - name: docker compose api service starts and answers on 127.0.0.1
+        env:
+          NEO4J_PASSWORD: x  # compose interpolates the neo4j service too; not used here
+        run: |
+          docker compose up -d api
+          ok=0
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/api/health; then ok=1; break; fi
+            sleep 5
+          done
+          docker compose logs api | tail -n 20
+          docker compose down
+          [ "$ok" = 1 ]
 
   security:
     runs-on: ubuntu-24.04
