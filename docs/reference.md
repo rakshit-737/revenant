@@ -4,16 +4,23 @@
 
 ```
 revenant scenarios                          list built-in synthetic scenarios
-revenant demo [--scenario NAME]             run a scenario end-to-end, print report
+revenant demo [--scenario NAME] [--top N]   run a scenario end-to-end, print report
 revenant analyze PATH [PATH ...]            analyse artefacts (OTRF JSON, .evtx, plaso
-                                            json_line/l2tcsv, Volatility dir, auth.log)
-     --kind otrf|evtx|plaso|volatility|authlog|auditd  --host H
+                                            json_line/l2tcsv, Volatility dir, auth.log,
+                                            auditd, ATLAS preprocessed logs)
+     --kind otrf|evtx|plaso|volatility|authlog|auditd|atlas  --host H
      --format md|html|json|cypher  --out FILE  --pdf FILE
-     --ledger custody.sqlite  --top N  --include-noisy
+     --ledger case.sqlite  --top N  --include-noisy
 revenant verify FILE|LEDGER.sqlite          custody-ledger integrity check (read-only)
      --expect-head HASH  --expect-count N   external anchors (detect truncation/rewrite)
 revenant --version
-revenant serve [--host --port]              FastAPI + timeline/graph UI
+revenant serve [--host H] [--port P] [--allow-remote]
+                                            FastAPI + timeline/graph UI; a non-loopback
+                                            --host is refused without --allow-remote
+```
+
+`--ledger` persists the custody ledger to a new SQLite store; a store that already holds
+another case's ledger is refused (exit 2) before any report is written.
 ```
 
 ## HTTP API

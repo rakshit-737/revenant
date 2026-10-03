@@ -40,7 +40,7 @@ Do not use it against systems or data you are not authorized to examine.
 
 The CI workflow (`.github/workflows/ci.yml`) runs on every push and PR:
 
-- `ruff` lint and the test suite on Python 3.10-3.13, plus a CLI smoke test on
+- `ruff` lint and the test suite on Python 3.10-3.14, plus a CLI smoke test on
   the real OTRF fixture;
 - **SAST** via `bandit` (blocking at medium severity and above);
 - **dependency vulnerability scan** via `pip-audit`;

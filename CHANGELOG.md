@@ -11,16 +11,20 @@ All notable changes to this project are documented here. The format follows
 Republishes the wheel, sdist and GHCR image with the calibration table (v1.0.0 lacked it).
 
 ### Added
-- Linux auditd connector (execve/open/unlink/connect to events) and a CI job that captures a
-  benign scripted sequence with auditd on the runner and asserts the reconstructed chain.
-- OTRF compound captures (APT29 day 1/2, LSASS, Log4Shell) and an ATLAS downloader, every
-  archive pinned by SHA-256 with fail-closed verification; Sentinel-format captures readable.
-- Five-corpus B1 with ablations, equal-input baselines and CIs; equal-budget B2; B3 in Actions.
-- ATLAS reproduction workflow: paper numbers recomputed from released outputs and the
-  authors' `evaluate.py` re-run.
-- Anti-forensics: PowerShell script-block/module logging disables are flagged.
-- Generated docs demo on a real OTRF case; How it works, Evaluation and Reproduce pages.
-- `revenant --version`, `--kind auditd`; package/docker/quickstart CI jobs, SHA-pinned actions.
+- **Linux auditd connector** and a **live-auditd CI job** that captures a benign scripted
+  sequence on the runner and asserts its reconstruction (a consistency check).
+- **More data:** OTRF APT29 day 2, the 7-capture LSASS-dump campaign and Log4Shell (Microsoft
+  Sentinel exports are now parsed); the ATLAS release downloader. Every archive is pinned by
+  SHA-256 and verification fails closed.
+- **Evaluation:** equal-input baselines, an ablation grid, per-capture rows,
+  capture-clustered bootstrap CIs, macro F1, Brier/AUROC, Wilson intervals and McNemar
+  tests; `bench-extended` and `atlas-repro` workflows; ATLAS reproduction (`results/atlas_repro.json`).
+- Docs: landing page, How it works, Evaluation and Reproduce pages; the demo is generated
+  by `scripts/build_demo.py` and defaults to the real OTRF capture.
+- CI: wheel/sdist/Docker smoke jobs, README Quickstart run verbatim, Python 3.14, strict
+  bandit/pip-audit/gitleaks, SHA-pinned actions, least-privilege permissions, dependabot,
+  issue/PR templates, CODEOWNERS, CITATION.cff.
+- Anti-forensics: PowerShell script-block/module-logging disables are flagged.
 
 ### Changed
 - Public functions and methods now carry docstrings; ruff `D102`/`D103` enforce this in CI.
@@ -29,6 +33,18 @@ Republishes the wheel, sdist and GHCR image with the calibration table (v1.0.0 l
 - ATLAS row wording: event-level numbers are recomputed from released outputs, not reproduced
   by re-running the model. Scoring REVENANT on ATLAS/ATLASv2 is deferred; reasons are in the
   README Limitations.
+- Published numbers (several are worse):
+  - B1 baselines now see the same fused events as REVENANT, and the corpus runs on GitHub
+    Actions with every capture readable: OTRF atomic F1 0.910 vs PID-nearest 0.822 (was 0.955
+    vs 0.898 on the AV-reduced local corpus). The ablation shows the gain comes from the
+    image-keyed fallback rules.
+  - B2 now gives every method the same reading budget: stories are slightly **worse** than a
+    suspicion-sorted flat list (hit@1 0.28 vs 0.36, p = 0.06); the earlier "stories help"
+    claim is withdrawn.
+  - Calibration fitted on APT29 and tested on atomic: ECE 0.105 (was 0.035; earlier copies said 0.106, a
+    double-rounding slip); hand-set confidences were under-, not over-confident.
+    Calibrated constants are capped at 0.99.
+  - B3: recall 0.60, precision 0.20 (was 0.50 / 0.17).
 
 ### Fixed
 - **Packaging:** the wheel, sdist and Docker image now ship `rule_calibration.json`; v1.0.0
@@ -47,34 +63,6 @@ Republishes the wheel, sdist and GHCR image with the calibration table (v1.0.0 l
 - Office-spawned PowerShell is tagged T1059.001 (was T1059.003).
 - CLI: `--kind auditd`, `--host`, `--version`, help for every option, one-line errors with
   the extra to install, exit 2 for missing inputs.
-
-### Added
-- **Linux auditd connector** and a **live-auditd CI job** that captures a benign scripted
-  sequence on the runner and asserts its reconstruction (a consistency check).
-- **More data:** OTRF APT29 day 2, the 7-capture LSASS-dump campaign and Log4Shell (Microsoft
-  Sentinel exports are now parsed); the ATLAS release downloader. Every archive is pinned by
-  SHA-256 and verification fails closed.
-- **Evaluation:** equal-input baselines, an ablation grid, per-capture rows,
-  capture-clustered bootstrap CIs, macro F1, Brier/AUROC, Wilson intervals and McNemar
-  tests; `bench-extended` and `atlas-repro` workflows; ATLAS reproduction (`results/atlas_repro.json`).
-- Docs: landing page, How it works, Evaluation and Reproduce pages; the demo is generated
-  by `scripts/build_demo.py` and defaults to the real OTRF capture.
-- CI: wheel/sdist/Docker smoke jobs, README Quickstart run verbatim, Python 3.14, strict
-  bandit/pip-audit/gitleaks, SHA-pinned actions, least-privilege permissions, dependabot,
-  issue/PR templates, CODEOWNERS, CITATION.cff.
-- Anti-forensics: PowerShell script-block/module-logging disables are flagged.
-
-### Changed (published numbers; several are worse)
-- B1 baselines now see the same fused events as REVENANT, and the corpus runs on GitHub
-  Actions with every capture readable: OTRF atomic F1 0.910 vs PID-nearest 0.822 (was 0.955
-  vs 0.898 on the AV-reduced local corpus). The ablation shows the gain comes from the
-  image-keyed fallback rules.
-- B2 now gives every method the same reading budget: stories are slightly **worse** than a
-  suspicion-sorted flat list (hit@1 0.28 vs 0.36, p = 0.06); the earlier "stories help"
-  claim is withdrawn.
-- Calibration fitted on APT29 and tested on atomic: ECE 0.106 (was 0.035); hand-set
-  confidences were under-, not over-confident. Calibrated constants are capped at 0.99.
-- B3: recall 0.60, precision 0.20 (was 0.50 / 0.17).
 
 ## [1.0.0] - 2026-09-26
 
