@@ -1,22 +1,23 @@
 name: bench-extended
 
-# Round-3 A: B1/B2 on every OTRF corpus, run where endpoint antivirus cannot
-# quarantine captures and where the 1.7 GB APT29 day-2 JSON fits in memory.
+# Corpus benchmarks on public OTRF / EVTX-ATTACK-SAMPLES data, run where endpoint
+# antivirus cannot quarantine captures and the 1.7 GB APT29 day-2 JSON fits in
+# memory. The combine job merges every part into results/ (with this run's id),
+# regenerates RESULTS.md, stats.json and the figures, and uploads them.
 on: workflow_dispatch
 
 permissions:
   contents: read
 
+env:
+  REVENANT_DATA: ${{ github.workspace }}/../data
+
 jobs:
-  bench:
+  main:
+    # B1 on atomic, APT29 day 1, LSASS, Log4Shell (+ the shipped calibration refit),
+    # then B2 (uses the refitted table), B3 and B3b
     runs-on: ubuntu-24.04
     timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      matrix:
-        part: [main, day2]
-    env:
-      REVENANT_DATA: ${{ github.workspace }}/../data
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -25,31 +26,120 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e ".[bench,evtx]"
-      - name: Download (pinned; first fetch of unpinned entries is recorded)
+      - name: Download (pinned)
         run: |
           set -euo pipefail
-          if [ "${{ matrix.part }}" = main ]; then
-            python scripts/download_data.py --pin --only otrf-atomic --only otrf-metadata --only otrf-apt29 --only otrf-lsass --only otrf-log4shell --only evtx-attack-samples
-          else
-            python scripts/download_data.py --pin --only otrf-apt29-day2
-          fi
-          mkdir -p out && cp data/manifest.json out/manifest.${{ matrix.part }}.json
+          python scripts/download_data.py --only otrf-atomic --only otrf-metadata --only otrf-apt29 --only otrf-lsass --only otrf-log4shell --only evtx-attack-samples
+          mkdir -p out && cp data/manifest.json out/manifest.main.json
       - name: Refuse executables
         run: |
           if find "$REVENANT_DATA" -type f -size +1c -exec sh -c 'head -c2 "$1" | grep -q "^MZ"' _ {} \; -print | grep .; then exit 1; fi
-      - name: B1 edges (+ablations, per-capture rows)
+      - name: B1 edges (+ablations, per-capture rows, calibration refit written to the package)
         working-directory: benchmarks
-        run: python bench_edges.py --extra --out edges_ci_${{ matrix.part }}.json && cp ../results/edges_ci_${{ matrix.part }}.json ../out/
-      - name: B2 stories (atomic, Empire captures readable here)
-        if: matrix.part == 'main'
+        run: |
+          python bench_edges.py --extra --write-calibration --out edges_ci_main.json
+          cp ../results/edges_ci_main.json ../out/ && cp ../src/revenant/data/rule_calibration.json ../out/
+      - name: B2 stories (atomic, with the refitted table)
         working-directory: benchmarks
         run: python bench_stories.py && cp ../results/stories.json ../out/stories_ci.json
       - name: B3 anti-forensics (EVTX-ATTACK-SAMPLES)
-        if: matrix.part == 'main'
         working-directory: benchmarks
         run: python bench_antiforensics.py && cp ../results/antiforensics.json ../out/antiforensics_ci.json
+      - name: B3b anti-forensics (OTRF captures labelled T1562.002)
+        working-directory: benchmarks
+        run: python bench_antiforensics_b3b.py && cp ../results/antiforensics_b3b.json ../out/antiforensics_b3b_ci.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
-          name: bench-${{ matrix.part }}
+          name: bench-main
+          path: out/
+
+  day2:
+    # B1 on APT29 day 2, scoring the table the main job refitted (held out here)
+    needs: main
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[bench,evtx]"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: bench-main
+          path: main-out
+      - name: Download (pinned)
+        run: |
+          set -euo pipefail
+          python scripts/download_data.py --only otrf-apt29-day2
+          mkdir -p out && cp data/manifest.json out/manifest.day2.json
+      - name: Refuse executables
+        run: |
+          if find "$REVENANT_DATA" -type f -size +1c -exec sh -c 'head -c2 "$1" | grep -q "^MZ"' _ {} \; -print | grep .; then exit 1; fi
+      - name: B1 edges on APT29 day 2
+        working-directory: benchmarks
+        run: |
+          python bench_edges.py --extra --shipped-table ../main-out/rule_calibration.json --out edges_ci_day2.json
+          cp ../results/edges_ci_day2.json ../out/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: bench-day2
+          path: out/
+
+  scale:
+    # B4 on a stated machine: 5 end-to-end repetitions, 3 per scaling point
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[bench]"
+      - name: Download (pinned)
+        run: python scripts/download_data.py --only otrf-apt29
+      - name: B4 scale (APT29 day 1)
+        working-directory: benchmarks
+        run: |
+          mkdir -p ../out
+          python bench_scale.py && cp ../results/scale.json ../out/scale_ci.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: bench-scale
+          path: out/
+
+  combine:
+    needs: [main, day2, scale]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[bench]"
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: bench-*
+          path: artifacts
+      - name: Merge into results/
+        run: |
+          set -euo pipefail
+          python benchmarks/merge_results.py --artifacts artifacts
+          mkdir -p out/results out/package && cp results/*.json out/results/ && cp src/revenant/data/rule_calibration.json out/package/
+      - name: Regenerate RESULTS.md, stats.json and figures
+        run: python benchmarks/make_figures.py && cp results/* out/results/
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: bench-results
           path: out/

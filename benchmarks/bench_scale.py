@@ -7,19 +7,31 @@
    on growing time-ordered prefixes of the capture and a log-log slope is
    fitted. The v0.1 algorithm is reproduced below verbatim in structure (pair
    loop + per-rule predicate) so the comparison is like-for-like.
+
+Timings are repeated (end to end ``REPS_E2E`` times, each scaling point
+``REPS_POINT`` times) and reported as median and interquartile range; both
+slopes are also fitted on the common range (500-4,000 events) so they compare
+like with like. Runs on a GitHub-hosted runner (``bench-extended``, part
+``scale``) so the numbers come from a stated, reproducible machine.
 """
 
 from __future__ import annotations
 
 import math
+import statistics
 import time
 
 from common import APT29_DIR, environment, load_cached, require, write_json
+from stats import percentile, provenance
 
 from revenant.graph import ProvenanceGraph
 from revenant.models import EventType
 from revenant.pipeline import analyze_events
 from revenant.rules import RuleEngine
+
+REPS_E2E = 5
+REPS_POINT = 3
+COMMON_MAX = 4000
 
 # ----------------------------------------------------- v0.1 engine (baseline)
 _V01 = [  # (relation, window_s, predicate)
@@ -71,6 +83,11 @@ def slope(points: list[tuple[int, float]]) -> float:
     return round(sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs), 3)
 
 
+def _summary(xs: list[float]) -> dict:
+    return {"median": round(statistics.median(xs), 3), "q1": round(percentile(xs, 0.25), 3),
+            "q3": round(percentile(xs, 0.75), 3), "runs": [round(x, 3) for x in xs]}
+
+
 def main() -> int:
     if not require(APT29_DIR, "APT29 day-1 capture"):
         return 0
@@ -79,16 +96,22 @@ def main() -> int:
     load_s = time.perf_counter() - t0
     events = sorted(events, key=lambda e: (e.timestamp, e.event_id))
 
-    t0 = time.perf_counter()
-    a = analyze_events(events, chains=False)
-    total = time.perf_counter() - t0
+    totals, stages, a = [], [], None
+    for _ in range(REPS_E2E):
+        t0 = time.perf_counter()
+        a = analyze_events(events, chains=False)
+        totals.append(time.perf_counter() - t0)
+        stages.append(a.timings_s)
+    assert a is not None
+    total = statistics.median(totals)
     e2e = {
         "events": len(events),
         "raw_rows": st["rows"],
         "mapping_coverage": st["coverage"],
         "load_s_cached": round(load_s, 2),
-        "stage_s": a.timings_s,
-        "analysis_s": round(total, 2),
+        "repetitions": REPS_E2E,
+        "analysis_s": _summary(totals),
+        "stage_s": {k: round(statistics.median(x[k] for x in stages), 3) for k in stages[0]},
         "events_per_s": round(len(events) / total, 1),
         "edges": len(a.graph.edges),
         "corroborations": a.corroborations,
@@ -99,20 +122,20 @@ def main() -> int:
                          "grade": s.grade.value, "events": len(s.event_ids), "hosts": s.hosts}
                         for s in a.stories[:10]],
     }
-    print(e2e["events"], "events in", e2e["analysis_s"], "s;", e2e["stage_s"])
+    print(e2e["events"], "events, median", e2e["analysis_s"], "s;", e2e["stage_s"])
 
-    sizes_old = [500, 1000, 2000, 4000]
-    sizes_new = [500, 1000, 2000, 4000, 16000, 64000, len(events)]
+    sizes_old = [500, 1000, 2000, COMMON_MAX]
+    sizes_new = [500, 1000, 2000, COMMON_MAX, 16000, 64000, len(events)]
     old, new = [], []
-    for n in sizes_old:
-        t, k = _timed(v01_infer, events[:n])
-        old.append({"n": n, "seconds": round(t, 3), "edges": k})
-        print("v0.1", n, round(t, 2))
-    for n in sizes_new:
-        t, k = _timed(v02_infer, events[:n])
-        new.append({"n": n, "seconds": round(t, 3), "edges": k})
-        print("v0.2", n, round(t, 2))
+    for sizes, fn, rows, label in ((sizes_old, v01_infer, old, "v0.1"), (sizes_new, v02_infer, new, "v0.2")):
+        for n in sizes:
+            runs = [_timed(fn, events[:n]) for _ in range(REPS_POINT)]
+            ts = [t for t, _ in runs]
+            rows.append({"n": n, "seconds": round(statistics.median(ts), 3), "runs": [round(t, 3) for t in ts],
+                         "edges": runs[0][1]})
+            print(label, n, rows[-1]["runs"])
     s_old = slope([(r["n"], r["seconds"]) for r in old])
+    s_new_common = slope([(r["n"], r["seconds"]) for r in new if r["n"] <= COMMON_MAX])
     s_new = slope([(r["n"], r["seconds"]) for r in new])
     full_n = len(events)
     extrapolated = old[-1]["seconds"] * (full_n / old[-1]["n"]) ** s_old
@@ -121,12 +144,14 @@ def main() -> int:
         "environment": environment(),
         "end_to_end": e2e,
         "rule_engine_scaling": {
-            "v01_pairwise": old, "v02_indexed": new,
-            "loglog_slope_v01": s_old, "loglog_slope_v02": s_new,
+            "v01_pairwise": old, "v02_indexed": new, "repetitions_per_point": REPS_POINT,
+            "loglog_slope_v01": s_old, "loglog_slope_v02_common_range": s_new_common,
+            "loglog_slope_v02": s_new, "common_range": [500, COMMON_MAX],
             "v01_extrapolated_full_capture_s": round(extrapolated, 1),
         },
+        "source": provenance("bench-extended"),
     }
-    print("slopes", s_old, s_new, "v0.1 extrapolated full:", round(extrapolated), "s")
+    print("slopes v0.1", s_old, "v0.2 common", s_new_common, "v0.2 full", s_new, "v0.1 extrapolated", round(extrapolated))
     write_json("scale.json", out)
     return 0
 

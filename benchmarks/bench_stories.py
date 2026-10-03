@@ -43,6 +43,7 @@ import statistics
 import time
 
 from common import atomic_datasets, environment, load_cached, write_json
+from stats import provenance
 
 from revenant.attack import HEURISTICS, technique_parent
 from revenant.pipeline import analyze_events
@@ -158,6 +159,7 @@ def main() -> int:
         "all": summarise(rows),
         "in_vocabulary": summarise(in_vocab),
         "rows": rows,
+        "source": provenance("bench-extended"),
     }
     print("ALL", out["all"])
     print("IN-VOCAB", out["in_vocabulary"])
