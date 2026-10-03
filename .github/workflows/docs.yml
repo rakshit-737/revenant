@@ -32,6 +32,15 @@ jobs:
         run: |
           python scripts/build_demo.py
           mkdir -p docs/img && cp results/*.png docs/img/
+      - name: Every mermaid diagram parses (mermaid-cli, pinned)
+        run: |
+          set -euo pipefail
+          python ci/check_mermaid.py "$RUNNER_TEMP/mmd"
+          npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/mmdc" @mermaid-js/mermaid-cli@12.0.0
+          echo '{"args": ["--no-sandbox"]}' > "$RUNNER_TEMP/puppeteer.json"
+          for f in "$RUNNER_TEMP"/mmd/*.mmd; do
+            "$RUNNER_TEMP/mmdc/node_modules/.bin/mmdc" -p "$RUNNER_TEMP/puppeteer.json" -i "$f" -o "${f%.mmd}.svg"
+          done
       - name: Build (strict)
         run: mkdocs build --strict
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
