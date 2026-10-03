@@ -9,6 +9,7 @@ kind               input                                      module
 ``volatility``     dir of Volatility 3 ``-r json`` outputs    `.volatility`
 ``authlog``        Linux auth.log / secure                    `.authlog`
 ``auditd``         Linux auditd audit.log (raw records)       `.auditd`
+``atlas``          ATLAS preprocessed Windows/DNS/HTTP log    `.atlas`
 =================  =========================================  ==================
 """
 
@@ -20,7 +21,7 @@ from typing import Any
 from ..models import Event
 from .otrf import LoadStats
 
-KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog", "auditd")
+KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog", "auditd", "atlas")
 
 
 def detect_kind(path: str | Path) -> str:
@@ -51,10 +52,13 @@ def detect_kind(path: str | Path) -> str:
         return "otrf"
     with p.open("r", encoding="utf-8", errors="replace") as fh:
         first = fh.readline()
+    from .atlas import looks_like_atlas
     from .auditd import looks_like_audit_log
 
     if looks_like_audit_log(first):
         return "auditd"
+    if looks_like_atlas(first):
+        return "atlas"
     if "auth" in name or "secure" in name:
         return "authlog"
     raise ValueError(f"cannot detect artefact kind for {p}; pass kind explicitly")
@@ -89,6 +93,10 @@ def load_path(path: str | Path, kind: str | None = None, *, stats: LoadStats | N
         from .auditd import load_auditd
 
         return load_auditd(path, host=opts.get("host", ""), stats=stats)
+    if kind == "atlas":
+        from .atlas import load_atlas
+
+        return load_atlas(path, host=opts.get("host", ""), stats=stats)
     raise ValueError(f"unknown artefact kind: {kind}")
 
 

@@ -229,57 +229,120 @@ def reconstruct_stories(
         if t and t.suspicion >= cfg.seed_threshold:
             by_root[story_root(graph, e.event_id)].append(e.event_id)
 
-    # indicator index: event id -> indicators touching it
-    ind_by_event: dict[str, list[TamperingIndicator]] = defaultdict(list)
-    for ind in indicators:
-        for eid in ind.event_ids:
-            ind_by_event[eid].append(ind)
+    ind_by_event = _index_indicators(indicators)
 
     stories: list[IncidentStory] = []
     for root, seeds in by_root.items():
         full = _subtree(graph, root, tags, cfg.max_events)
         ids = [i for i in full if _keep(graph, i, tags, root, cfg.min_leaf_suspicion, ind_by_event)]
-        omitted = len(full) - len(ids)
-        idset = set(ids)
-        for s in seeds:  # a seed below the cap must never be dropped
-            if s not in idset:
-                ids.append(s)
-                idset.add(s)
-        ids.sort(key=lambda i: (graph.get_event(i).timestamp, i))  # type: ignore[union-attr]
-        edges = [e for i in ids for e in graph.out_edges(i) if e.dst_event_id in idset]
-        suspicion, techniques, tactics = _story_suspicion(ids, tags)
-        stages = sorted({TACTIC_STAGE[t] for t in tactics if t in TACTIC_STAGE}, key=_STAGE_ORDER.index)
-        flags: list[str] = []
-        seen_ind: set[int] = set()
-        for i in ids:
-            for ind in ind_by_event.get(i, []):
-                if id(ind) in seen_ind:
-                    continue
-                seen_ind.add(id(ind))
-                flags.append(f"{ind.indicator}: {ind.detail}")
-        hosts = sorted({h for i in ids if (h := graph.get_event(i).attributes.get("host", ""))})  # type: ignore[union-attr]
-        sid = "story-" + hashlib.sha256("|".join(ids).encode()).hexdigest()[:10]
-        story = IncidentStory(
-            story_id=sid,
-            root_event_id=root,
-            event_ids=ids,
-            edges=edges,
-            stages=stages,
-            techniques=techniques,
-            tactics=tactics,
-            hosts=hosts,
-            suspicion=suspicion,
-            tampering_flags=flags,
-            omitted_events=omitted,
-        )
-        b = story_breakdown(story, graph)
-        story.confidence_score = b.score
-        story.grade = b.grade
-        story.rank_score = round(suspicion * (0.5 + 0.5 * b.score), 4)
-        stories.append(story)
+        stories.append(_make_story(graph, root, ids, seeds, tags, ind_by_event, len(full) - len(ids)))
 
     stories.sort(key=lambda s: (-s.rank_score, s.story_id))
     return stories[: cfg.max_stories]
+
+
+def _index_indicators(indicators: list[TamperingIndicator]) -> dict[str, list[TamperingIndicator]]:
+    ind_by_event: dict[str, list[TamperingIndicator]] = defaultdict(list)
+    for ind in indicators:
+        for eid in ind.event_ids:
+            ind_by_event[eid].append(ind)
+    return ind_by_event
+
+
+def _make_story(graph: ProvenanceGraph, root: str, ids: list[str], seeds: list[str],
+                tags: dict[str, EventTags], ind_by_event: dict, omitted: int) -> IncidentStory:
+    """Score and package the events ``ids`` (plus every seed) as one story rooted at ``root``."""
+    idset = set(ids)
+    ids = list(ids)
+    for s in seeds:  # a seed below the cap must never be dropped
+        if s not in idset:
+            ids.append(s)
+            idset.add(s)
+    ids.sort(key=lambda i: (graph.get_event(i).timestamp, i))  # type: ignore[union-attr]
+    edges = [e for i in ids for e in graph.out_edges(i) if e.dst_event_id in idset]
+    suspicion, techniques, tactics = _story_suspicion(ids, tags)
+    stages = sorted({TACTIC_STAGE[t] for t in tactics if t in TACTIC_STAGE}, key=_STAGE_ORDER.index)
+    flags: list[str] = []
+    seen_ind: set[int] = set()
+    for i in ids:
+        for ind in ind_by_event.get(i, []):
+            if id(ind) in seen_ind:
+                continue
+            seen_ind.add(id(ind))
+            flags.append(f"{ind.indicator}: {ind.detail}")
+    hosts = sorted({h for i in ids if (h := graph.get_event(i).attributes.get("host", ""))})  # type: ignore[union-attr]
+    sid = "story-" + hashlib.sha256("|".join(ids).encode()).hexdigest()[:10]
+    story = IncidentStory(
+        story_id=sid,
+        root_event_id=root,
+        event_ids=ids,
+        edges=edges,
+        stages=stages,
+        techniques=techniques,
+        tactics=tactics,
+        hosts=hosts,
+        suspicion=suspicion,
+        tampering_flags=flags,
+        omitted_events=omitted,
+    )
+    b = story_breakdown(story, graph)
+    story.confidence_score = b.score
+    story.grade = b.grade
+    story.rank_score = round(suspicion * (0.5 + 0.5 * b.score), 4)
+    return story
+
+
+def seeded_story(
+    graph: ProvenanceGraph,
+    seed_ids: list[str],
+    indicators: list[TamperingIndicator] | None = None,
+    config: StoryConfig | None = None,
+    tags: dict[str, EventTags] | None = None,
+) -> IncidentStory | None:
+    """The story around a known symptom: what an analyst gets after naming known-bad events.
+
+    Each seed is walked up to its story root exactly as in `reconstruct_stories`, and the
+    story keeps every such root's causal subtree (capped at ``config.max_events`` per root,
+    suspicious branches first; benign non-process leaves omitted) plus every seed.
+
+    Parameters
+    ----------
+    graph : ProvenanceGraph
+        Graph with causal edges.
+    seed_ids : list of str
+        Ids of the events that show the symptom.
+    indicators : list of TamperingIndicator, optional
+        Anti-forensics indicators attached to the story.
+    config : StoryConfig, optional
+        Cap and leaf-filter parameters.
+    tags : dict of str to EventTags, optional
+        Precomputed ATT&CK tags; computed when omitted.
+
+    Returns
+    -------
+    IncidentStory or None
+        None when no seed is a known event.
+    """
+    cfg = config or StoryConfig()
+    seeds = [s for s in dict.fromkeys(seed_ids) if graph.get_event(s) is not None]
+    if not seeds:
+        return None
+    if tags is None:
+        tags = score_events([e for e in graph.events if e.event_id not in graph.shadowed])
+    ind_by_event = _index_indicators(indicators or [])
+    roots = sorted({story_root(graph, s) for s in seeds})
+    ids: list[str] = []
+    idset: set[str] = set()
+    omitted = 0
+    for root in roots:
+        full = _subtree(graph, root, tags, cfg.max_events)
+        kept = [i for i in full if _keep(graph, i, tags, root, cfg.min_leaf_suspicion, ind_by_event)]
+        omitted += len(full) - len(kept)
+        for i in kept:
+            if i not in idset:
+                idset.add(i)
+                ids.append(i)
+    return _make_story(graph, roots[0], ids, seeds, tags, ind_by_event, omitted)
 
 
 def story_breakdown(story: IncidentStory, graph: ProvenanceGraph) -> ConfidenceBreakdown:
@@ -309,6 +372,7 @@ __all__ = [
     "StoryConfig",
     "SYSTEM_ROOTS",
     "reconstruct_stories",
+    "seeded_story",
     "story_breakdown",
     "story_gaps",
     "story_root",

@@ -178,8 +178,51 @@ def pid_rules() -> list[Rule]:
     return out
 
 
+def _resolved_ip(ev: Event) -> str | None:
+    ip = ev.attributes.get("resolved_ip")
+    return f"{event_host(ev)}|{ip}" if ip else None
+
+
+def _remote_ip(ev: Event) -> str | None:
+    ip = ev.attributes.get("remote_ip")
+    return f"{event_host(ev)}|{ip}" if ip else None
+
+
+def _dns_domain(ev: Event) -> str | None:
+    d = (ev.attributes.get("domain") or "").lower()
+    return f"{event_host(ev)}|{d}" if d else None
+
+
+def url_host(url: str) -> str:
+    """Host part of a scheme-less URL such as ``example.com:8080/a/b`` (lower-case, no port)."""
+    return url.split("/", 1)[0].rsplit("@", 1)[-1].split(":", 1)[0].lower()
+
+
+def _web_domain(ev: Event) -> str | None:
+    if not ev.object.startswith("url:"):
+        return None
+    h = (ev.attributes.get("http_host") or url_host(ev.object[4:])).lower()
+    return f"{event_host(ev)}|{h}" if h else None
+
+
+def _norm_url(u: str) -> str:
+    return u.split("://", 1)[-1].rstrip("/").lower()
+
+
+def _web_url(ev: Event) -> str | None:
+    return f"{event_host(ev)}|{_norm_url(ev.object[4:])}" if ev.object.startswith("url:") else None
+
+
+def _web_referer(ev: Event) -> str | None:
+    r = ev.attributes.get("referer")
+    return f"{event_host(ev)}|{_norm_url(r)}" if r else None
+
+
+_WEB = frozenset({_T.WEB_VISIT})
+
+
 def cross_entity_rules() -> list[Rule]:
-    """Return the rules that link across entities (dropped file executed, logon session)."""
+    """Return the rules that link across entities (dropped file executed, logon session, DNS and web)."""
     return [
         # a file written earlier is later executed as a process image (dropper -> payload)
         Rule("dropped_file_executed", "executed", 7 * DAY, frozenset({_T.FILE_WRITE}), _PS,
@@ -189,6 +232,14 @@ def cross_entity_rules() -> list[Rule]:
              _logon_id_src, _logon_id_dst, 0.75, fallback=True),
         Rule("logon_session_user", "session_of", 8 * 3600, frozenset({_T.LOGON}), _PS,
              _user_src, _user_dst, 0.5, fallback=True),
+        # network-capture DNS answers (ATLAS connector): the answer for a name precedes the
+        # connection to the address it resolved to, and the web request to that name. They key
+        # on ``resolved_ip`` / ``remote_ip``, which only the ATLAS connector sets.
+        Rule("dns_resolved_connect", "resolved_to", HOUR, frozenset({_T.DNS_QUERY}),
+             frozenset({_T.NETWORK_CONNECT}), _resolved_ip, _remote_ip, 0.6),
+        Rule("dns_web_request", "requested", HOUR, frozenset({_T.DNS_QUERY}), _WEB, _dns_domain, _web_domain, 0.6),
+        # a page fetched with a Referer was reached from the earlier visit to that URL
+        Rule("web_referer", "navigated", HOUR, _WEB, _WEB, _web_url, _web_referer, 0.6),
     ]
 
 

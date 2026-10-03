@@ -68,6 +68,7 @@ nav:
   - Getting started: getting-started.md
   - How it works: how-it-works.md
   - Evaluation: evaluation.md
+  - ATLAS protocol mapping: atlas-mapping.md
   - Reproduce: reproduce.md
   - Architecture: architecture.md
   - Datasets: datasets.md

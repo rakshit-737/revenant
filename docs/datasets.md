@@ -3,8 +3,8 @@
 All data is public and downloaded by `scripts/download_data.py` into
 `$REVENANT_DATA` (default `../../datasets/revenant`, outside the repository).
 Every file is pinned to a commit and verified against `data/manifest.json`
-(SHA-256 + size). Nothing from these corpora is committed here except one
-field-trimmed OTRF capture used as a test fixture (MIT, attribution below).
+(SHA-256 + size). Nothing from these corpora is committed here except two small test fixtures
+(a field-trimmed OTRF capture, MIT, and a 26-line ATLAS excerpt, Apache-2.0; attribution below).
 
 | Corpus | What | Size used | Licence | Citation |
 | --- | --- | --- | --- | --- |
@@ -43,4 +43,8 @@ ATT&CK labels for B2.
 `tests/fixtures/otrf_psexec_lsa_secrets.jsonl` is derived from OTRF
 Security-Datasets `cmd_psexec_lsa_secrets_dump` (MIT licence, © Open Threat
 Research Forge), with fields not read by REVENANT removed
-(`scripts/make_fixtures.py`). All other fixtures are hand-written and synthetic.
+(`scripts/make_fixtures.py`). `tests/fixtures/atlas_s2_excerpt.txt` is 26 unmodified
+lines of the ATLAS release's S2 test log (`paper_experiments/S2.zip`,
+`output/testing_preprocessed_logs_S2-CVE-2015-3105_windows`; Apache-2.0, © the ATLAS
+authors), kept with their ground-truth suffixes so a test can prove REVENANT strips them.
+All other fixtures are hand-written and synthetic.

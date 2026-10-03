@@ -1,0 +1,26 @@
+22178733,,,3756,1776,c:/program files/mozilla firefox/firefox.exe,,,,,,,,,,,,,,-LA-
+22178734,,,3756,1776,/device/harddiskvolume1/program files/mozilla firefox/firefox.exe,127.0.0.1,54807,,,,,,,,,,,,-LA-
+22179095,,,3756,1776,/device/harddiskvolume1/program files/mozilla firefox/firefox.exe,192.168.223.128,64945,192.168.223.3,9999,,,,,,,,,,-LA+
+22179096,,,3756,1776,/device/harddiskvolume1/program files/mozilla firefox/firefox.exe,192.168.223.128,64946,192.168.223.3,9999,,,,,,,,,,-LA+
+22319808,,,,,,,,,,request,incoming.telemetry.mozilla.org/submit/telemetry/e14abf4c-fc33-417b-8458-e714409b307d/main/firefox/52.0/release/20170302120751?v=4,,,,,,,,-LB-
+22319871,,,,,,,,,,response,,,302,mail.google.com,,mail.google.com/mail,,,-LB-
+22319871,,,,,,,,,,request,mail.google.com/mail/,,,,,,,,-LB-
+22319930,,,,,,,,,,request,0xalsaheel.com:9999/ripleeszw,,,,,,,,-LB+
+22319930,,,,,,,,,,request,0xalsaheel.com:9999/ripleeszw,,,,,,,,-LB+
+22319933,,,,,,,,,,request,0xalsaheel.com:9999/ripleeszw,,,,,,,,-LB+
+22322462,,,3060,628,c:/windows/system32/dllhost.exe,,,,,,,,,,,,file_read_control_access_sys_sec_readattributes,c:/windows/microsoft.net/framework/v3.0/windows communication foundation/smsvchost.exe,-LA-
+22322462,,,3060,628,c:/windows/system32/dllhost.exe,,,,,,,,,,,,file_readattributes,c:/windows/microsoft.net/framework/v3.0/windows communication foundation/smsvchost.exe,-LA-
+22322462,,,3060,628,c:/windows/system32/dllhost.exe,,,,,,,,,,,,file_read_control,c:/windows/microsoft.net/framework/v3.0/windows communication foundation/smsvchost.exe,-LA-
+22322479,,,988,516,c:/windows/system32/svchost.exe,,,,,,,,,,,,file_synchronize_readattributes,c:/windows/system32/config/systemprofile/ntuser.dat,-LA-
+22323530,0xalsaheel.com,192.168.223.3,,,,,,,,,,,,,,,,,-LD+
+22323530,0xalsaheel.com,,,,,,,,,,,,,,,,,,-LD+
+22323538,0xalsaheel.com,192.168.223.3,,,,,,,,,,,,,,,,,-LD+
+22323545,,,3236,3032,c:/program files/mozilla firefox/plugin-container.exe,,,,,,,,,,,,,,-LA-
+22323545,,,3236,3032,c:/program files/mozilla firefox/plugin-container.exe,,,,,,,,,,,,file_synchronize_execute/traverse,c:/program files/mozilla firefox,-LA-
+22323545,,,3236,3032,c:/program files/mozilla firefox/plugin-container.exe,,,,,,,,,,,,file_synchronize_readdata_(or_listdirectory)_execute/traverse,c:/program files/mozilla firefox/mozglue.dll,-LA-
+22323623,,,3236,3032,c:/program files/mozilla firefox/plugin-container.exe,,,,,,,,,,,,file_read_control_synchronize_writedata_(or_addfile)_appenddata_(or_addsubdirectory_or_createpipeinstance)_writeea_readattributes_writeattributes,c:/users/aalsahee/payload.exe,-LA+
+22323623,,,3236,3032,c:/program files/mozilla firefox/plugin-container.exe,,,,,,,,,,,,file_writedata_(or_addfile)_appenddata_(or_addsubdirectory_or_createpipeinstance),c:/users/aalsahee/payload.exe,-LA+
+22323694,,,2064,516,c:/users/aalsahee/payload.exe,,,,,,,,,,,,,,-LA+
+22323694,,,2064,516,c:/users/aalsahee/payload.exe,,,,,,,,,,,,file_synchronize_execute/traverse,c:/users/aalsahee,-LA+
+22323695,,,2064,516,/device/harddiskvolume1/users/aalsahee/payload.exe,192.168.223.128,65408,192.168.223.3,8080,,,,,,,,,,-LA+
+22323697,,,2064,516,/device/harddiskvolume1/users/aalsahee/payload.exe,192.168.223.128,65410,192.168.223.3,8080,,,,,,,,,,-LA+
