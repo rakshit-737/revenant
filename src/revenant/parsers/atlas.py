@@ -55,7 +55,8 @@ _LABEL = re.compile(r"-L[A-Z][+-]\s*$")
 _IPV4 = re.compile(r"^\d{1,3}(?:\.\d{1,3}){3}$")
 # the logs carry no year; any fixed leap-free base keeps the order and gaps exact
 BASE_YEAR = 2018
-_NOT_REMOTE = ("127.", "0.0.0.0", "255.255.255.255", "::1", "fe80", "ff02", "224.", "239.")
+# address prefixes that are never a remote peer (a string list, not a bind address)
+_NOT_REMOTE = ("127.", "0.0.0.0", "255.255.255.255", "::1", "fe80", "ff02", "224.", "239.")  # nosec B104
 
 
 def strip_label(line: str) -> str:
