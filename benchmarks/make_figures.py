@@ -488,7 +488,8 @@ def _method_rows(d, md, key: str):
         md += ["", "Exact McNemar tests (REVENANT-only / other-only files, p):", ""]
         for k, v in tests.items():
             if k.endswith(("_positives", "_all")):
-                md.append(f"- {k.replace('_', ' ').replace('revenant vs', 'REVENANT vs')}: "
+                other, scope = k.removeprefix("revenant_vs_").rsplit("_", 1)
+                md.append(f"- REVENANT vs {dict(B3_METHODS).get(other, other)}, {scope}: "
                           f"{v['revenant_only']}/{v['other_only']}, p={fmt_p(v['mcnemar_p'])}")
         STATS[key]["paired_tests"] = tests
 
@@ -636,8 +637,11 @@ def atlas_table(d, md):
         if t4:
             lg = t4.get("largest_event_tp_difference") or ["-", 0]
             same = t4.get("event_counts_identical", [])
-            md.append(f"\nThe macro event P/R/F1 matches Table 4's average to 4 decimal places in precision and F1 "
-                      f"(recall {v['recall']:.4f} vs {p['event']['recall']:.4f}), but per-attack event counts equal "
+            same4 = [m for m in ("precision", "recall", "f1") if round(v[m], 4) == p["event"][m]]
+            off4 = [f"{m} {v[m]:.4f} vs {p['event'][m]:.4f}" for m in ("precision", "recall", "f1") if m not in same4]
+            md.append(f"\nThe macro event figures match Table 4's average to 4 decimal places for "
+                      f"{', '.join(same4) or 'no metric'}{' (' + '; '.join(off4) + ')' if off4 else ''}, but per-attack "
+                      f"event counts equal "
                       f"Table 4 only for {', '.join(same) or 'no attack'} ({len(same)} of {len(t4['attacks'])}); the "
                       f"largest difference is {lg[0]} ({lg[1]:+d} TP). Entity counts differ for every attack because "
                       "`evaluate.py` counts unique graph words, not the spreadsheet's entities.")
@@ -670,7 +674,9 @@ def atlas_table(d, md):
     pr = d.get("atlasv2_probe")
     if pr:
         st = ", ".join(f"{q['method']} {q.get('status')}" for q in pr.get("requests", []))
-        md += ["", f"**ATLASv2 link** ({pr['url']}, probed {pr['probed_at_utc']}): {st}. {pr.get('interpretation', '')}"]
+        interp = pr.get("interpretation", "")
+        md += ["", f"**ATLASv2 link** ({pr['url']}, probed {pr['probed_at_utc']}): {st}. "
+               f"{interp[:1].upper() + interp[1:]}."]
         STATS.setdefault("atlas", {})["atlasv2_probe"] = {"statuses": st, "link_alive": pr.get("link_alive")}
     md.append("")
 
