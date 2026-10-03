@@ -52,3 +52,9 @@ htmlcov/
 /case.json
 /case.sqlite
 /out/
+
+# generated figures: the docs workflow copies results/*.png here at build time
+/docs/img/calibration.png
+/docs/img/edges_f1.png
+/docs/img/scaling.png
+/docs/img/stories_hitk.png
