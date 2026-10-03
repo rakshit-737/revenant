@@ -1,0 +1,14 @@
+- [x] Score REVENANT under the ATLAS protocol (symptom-seeded stories, the authors' `evaluate.py`), with a BackTracker-style reachability baseline
+- [x] Re-run ATLAS's released model (TensorFlow 2.3) and diff it against the release
+- [x] Probe the ATLASv2 link from Actions (live, but no scriptable file; 160 GB)
+- [x] B3b anti-forensics benchmark on the OTRF T1562.002-labelled captures, with Wilson CIs
+- [x] Event Log service stop/crash/restart and Security 1100 indicators
+- [x] 10,000-resample bootstrap with a recorded seed; paired capture-level tests
+- [ ] Retrain ATLAS with several seeds
+- [ ] A 4688-only (no Sysmon) process-lineage benchmark, using the fused Sysmon GUIDs as truth
+- [ ] Story-level confidence validation against labelled stories
+- [ ] Context-aware edge confidences that improve ranking, not only ECE
+- [ ] MRU-deletion and remote Event Log crash indicators (the remaining B3 misses)
+- [ ] `evtx_dump` / Hayabusa JSON ingest for fast `.evtx` handling
+- [ ] Timesketch importer/exporter
+- [ ] PostgreSQL custody backend

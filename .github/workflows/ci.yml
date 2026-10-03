@@ -32,6 +32,8 @@ jobs:
           pip install -r requirements.txt ruff
       - name: Lint
         run: ruff check src tests benchmarks scripts ci
+      - name: README blocks match their single sources (docs/snippets, results/headline.md)
+        run: python scripts/sync_docs.py --check
       - name: Tests (committed fixtures only; real-data tests skip)
         run: python -m pytest -q
 

@@ -89,3 +89,5 @@ nav:
   - Live demo: demo/index.html
 not_in_nav: |
   /benchmarks.md
+exclude_docs: |
+  /snippets/
