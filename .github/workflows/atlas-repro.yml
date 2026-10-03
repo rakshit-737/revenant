@@ -1,16 +1,25 @@
 name: atlas-repro
 
-# Round-3 C: reproduce the ATLAS paper's numbers (Alsaheel et al., USENIX
-# Security 2021) from the authors' released artefacts. Runs only on demand.
+# C: reproduce the ATLAS paper (Alsaheel et al., USENIX Security 2021) from the
+# authors' release, re-run their released model, and score REVENANT under the
+# same protocol. One job per attack (S1-S4, M1-M6), then a combine job.
+# Everything third-party runs offline (docker --network none) on data pinned by
+# SHA-256; no executables are allowed in the downloaded release. Runs on demand.
 on: workflow_dispatch
 
 permissions:
   contents: read
 
 jobs:
-  reproduce:
+  attack:
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      matrix:
+        attack: [S1, S2, S3, S4, M1, M2, M3, M4, M5, M6]
+    env:
+      A: ${{ matrix.attack }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -18,35 +27,119 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-      - name: Download ATLAS (git-blob verified; records SHA-256 pins)
+      - name: Install REVENANT
+        run: pip install -e . "openpyxl==3.1.5"
+      - name: Download this attack's experiment (git-blob and SHA-256 verified)
         run: |
           set -euo pipefail
-          pip install "openpyxl==3.1.5"
-          python scripts/download_atlas.py --dest "$RUNNER_TEMP/atlas" --pin
-          mkdir -p out && cp data/atlas_manifest.json out/
+          python scripts/download_atlas.py --dest "$RUNNER_TEMP/atlas" --only "$A" --no-raw
+          mkdir -p out/eval_logs out/released out/model_rerun/logs out/model_rerun/atlas_py out/revenant/logs
       - name: Refuse executables (no binaries may be present)
         run: |
           set -euo pipefail
           if find "$RUNNER_TEMP/atlas" -type f -size +1c -exec sh -c 'head -c2 "$1" | grep -q "^MZ"' _ {} \; -print | grep .; then
             echo "PE binary found in dataset"; exit 1; fi
-      - name: Run the authors' evaluate.py on their released outputs (Python 3.7 container)
-        continue-on-error: true
+      - name: Build the evaluate.py (Python 3.7) and model (TensorFlow 2.3) images
         run: |
           set -uo pipefail
-          mkdir -p out/eval_logs
-          # dependencies go into a local image with network; evaluate.py itself then runs offline
-          docker run --name atlasdeps python:3.7-slim pip -q install numpy==1.18.5 scikit-learn==0.23.2 matplotlib==3.3.4
-          docker commit atlasdeps atlas-eval:local
-          for d in $(find "$RUNNER_TEMP/atlas/paper_experiments" -name evaluate.py -not -path '*__MACOSX*' -printf '%h\n' | sort); do
-            name=$(echo "${d#$RUNNER_TEMP/atlas/paper_experiments/}" | tr '/' '_')
-            grep -n "^import\|^from\|argv\|open(" "$d/evaluate.py" | head -40 > "out/eval_logs/$name.src.txt" || true
-            timeout 1200 docker run --rm --network none -v "$d:/exp" -w /exp atlas-eval:local python evaluate.py               > "out/eval_logs/$name.log" 2>&1 || echo "exit $?" >> "out/eval_logs/$name.log"
-          done
-          tail -n 5 out/eval_logs/*.log | head -200
-      - name: Recompute and compare with the paper
-        run: python benchmarks/atlas_repro.py --root "$RUNNER_TEMP/atlas" --eval-logs out/eval_logs --out out/atlas_repro.json
+          docker build -q -t atlas-eval:local -f ci/atlas/eval.Dockerfile ci/atlas
+          if ! docker build -t atlas-tf:local -f ci/atlas/tf.Dockerfile ci/atlas > "out/model_rerun/tf_build_$A.log" 2>&1; then
+            echo "TensorFlow image build failed"; tail -n 40 "out/model_rerun/tf_build_$A.log"
+          fi
+          tail -n 5 "out/model_rerun/tf_build_$A.log"
+      - name: Released outputs (event totals, symptoms, hand-cleaned predictions)
+        run: python benchmarks/atlas_repro.py --root "$RUNNER_TEMP/atlas" --released-only --out "out/released/$A.json"
+      - name: Re-run model.h5 with atlas.py (testing mode, DO_TRAINING = False, offline)
+        run: |
+          set -uo pipefail
+          python benchmarks/atlas_rerun.py stage --root "$RUNNER_TEMP/atlas" --attack "$A" --out "$RUNNER_TEMP/rerun"
+          if docker image inspect atlas-tf:local > /dev/null 2>&1; then
+            docker run --rm --network none -v "$RUNNER_TEMP/rerun:/r:ro" -v "$PWD/ci/atlas:/ci:ro" atlas-tf:local \
+              python /ci/check_imports.py /r > "out/model_rerun/imports_$A.txt" 2>&1 || true
+            cat "out/model_rerun/imports_$A.txt"
+            for d in "$RUNNER_TEMP"/rerun/*/; do  # the two hosts of an M attack run side by side
+              (
+                n=$(basename "$d")
+                start=$(date +%s)
+                timeout 9000 docker run --rm --network none -v "$d:/exp" -w /exp atlas-tf:local python atlas.py \
+                  > "$RUNNER_TEMP/$n.log" 2>&1
+                rc=$?
+                { head -n 30 "$RUNNER_TEMP/$n.log" | cut -c1-2000; echo "..."; tail -n 80 "$RUNNER_TEMP/$n.log" | cut -c1-2000
+                  echo "exit $rc after $(( $(date +%s) - start )) s"; } > "out/model_rerun/atlas_py/$n.log"
+                echo "$n: atlas.py exit $rc"
+              ) &
+            done
+            wait
+          fi
+          python benchmarks/atlas_rerun.py score --root "$RUNNER_TEMP/atlas" --attack "$A" --staged "$RUNNER_TEMP/rerun" \
+            --out "$RUNNER_TEMP/rerun_score" --summary "out/model_rerun/$A.json"
+      - name: REVENANT under the ATLAS protocol (symptom-seeded stories)
+        run: |
+          set -euo pipefail
+          python benchmarks/bench_atlas.py prepare --root "$RUNNER_TEMP/atlas" --out "$RUNNER_TEMP/rev" --only "$A"
+          cp "$RUNNER_TEMP"/rev/meta_*.json out/revenant/
+      - name: The authors' evaluate.py on every output (released, re-run, REVENANT)
+        run: |
+          set -uo pipefail
+          P="$RUNNER_TEMP/atlas/paper_experiments"
+          {
+            for d in $(find "$P" -name evaluate.py -not -path '*__MACOSX*' -printf '%h\n' | sort); do
+              echo "$d out/eval_logs/$(echo "${d#"$P"/}" | tr '/' '_').log"
+            done
+            for v in rerun_raw released_raw; do
+              for d in "$RUNNER_TEMP/rerun_score/$v"/*/; do [ -d "$d" ] && echo "$d out/model_rerun/logs/${v}_$(basename "$d").log"; done
+            done
+            for m in revenant revenant_uncapped backtracker symptom_only; do
+              for d in "$RUNNER_TEMP/rev/$m"/*/; do [ -d "$d" ] && echo "$d out/revenant/logs/${m}_$(basename "$d").log"; done
+            done
+          } > "$RUNNER_TEMP/eval_jobs.txt"
+          cat "$RUNNER_TEMP/eval_jobs.txt"
+          xargs -P 4 -L 1 bash ci/atlas/run_eval.sh < "$RUNNER_TEMP/eval_jobs.txt"
+          grep -L "## Result (event)" out/eval_logs/*.log out/model_rerun/logs/*.log out/revenant/logs/*.log || true
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: atlas-${{ matrix.attack }}
+          path: out/
+
+  combine:
+    needs: attack
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Spreadsheet behind Table 4 (pinned)
+        run: |
+          pip install "openpyxl==3.1.5"
+          python scripts/download_atlas.py --dest "$RUNNER_TEMP/atlas" --only none --no-raw
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: atlas-*
+          merge-multiple: true
+          path: out
+      - name: Probe the ATLASv2 link (HEAD only; nothing downloaded)
+        run: python scripts/probe_atlasv2.py --out out/atlasv2_probe.json
+      - name: Reproduction summary and REVENANT score (fails on unexplained gaps)
+        run: |
+          set -uo pipefail
+          rc=0
+          python benchmarks/atlas_repro.py --root "$RUNNER_TEMP/atlas" --released-dir out/released \
+            --eval-logs out/eval_logs --model-rerun out/model_rerun --probe out/atlasv2_probe.json \
+            --out out/atlas_repro.json || rc=1
+          python benchmarks/bench_atlas.py collect --out out/revenant --atlas-logs out/eval_logs \
+            --results out/atlas_revenant.json || rc=1
+          exit $rc
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: atlas-repro
-          path: out/
+          path: |
+            out/atlas_repro.json
+            out/atlas_revenant.json
+            out/atlasv2_probe.json

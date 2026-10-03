@@ -16,7 +16,7 @@ Range) because raw.githubusercontent.com drops long transfers on slow links.
 
 Usage::
 
-    python scripts/download_atlas.py [--dest DIR] [--only S1 S2 ...] [--no-extract]
+    python scripts/download_atlas.py [--dest DIR] [--only S1 S2 ...] [--no-extract] [--no-raw]
 """
 
 from __future__ import annotations
@@ -83,6 +83,7 @@ def main() -> int:
     ap.add_argument("--dest", type=Path, default=DEFAULT_DEST)
     ap.add_argument("--only", nargs="*", help="attack ids, e.g. S1 M2")
     ap.add_argument("--no-extract", action="store_true")
+    ap.add_argument("--no-raw", action="store_true", help="skip raw_logs/*.zip (the experiments hold the preprocessed logs)")
     ap.add_argument("--pin", action="store_true", help="record SHA-256 for entries that have none yet")
     args = ap.parse_args()
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
@@ -90,6 +91,8 @@ def main() -> int:
     for f in manifest["files"]:
         attack = Path(f["path"]).stem
         if args.only and attack not in args.only and f["path"].endswith(".zip"):
+            continue
+        if args.no_raw and f["path"].startswith("raw_logs/"):
             continue
         out = args.dest / f["path"]
         print(f"{f['path']} ({f['bytes'] / 1e6:.1f} MB)")
