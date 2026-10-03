@@ -30,6 +30,8 @@ captures.
 
 --8<-- "results/headline.md"
 
+ATLAS rows: each multi-host attack is scored from its h2 folder, where the authors' procedure puts both hosts' outputs (its event totals equal the paper's); `M4_h1`'s release has no cleaned predictions, so `evaluate.py` stops there with an error. Event-level paper figures come from Table 4 (Avg row, p. 3016) and Table 5 (p. 3017), not the abstract.
+
 ## Figures
 
 <figure markdown>

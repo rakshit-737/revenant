@@ -156,8 +156,9 @@ comes from the **fallback rules**, which link an effect whose PID is missing (NX
 `ProcessId` on a share of rows) to the nearest earlier start of the same image, and that idea is
 exactly what the PID-then-image heuristic implements: REVENANT is not significantly better than
 it. The three largest captures hold 56% of the effects; without them micro F1 is 0.859 vs 0.805
-for PID-nearest. APT29 day 1 and day 2, the 7 LSASS captures and Log4Shell are easy (every
-reasonable method about 1.0; fewer than 10 captures each, so no CI).
+for PID-nearest. APT29 day 1 and day 2, the 7 LSASS captures and Log4Shell are easy for
+PID-based methods (PID-nearest, PID-then-image and REVENANT about 1.0; the v0.1-style join
+0.18-0.51 on APT29 and LSASS; fewer than 10 captures each, so no CI).
 
 ![B1 edges](results/edges_f1.png)
 
@@ -425,7 +426,7 @@ small test fixtures: a field-trimmed OTRF capture (MIT) and 26 lines of ATLAS's 
   atomic REVENANT beats PID-nearest (macro F1 difference +0.194 [+0.129, +0.266], sign test
   p = 4.6e-7), but a PID-then-image-nearest heuristic (REVENANT's fallback idea without its
   keys, guard or fusion) comes within +0.008 [-0.000, +0.025] (p = 0.29). The other four corpora
-  are easy for every method. B1 hides Sysmon GUIDs as a proxy for GUID-less sources; no
+  are easy for PID-based methods (about 1.0; the v0.1-style join scores 0.18-0.51 on APT29 and LSASS). B1 hides Sysmon GUIDs as a proxy for GUID-less sources; no
   4688-only, plaso or memory lineage is scored, and cross-entity edges (dropped file executed,
   logon session) have no public ground truth beyond the live auditd consistency check.
 - **Calibration lowers ECE but does not improve ranking.** Fitted on APT29 and tested on atomic,

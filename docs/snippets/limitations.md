@@ -2,7 +2,7 @@
   atomic REVENANT beats PID-nearest (macro F1 difference +0.194 [+0.129, +0.266], sign test
   p = 4.6e-7), but a PID-then-image-nearest heuristic (REVENANT's fallback idea without its
   keys, guard or fusion) comes within +0.008 [-0.000, +0.025] (p = 0.29). The other four corpora
-  are easy for every method. B1 hides Sysmon GUIDs as a proxy for GUID-less sources; no
+  are easy for PID-based methods (about 1.0; the v0.1-style join scores 0.18-0.51 on APT29 and LSASS). B1 hides Sysmon GUIDs as a proxy for GUID-less sources; no
   4688-only, plaso or memory lineage is scored, and cross-entity edges (dropped file executed,
   logon session) have no public ground truth beyond the live auditd consistency check.
 - **Calibration lowers ECE but does not improve ranking.** Fitted on APT29 and tested on atomic,
