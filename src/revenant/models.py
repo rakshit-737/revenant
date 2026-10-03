@@ -68,6 +68,8 @@ class EventType(str, enum.Enum):
     LOG_CLEARED = "log_cleared"  # Security 1102 / System 104
     AUDIT_POLICY_CHANGE = "audit_policy_change"  # Security 4719
     TIME_CHANGE = "time_change"  # Security 4616
+    LOGGING_STATE = "logging_state"  # Security 1100, System 7034/7036 for the Event Log service
+    SYSTEM_POWER = "system_power"  # boot / shutdown markers (Security 4608/4609, System 6005/6006/6009/1074)
     EXECUTION = "execution"  # prefetch / amcache / userassist evidence (plaso)
     WEB_VISIT = "web_visit"  # browser history (plaso)
     OTHER = "other"

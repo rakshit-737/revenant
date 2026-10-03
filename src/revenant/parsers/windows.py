@@ -11,9 +11,11 @@ Coverage (deliberately the evidence types the causal rules consume):
 ========================  ===================================================
 Sysmon                    1 2 3 5 8 9 10 11 12 13 14 15 17 18 19 20 21 22 23 26
                           (7 image-load only with ``include_noisy``)
-Security                  1102 4616 4624 4625 4634 4647 4657 4688 4689 4697
-                          4698 4719 4720 4722 4724 4728 4732 4738 4756 5156
-System                    104 7045
+Security                  1100 1102 4608 4609 4616 4624 4625 4634 4647 4657 4688
+                          4689 4697 4698 4719 4720 4722 4724 4728 4732 4738 4756
+                          5156
+System                    104 1074 6005 6006 6009 7045; 7034 / 7036 only for the
+                          Event Log service
 PowerShell/Operational    4104
 ========================  ===================================================
 
@@ -23,6 +25,7 @@ coverage is reported, never hidden.
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from typing import Any
 
@@ -288,6 +291,13 @@ def _map_security(rec: dict[str, Any], eid: int, a: dict[str, str]) -> Mapped | 
                  changes=_s(rec.get("AuditPolicyChanges")))
         return (EventType.AUDIT_POLICY_CHANGE, f"user:{norm_user(rec.get('SubjectUserName')) or '?'}",
                 "changed_audit_policy", "audit_policy")
+    if eid == 1100:
+        a["state"] = "shutdown"
+        return (EventType.LOGGING_STATE, "system:eventlog", "logging_service_shutdown", "log:security")
+    if eid in (4608, 4609):
+        a["state"] = "boot" if eid == 4608 else "shutdown"
+        return (EventType.SYSTEM_POWER, "system:os", "started" if eid == 4608 else "shutting_down",
+                f"host:{a['host'] or '?'}")
     if eid == 1102:
         return (EventType.LOG_CLEARED, f"user:{norm_user(_get(rec, 'SubjectUserName', 'UserName')) or '?'}",
                 "cleared_log", "log:security")
@@ -306,7 +316,22 @@ def _map_security(rec: dict[str, Any], eid: int, a: dict[str, str]) -> Mapped | 
     return None
 
 
+_EVENTLOG_SERVICE = re.compile(r"^(windows )?event ?log$", re.IGNORECASE)
+_POWER = {6005: ("boot", "eventlog_started"), 6009: ("boot", "booted"), 6006: ("shutdown", "eventlog_stopped"),
+          1074: ("shutdown", "shutdown_initiated")}
+
+
 def _map_system(rec: dict[str, Any], eid: int, a: dict[str, str]) -> Mapped | None:
+    if eid in (7034, 7036):
+        service = str(_get(rec, "param1", "ServiceName") or "").strip()
+        if not _EVENTLOG_SERVICE.match(service):
+            return None  # other services' state changes are routine noise
+        state = "crashed" if eid == 7034 else str(_get(rec, "param2") or "").strip().lower()
+        a.update(service=_s(service), state=state)
+        return (EventType.LOGGING_STATE, "system:scm", f"service_{state or 'changed'}", "service:eventlog")
+    if eid in _POWER:
+        a["state"], action = _POWER[eid]
+        return (EventType.SYSTEM_POWER, "system:os", action, f"host:{a['host'] or '?'}")
     if eid == 7045:
         a.update(service_file=_s(rec.get("ImagePath")), account=_s(rec.get("AccountName")))
         return (EventType.SERVICE_INSTALL, "system:scm", "installed_service",

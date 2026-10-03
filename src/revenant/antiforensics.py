@@ -15,6 +15,11 @@ indicator                   evidence
 ``audit_tamper``            4719 audit-policy change, EventLog service / MiniNT
                             / command-line-logging registry edits, wevtutil /
                             auditpol / stop-eventlog command lines
+``logging_stopped``         the Event Log service stopped (System 7036) or
+                            crashed (System 7034, or WerFault reporting a crash
+                            of its svchost), restarted mid-capture (7036
+                            running), or logging shut down (Security 1100) --
+                            ignored within 5 minutes of a boot/shutdown marker
 ``clock_change``            Security 4616 with a jump larger than 5 minutes
 ``record_order``            a channel's record numbers increase while time
                             goes backwards (clock rolled back mid-capture)
@@ -48,6 +53,10 @@ _TAMPER_CMD = re.compile(
     r"|fsutil\s+usn\s+deletejournal",
     re.IGNORECASE,
 )
+
+
+_WER = re.compile(r"(^|[\\/])werfault\.exe$", re.IGNORECASE)
+_EVENTLOG_HOST = re.compile(r"svchost\.exe.*\s-s\s+eventlog\b", re.IGNORECASE)
 
 
 def _ind(kind: str, detail: str, ids: list[str], sev: str) -> TamperingIndicator:
@@ -153,6 +162,49 @@ def detect_audit_tamper(events: list[Event]) -> list[TamperingIndicator]:
     return out
 
 
+POWER_WINDOW_S = 300.0
+
+
+def detect_logging_stopped(events: list[Event], window_s: float = POWER_WINDOW_S) -> list[TamperingIndicator]:
+    """Report the Event Log service stopping, crashing or restarting outside a boot or shutdown.
+
+    A clean shutdown logs Security 1100 and a stopped Event Log service, and every boot
+    starts it again, so state changes within ``window_s`` of a boot/shutdown marker
+    (Security 4608/4609, System 6005/6006/6009/1074) on the same host are normal.
+    """
+    marks: dict[tuple[str, str], list[float]] = defaultdict(list)
+    for e in events:
+        if e.event_type == EventType.SYSTEM_POWER:
+            marks[(e.attributes.get("host", ""), e.attributes.get("state", ""))].append(e.timestamp.timestamp())
+
+    def near(e: Event, state: str) -> bool:
+        t = e.timestamp.timestamp()
+        return any(abs(t - m) <= window_s for m in marks.get((e.attributes.get("host", ""), state), ()))
+
+    out: list[TamperingIndicator] = []
+    for e in events:
+        host = e.attributes.get("host") or "?"
+        if e.event_type == EventType.LOGGING_STATE:
+            st = e.attributes.get("state", "")
+            if st == "crashed":
+                out.append(_ind("logging_stopped", f"Event Log service terminated unexpectedly on {host}",
+                                [e.event_id], "high"))
+            elif st == "stopped" and not near(e, "shutdown"):
+                out.append(_ind("logging_stopped", f"Event Log service stopped on {host} outside a shutdown",
+                                [e.event_id], "high"))
+            elif st == "running" and not near(e, "boot"):
+                out.append(_ind("logging_stopped", f"Event Log service (re)started on {host} outside a boot: "
+                                "it had stopped or crashed", [e.event_id], "medium"))
+            elif st == "shutdown" and not near(e, "shutdown"):
+                out.append(_ind("logging_stopped", f"event logging service shut down on {host} outside a "
+                                "system shutdown (Security 1100)", [e.event_id], "medium"))
+        elif (e.event_type == EventType.PROCESS_START and _WER.search(e.attributes.get("image", ""))
+              and _EVENTLOG_HOST.search(e.attributes.get("parent_command_line", ""))):
+            out.append(_ind("logging_stopped", f"WerFault reported a crash of the Event Log service host on {host}",
+                            [e.event_id], "high"))
+    return out
+
+
 def detect_clock_change(events: list[Event], min_jump_s: float = 300.0) -> list[TamperingIndicator]:
     """Report system clock changes that jump by at least ``min_jump_s`` seconds."""
     out: list[TamperingIndicator] = []
@@ -247,6 +299,7 @@ def scan(graph: ProvenanceGraph, *, gap_threshold_s: float = 1200.0) -> list[Tam
         + detect_si_fn_mismatch(events)
         + detect_log_clearing(events)
         + detect_audit_tamper(events)
+        + detect_logging_stopped(events)
         + detect_clock_change(events)
         + detect_record_order(events)
         + detect_hash_mismatch(events)
