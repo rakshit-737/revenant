@@ -22,9 +22,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from . import __version__, pipeline
+from . import __version__
 from .generators import SCENARIOS
-from .report import generate_html, generate_report
+
+# the engine (pydantic, networkx) is imported only by commands that need it, so
+# --version and --help answer immediately
 
 
 def _load_records(path: str) -> list[tuple[str, dict[str, Any]]]:
@@ -58,6 +60,9 @@ def _is_legacy_records(path: str) -> bool:
 
 
 def _run_and_report(records, top: int = 5) -> str:
+    from . import pipeline
+    from .report import generate_report
+
     analysis = pipeline.run(records)
     return generate_report(analysis, top=top)
 
@@ -110,6 +115,9 @@ def _emit(text: str, out: str | None) -> None:
 
 
 def _analyze(args: argparse.Namespace) -> int:
+    from . import pipeline
+    from .report import generate_html, generate_report
+
     missing = [x for x in args.paths if not Path(x).exists()]
     if missing:
         print(f"revenant: no such file or directory: {', '.join(missing)}", file=sys.stderr)
@@ -192,6 +200,8 @@ def _dispatch(args: argparse.Namespace) -> int:
             if gone:
                 problems.append(f"append-only trigger(s) missing: {', '.join(sorted(gone))}")
         else:
+            from . import pipeline
+
             ledger = pipeline.run(_load_records(args.file)).ledger
         recs = ledger.records
         if not recs:

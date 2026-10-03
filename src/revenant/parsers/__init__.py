@@ -16,10 +16,11 @@ kind               input                                      module
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from ..models import Event
-from .otrf import LoadStats
+if TYPE_CHECKING:  # pragma: no cover
+    from ..models import Event
+    from .otrf import LoadStats
 
 KINDS = ("otrf", "evtx", "plaso", "volatility", "authlog", "auditd", "atlas")
 
@@ -98,6 +99,15 @@ def load_path(path: str | Path, kind: str | None = None, *, stats: LoadStats | N
 
         return load_atlas(path, host=opts.get("host", ""), stats=stats)
     raise ValueError(f"unknown artefact kind: {kind}")
+
+
+def __getattr__(name: str) -> Any:
+    """Import `LoadStats` on first use, so listing `KINDS` stays cheap."""
+    if name == "LoadStats":
+        from .otrf import LoadStats
+
+        return LoadStats
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
 __all__ = ["KINDS", "LoadStats", "detect_kind", "load_path"]
