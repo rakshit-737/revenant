@@ -10,11 +10,11 @@ Every file is pinned to a commit and verified against `data/manifest.json`
 | --- | --- | --- | --- | --- |
 | OTRF Security-Datasets: atomic Windows host captures | ~120 single-technique captures (Sysmon, Security, System, PowerShell) as JSON lines, with ATT&CK metadata YAML | 121 archives ≤ 8 MB compressed (~2 GB extracted) | MIT | Rodriguez, R. and Rodriguez, J., *Security Datasets*, Open Threat Research Forge, https://github.com/OTRF/Security-Datasets (commit `d9d40ef`) |
 | OTRF APT29 ATT&CK Evaluations, day 1 (manual) | Multi-host emulation of APT29 (MITRE ATT&CK Evaluations round 2) | 1 archive, ~128k normalised events | MIT | same repository, `datasets/compound/apt29/day1` |
-| OTRF compound: APT29 day 2, LSASS-dump campaign (7), Log4Shell | Opt-in (`--only otrf-apt29-day2 otrf-lsass otrf-log4shell`); host logs only, no memory dumps or pcaps | 43 MB + 21 MB + 38 KB compressed; day 2 is 1.7 GB of JSON (run it on a runner) | MIT | same repository, `datasets/compound/` |
+| OTRF compound: APT29 day 2, LSASS-dump campaign (7), Log4Shell | Opt-in (`--only otrf-apt29-day2 otrf-lsass otrf-log4shell`); host logs only, no memory dumps or pcaps | 43 MB + 21 MB + 38 KB compressed (~64 MB); day 2 is 1.7 GB of JSON (run it on a runner) | MIT | same repository, `datasets/compound/` |
 | ATLAS release | Raw Windows security / DNS / Firefox logs and the authors' experiment outputs for 10 attacks (`scripts/download_atlas.py`) | 21 files, ~0.85 GB | Apache-2.0 | Alsaheel et al., *ATLAS: A Sequence-based Learning Approach for Attack Investigation*, USENIX Security 2021, https://github.com/purseclab/ATLAS (commit `e46096d`) |
 | EVTX-ATTACK-SAMPLES | ~280 raw `.evtx` files, each recording one technique | 1 archive (commit zip) | GPL-3.0 (used only as input data; nothing redistributed) | Bousseaden, S., https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES (commit `4ceed2f`) |
 
-The default download is about 100 MB compressed. The corpus benchmarks run on GitHub
+The default download is about 86 MB compressed. The corpus benchmarks run on GitHub
 Actions (`bench-extended`), which also recovers the captures antivirus blocks locally: on
 the runner the atomic corpus is 120 unique captures (one capture is published under two
 tactics and is counted once), of which 102 contain effects with GUID ground truth; 107 carry

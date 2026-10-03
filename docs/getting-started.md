@@ -7,7 +7,7 @@
 - **Docker:** `docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion`.
   Images from v1.1.0 on ship the calibration table; avoid `:1.0.0`.
 
-The first story should read `story-907cbcd159 - suspicion 0.91, confidence HIGH (0.75)`.
+The first story should read `story-907cbcd159 - suspicion 0.91, confidence HIGH (0.74)`.
 
 !!! warning "Not on PyPI"
     `pip install revenant` installs an **unrelated** package with the same name. Install

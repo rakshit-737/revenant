@@ -16,7 +16,7 @@ python -m ruff check src tests benchmarks scripts
 Real-data tests and benchmarks need the public corpora:
 
 ```bash
-python scripts/download_data.py                    # ~100 MB compressed, checksum-verified
+python scripts/download_data.py                    # ~86 MB compressed, checksum-verified
 python -m pytest -m realdata
 python benchmarks/bench_edges.py && python benchmarks/bench_stories.py
 python benchmarks/bench_antiforensics.py && python benchmarks/bench_scale.py

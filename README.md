@@ -1,35 +1,54 @@
 # REVENANT
 
+**Forensic timeline reconstruction for DFIR: causal incident stories from Windows and Linux
+artefacts, every claim graded and cited by the SHA-256 of its evidence.**
+
+**Contribution:** REVENANT builds a causal provenance graph from forensic artefacts that lack
+process GUIDs using named, deterministic rules whose per-rule confidences are fitted against
+Sysmon-GUID lineage hidden at inference, and attaches the rule, its confidence and the hash of
+the supporting event to every claim it reports.
+
 [![CI](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml/badge.svg)](https://github.com/rakshit-737/revenant/actions/workflows/ci.yml)
 [![docs](https://github.com/rakshit-737/revenant/actions/workflows/docs.yml/badge.svg)](https://rakshit-737.github.io/revenant/)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.14-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 ![Status](https://img.shields.io/badge/status-research%20prototype-orange)
 
-**Contribution:** REVENANT recovers *which process caused what* in forensic artefacts that
-lack process GUIDs, using named, deterministic causal rules whose per-rule confidences are
-fitted on Sysmon-GUID lineage that is hidden at inference (held-out ECE 0.106, APT29 to
-atomic: improved, not well calibrated); every narrative claim carries that confidence plus the SHA-256 of its evidence.
-On 120 OTRF atomic captures, 102 with scorable effects (142k scored effects) it reaches causal-edge F1 **0.910**
-(95% CI 0.80-0.98) against **0.822** (0.54-0.96) for a PID-nearest analyst baseline on the
-same input. The paired difference is only just significant (95% CI +0.005 to +0.296) and the 3
-largest captures hold 56% of the effects; per-capture macro F1 (0.931 vs 0.737) is the steadier
-comparison. The [ablation](#b1-causal-edge-accuracy-against-sysmon-guid-ground-truth) shows
-the gain comes from its image-keyed fallback rules.
-
 [![REVENANT demo: the real OTRF PsExec capture as a ranked story with timeline, causal graph and evidence hashes](docs/img/demo.png)](https://rakshit-737.github.io/revenant/demo/)
+
+**What the evidence shows.** With GUIDs hidden, REVENANT's causal edges beat a PID-nearest
+analyst baseline on OTRF atomic but are at parity with a careful PID-then-image heuristic;
+calibration lowers the error of its edge confidences without improving their ranking; its
+stories do not speed up triage; and under the ATLAS protocol it scores far below ATLAS's
+hand-cleaned output. What it adds is explainability and custody, not accuracy. Every number
+below carries a 95% interval or a test and the workflow run that produced it.
 
 **Documentation:** <https://rakshit-737.github.io/revenant/> · [Live demo](https://rakshit-737.github.io/revenant/demo/) ·
 [Evaluation](https://rakshit-737.github.io/revenant/evaluation/) · [Reproduce](https://rakshit-737.github.io/revenant/reproduce/)
 
-**Forensic timeline reconstruction for DFIR.** REVENANT reads real Windows and Linux
-artefacts (Sysmon, Security, PowerShell, raw `.evtx`, plaso, Volatility 3, auth.log, auditd),
-joins them into a temporal provenance graph, and outputs ranked incident stories
-graded by confidence. Every claim cites the SHA-256 of the event that supports it,
-and the stories are recorded in an append-only custody ledger.
+## Headline results
 
-> Lab-only and defensive. REVENANT reads evidence and never changes it. It contains
-> no offensive code. All benchmark data is public (see [Datasets](#datasets)).
+<!-- headline:start -->
+| Benchmark (public data, ground truth) | REVENANT | Best baseline | Verdict | Source run |
+|---|---|---|---|---|
+| B1 causal edges, OTRF atomic (120 captures, 102 with scorable effects; Sysmon GUIDs hidden as a proxy for GUID-less sources) | F1 0.910 [0.79, 0.98]; macro 0.931 | PID-then-image-nearest 0.906 [0.78, 0.97]; macro 0.923 | macro difference vs PID-nearest +0.194 [+0.129, +0.266], sign test p=4.6e-07; vs PID-then-image +0.008 [-0.000, +0.025], p=0.289 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| B1, APT29 day 1 + day 2, LSASS (7), Log4Shell | F1 0.999-1.000 | PID-nearest 1.000-1.000 | no difference (fewer than 10 captures per corpus: no CI) | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| Edge calibration, fit APT29 -> test atomic | ECE 0.098 [0.011, 0.260], AUROC 0.6624 [0.42, 0.94] | hand-set ECE 0.233 [0.179, 0.300] | improved, not solved | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.20, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | lower, not significant (McNemar p=0.064) | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| B3 anti-forensics, EVTX-ATTACK-SAMPLES (10 positives) | recall 0.80 [0.49, 0.94], precision 0.25 [0.13, 0.42] | 1102/104 recall 0.30; Sigma-equivalent recall 0.60, precision 0.20 | vs Sigma-equivalent on positives 2/0 discordant, p=0.500 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| B3b anti-forensics, OTRF T1562.002 captures (17 positives) | recall 1.00 [0.82, 1.00], precision 0.29 [0.19, 0.42] | 1102/104 recall 0.29; Sigma-equivalent recall 1.00, precision 0.29 | vs Sigma-equivalent on positives 0/0 discordant, p=1.000 | [37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942) |
+| C ATLAS paper, authors' release and `evaluate.py` | event F1 0.9988, entity F1 0.913; model re-run (TF 2.3) identical predictions on 15/16 test graphs | paper 0.9988 / 0.9376 | recomputed: macro event figures match Table 4's average; per-attack event counts differ for 8 of 10 attacks | [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948) |
+| C2 REVENANT under the ATLAS protocol (10 attacks) | entity F1 0.556 [0.46, 0.64], event F1 0.574 [0.49, 0.65] | ATLAS (hand-cleaned) 0.913 / 0.9988 | **worse** on 10/10 attacks (sign test p=0.002) | [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948) |
+| B5 live auditd capture in CI (scripted benign sequence) | 7/7 chain checks; 25/25 edges agree [0.86, 1.00] | - | consistency check, not accuracy | [37093169673](https://github.com/rakshit-737/revenant/actions/runs/37093169673) |
+<!-- headline:end -->
+
+The table is generated by `benchmarks/make_figures.py` from the committed
+[`results/*.json`](results); full tables with every interval are in
+[`results/RESULTS.md`](results/RESULTS.md) and on the
+[Evaluation page](https://rakshit-737.github.io/revenant/evaluation/).
+
+> Lab-only and defensive. REVENANT reads evidence and never changes it. It contains no
+> offensive code. All benchmark data is public (see [Datasets](#datasets)).
 
 ## Try it in 60 seconds
 
@@ -40,7 +59,7 @@ and the stories are recorded in an append-only custody ledger.
    pip install "git+https://github.com/rakshit-737/revenant"
    revenant demo --scenario intrusion
    ```
-3. **Docker** (published image):
+3. **Docker** (published image; tags `:latest`, `:1.1.0`, `:1.1`; later releases also carry the `v`-prefixed git tag):
    ```bash
    docker run --rm ghcr.io/rakshit-737/revenant:latest demo --scenario intrusion
    ```
@@ -51,23 +70,8 @@ Expected first lines (synthetic phishing scenario):
 ```text
 # REVENANT - Forensic Reconstruction Report
 ...
-### story-907cbcd159 - suspicion 0.91, confidence HIGH (0.75)
+### story-907cbcd159 - suspicion 0.91, confidence HIGH (0.74)
 ```
-
-## Headline results
-
-| Benchmark (public data, ground truth) | REVENANT | Best baseline | Verdict |
-|---|---|---|---|
-| B1 causal edges, OTRF atomic (120 captures, 102 with scorable effects; Sysmon-GUID truth hidden) | F1 0.910 [0.80, 0.98] | PID-nearest 0.822 [0.54, 0.96] | better (paired CI of difference +0.005 to +0.296) |
-| B1 causal edges, APT29 day 1 + day 2, LSASS (7), Log4Shell | F1 0.999-1.000 | PID-nearest 1.000 | no difference: these captures are easy |
-| Edge calibration, fit APT29 -> test atomic | ECE 0.106 (hand-set 0.233), AUROC 0.78 | - | improved, not solved |
-| B2 story ranking, 107 labelled captures, equal budget | hit@1 0.28 [0.21, 0.37] | flat suspicion-sorted 0.36 [0.28, 0.46] | **worse** (McNemar p=0.06) |
-| B3 anti-forensics, 278 `.evtx`, 10 positives | P 0.20 / R 0.60 | 1102/104 query P 0.12 / R 0.30 | better recall, tiny sample |
-| C ATLAS paper, from the authors' release | event F1 0.9988 (their `evaluate.py` re-run); entity F1 0.913 | paper: 0.9988 / 0.9376 | event-level numbers recomputed from released outputs (model not re-run); entity level 2.4 points lower |
-| Live auditd capture in CI (scripted benign sequence) | 7/7 chain checks, story rank 1 | - | consistency check, not accuracy |
-
-Full tables with confidence intervals: [`results/RESULTS.md`](results/RESULTS.md) and the
-[Evaluation page](https://rakshit-737.github.io/revenant/evaluation/).
 
 ---
 
@@ -99,6 +103,7 @@ flowchart TB
     VOL["Volatility 3 JSON"] --> P
     AUTH["Linux auth.log"] --> P
     AUD["Linux auditd audit.log"] --> P
+    ATL["ATLAS preprocessed logs"] --> P
   end
   P["parsers + per-event SHA-256"] --> L[("append-only custody ledger: hash chain / SQLite")]
   P --> G[("temporal provenance graph")]
@@ -106,7 +111,7 @@ flowchart TB
   F --> R["indexed causal rule engine: GUID, PID+image, cross-entity, fallback"]
   R --> AF["anti-forensics scan"]
   R --> AT["ATT&CK heuristics + rarity"]
-  AT --> S["story reconstructor"]
+  AT --> S["story reconstructor (ranked or symptom-seeded)"]
   AF --> S
   S --> C["confidence scorer (edge constants calibrated per rule)"]
   C --> REP["court-style report: MD / HTML / PDF"]
@@ -118,131 +123,177 @@ For the module map and trust boundaries, see [`docs/architecture.md`](docs/archi
 
 ## Results on real public data
 
-All numbers come from `benchmarks/` on the public corpora in [Datasets](#datasets); the
-corpus-scale runs execute on GitHub Actions (`bench-extended` workflow), where no endpoint
-antivirus quarantines captures. Raw JSON is in [`results/`](results), the full tables with
-95% CIs are in [`results/RESULTS.md`](results/RESULTS.md), and the ground truth and blind
-spots of each benchmark are in [ADR 0006](docs/adr/0006-benchmark-methodology.md).
-B1 CIs resample whole captures (cluster bootstrap); B2/B3 use Wilson intervals and exact
-McNemar tests.
+All numbers come from `benchmarks/` on the public corpora in [Datasets](#datasets). The
+corpus-scale runs execute on GitHub Actions (`bench-extended` and `atlas-repro`), where no
+endpoint antivirus quarantines captures, and every result file records the run and commit
+that produced it. The ground truth and blind spots of each benchmark are in
+[ADR 0006](docs/adr/0006-benchmark-methodology.md). Intervals: B1 resamples whole captures
+(10,000 resamples, seed 7) with paired sign and Wilcoxon tests; B2/B3/B3b use Wilson
+intervals and exact McNemar tests; B5 uses Clopper-Pearson; C2 bootstraps over the 10 attacks.
 
 ### B1: Causal-edge accuracy against Sysmon GUID ground truth
 
 Sysmon's `ProcessGuid`/`ParentProcessGuid` is unique for each process instance, so a GUID
-parent is the true cause. REVENANT runs **with GUIDs hidden** and has to recover each cause
-from host, PID, image and time alone. Baselines run on the **same fused, de-duplicated
-events** REVENANT sees (an earlier version compared against raw events, which inflated
-REVENANT's margin; the old numbers are superseded).
+parent is the true cause. Every method runs **with GUIDs hidden** and has to recover each cause
+from host, PID, image and time alone, on the **same fused, de-duplicated events**. This is a
+proxy for GUID-less sources: the Sysmon events keep their PID and image.
 
-| Corpus (captures with effects / effects) | Method | Precision | Recall | F1 [95% CI] | Macro F1 |
-|---|---|---|---|---|---|
-| OTRF atomic (102 / 142,175) | v0.1-style exact-ref join | 0.783 | 0.199 | 0.317 [0.19, 0.43] | 0.396 |
-| | PID-nearest (flat timeline filtered by host+PID) | **0.942** | 0.729 | 0.822 [0.54, 0.96] | 0.737 |
-| | **REVENANT** | 0.910 | **0.910** | **0.910** [0.80, 0.98] | **0.931** |
-| OTRF APT29 day 1 (1 / 79,607) | PID-nearest | 1.000 | 1.000 | 1.000 | |
-| | REVENANT | 1.000 | 1.000 | 1.000 | |
-| OTRF APT29 day 2 (1 / 166,252) | PID-nearest / REVENANT | 1.000 | 1.000 | 1.000 / 1.000 | |
-| OTRF LSASS campaign (7 / 24,055) | PID-nearest / REVENANT | 1.000 / 0.999 | 1.000 / 0.999 | 1.000 / 0.999 | |
-| OTRF Log4Shell (1 / 193) | PID-nearest / REVENANT | 1.000 | 1.000 | 1.000 / 1.000 | |
+On OTRF atomic (102 captures with effects, 142,175 effects; run
+[37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942)):
 
-**Ablation** (OTRF atomic, F1): full engine 0.910; without the image-only fallback rules
-**0.826**; without image in the process key 0.906; without the PID-reuse guard 0.910; without
-Sysmon/4688 fusion 0.848; PID-nearest 0.822. The gain over PID-nearest therefore comes almost
-entirely from the **fallback rules**, which link an effect whose PID is missing (NXLog drops
-Sysmon `ProcessId` on a share of rows) to the nearest earlier start of the same image; the
-paired 95% CI of their contribution is +0.002 to +0.287. Fusion matters most on the LSASS
-captures (0.793 without it). REVENANT trails PID-nearest on precision (0.910 vs 0.942)
-because fallback links are less precise. The other four corpora are easy: no effect of an
-older process occurs after its PID is reused, so PID-nearest is already perfect there (PIDs
-*are* reused inside APT29 day 1). The atomic micro-average is dominated by registry writes
-(100,512 effects) and three captures hold 56% of the effects, hence the macro F1 column.
-Process-start edges alone score F1 0.680 (PID-nearest 0.663).
+| Method | F1 [95% CI] | macro F1 [95% CI] | REVENANT macro difference [95% CI], sign test |
+|---|---|---|---|
+| v0.1-style exact-ref join | 0.317 [0.19, 0.43] | 0.396 [0.33, 0.46] | |
+| PID-nearest (flat timeline filtered by host+PID) | 0.822 [0.53, 0.96] | 0.737 [0.65, 0.82] | +0.194 [+0.129, +0.266], better on 29 captures, worse on 2, p = 4.6e-7 |
+| PID-then-image-nearest (same, plus nearest start of the same image when the PID is missing) | 0.906 [0.78, 0.97] | 0.923 [0.88, 0.96] | +0.008 [-0.000, +0.025], 6 vs 2, p = 0.29 |
+| **REVENANT** | **0.910** [0.79, 0.98] | **0.931** [0.89, 0.96] | |
+
+**Ablation** (macro F1 difference of the full engine over each variant): without the image-only
+fallback rules +0.186 [+0.122, +0.258] (p = 7.9e-9); without Sysmon/4688 fusion +0.248
+[+0.183, +0.315] (p = 5.7e-14); without image in the process key +0.008 [-0.000, +0.024]
+(p = 0.45); without the PID-reuse guard +0.000 (p = 0.69). The gain over PID-nearest therefore
+comes from the **fallback rules**, which link an effect whose PID is missing (NXLog drops Sysmon
+`ProcessId` on a share of rows) to the nearest earlier start of the same image, and that idea is
+exactly what the PID-then-image heuristic implements: REVENANT is not significantly better than
+it. The three largest captures hold 56% of the effects; without them micro F1 is 0.859 vs 0.805
+for PID-nearest. APT29 day 1 and day 2, the 7 LSASS captures and Log4Shell are easy (every
+reasonable method about 1.0; fewer than 10 captures each, so no CI).
 
 ![B1 edges](results/edges_f1.png)
 
-**Calibration.** Hand-set rule confidences were *under*-confident (accuracy above confidence
-in every bin; ECE 0.23-0.30). Per-rule precision fitted on APT29 day 1 and tested on atomic
-lowers ECE to **0.106** (Brier 0.098, AUROC 0.78); fitted on atomic and tested on the LSASS
-captures, ECE is 0.027. Fitted on atomic and tested on APT29 the ECE is 0.032, but every
-APT29 edge is correct, so that number only says the constants are close to 1. Shipped
-constants are capped at 0.99 when loaded (the shipped JSON still holds the raw values, some up to 1.0). Story confidence and grades are *not* calibrated (see
-[Limitations](#limitations)).
+**Calibration.** Hand-set rule confidences were mostly *under*-confident (ECE 0.233 [0.179,
+0.300] on atomic). Per-rule precision fitted on APT29 day 1 and tested on atomic lowers ECE to
+**0.098** [0.011, 0.260] (capture bootstrap), but AUROC falls to 0.66 [0.42, 0.94] (hand-set
+0.77), and keeping only the highest-confidence edges gains no precision (every selective-prediction
+CI includes 0): the constants fix what a confidence *means*, not *which* edges are right. On the
+rules the APT29 table covers, ECE is 0.043; 32,191 atomic edges come from rules it does not cover
+and keep hand-set values. The table REVENANT ships is refitted in that run on all atomic captures
+(its SHA-256 and run id are in `rule_calibration.json` and `results/edges.json`); its held-out
+ECE is 0.040 on APT29 day 1, 0.034 on LSASS, 0.057 on APT29 day 2 and 0.012 on Log4Shell (point
+estimates, under 10 captures each), **higher** than the stale table it replaces
+(0.021/0.019/0.027/0.011). Constants are capped at 0.99 when loaded. Story confidence and grades
+are *not* calibrated (see [Limitations](#limitations)).
 
 ![calibration](results/calibration.png)
 
 ### B2: Story ranking against flat timelines (107 labelled OTRF atomic captures)
 
-Every method gets the **same reading budget**: k x the capture's median story size. (An
-earlier version gave REVENANT its top-k *whole* stories against a smaller budget for the flat
-lists, which made stories look better; that comparison is withdrawn.)
+Every method gets the **same reading budget**: k x the capture's median story size.
 
-| Method | hit@1 [95% CI] | hit@3 | hit@5 | story-unit hit@1 / @5 |
-|---|---|---|---|---|
-| Chronological super-timeline | 0.000 [0.00, 0.03] | 0.000 | 0.000 | 0.000 / 0.019 |
-| Flat, suspicion-sorted (same heuristics, no graph) | **0.364** [0.28, 0.46] | 0.430 | **0.505** | 0.439 / 0.523 |
-| REVENANT stories | 0.280 [0.20, 0.37] | 0.411 | 0.458 | 0.411 / 0.495 |
+| Method | hit@1 [95% CI] | hit@3 [95% CI] | hit@5 [95% CI] |
+|---|---|---|---|
+| Chronological super-timeline | 0.000 [0.00, 0.03] | 0.000 [0.00, 0.03] | 0.000 [0.00, 0.03] |
+| Flat, suspicion-sorted (same heuristics, no graph) | **0.364** [0.28, 0.46] | **0.430** [0.34, 0.52] | **0.505** [0.41, 0.60] |
+| REVENANT stories | 0.280 [0.20, 0.37] | 0.411 [0.32, 0.51] | 0.458 [0.37, 0.55] |
 
-Stories do **not** reach the labelled technique faster than a suspicion-sorted flat list
-with the same heuristics; they are slightly worse (hit@1: 5 captures REVENANT-only vs 14
-flat-only, exact McNemar p=0.064; hit@5 p=0.063; not significant at 0.05). The story-unit
-view, where the flat list reads exactly as many events as REVENANT's top-k stories, shows the
-same. What stories add is grouping, per-hop explanation and confidence, not faster triage.
+Stories do **not** reach the labelled technique faster than a suspicion-sorted flat list with
+the same heuristics; hit@1 is lower but not significantly (5 captures REVENANT-only vs 14
+flat-only, exact McNemar p = 0.064; hit@5 p = 0.062). What stories add is grouping, per-hop
+explanation and confidence, not faster triage (run
+[37093169942](https://github.com/rakshit-737/revenant/actions/runs/37093169942)).
 
 ![B2 stories](results/stories_hitk.png)
 
-### B3: Anti-forensics on EVTX-ATTACK-SAMPLES (278 raw `.evtx` files, file-level)
+### B3 and B3b: Anti-forensics
 
-| Detector | Precision [95% CI] | Recall [95% CI] | F1 |
-|---|---|---|---|
-| 1102/104 "log cleared" query (standard SIEM rule) | 0.115 [0.04, 0.29] | 0.300 [0.11, 0.60] | 0.167 |
-| REVENANT (timestomp, log clearing, audit/logging tamper, clock, record order) | 0.200 [0.10, 0.37] | 0.600 [0.31, 0.83] | 0.300 |
+**B3** scores 278 raw `.evtx` files from EVTX-ATTACK-SAMPLES, 10 of them labelled by file name as
+log or timestamp tampering. **B3b** uses the dataset authors' own ATT&CK labels instead: the 17
+OTRF atomic host captures linked by the six metadata entries mapped to T1562.002 (Disable Windows
+Event Logging), against 89 labelled captures mapped to neither T1562 nor T1070.
 
-Only 10 files are positive, so the intervals overlap. The sample author cleared logs before
-recording many "negative" samples, so 1102 events really appear in them: 23 of REVENANT's 24
-false-positive files are the same 1102/104 hits as the baseline. The extra true positives are
-2 timestomp files (invisible to a 1102 query) and 1 PowerShell script-block-logging disable
-(new pattern this release). The 4 misses are 3 event-log service crashes (System 7036) and 1
-MRU key delete, which are not modelled yet.
+| Detector | B3 precision / recall [95% CI] | B3b precision / recall [95% CI] |
+|---|---|---|
+| 1102/104 "log cleared" query | 0.12 [0.04, 0.29] / 0.30 [0.11, 0.60] | 0.16 [0.07, 0.32] / 0.29 [0.13, 0.53] |
+| Sigma-equivalent (1102/104, Sysmon 2, logging-disable registry keys, 4719) | 0.20 [0.10, 0.37] / 0.60 [0.31, 0.83] | 0.29 [0.19, 0.42] / 1.00 [0.82, 1.00] |
+| REVENANT 1.1.0 indicators | 0.20 [0.10, 0.37] / 0.60 [0.31, 0.83] | 0.29 [0.19, 0.42] / 1.00 [0.82, 1.00] |
+| **REVENANT, all indicators** | **0.25** [0.13, 0.42] / **0.80** [0.49, 0.94] | 0.29 [0.19, 0.42] / 1.00 [0.82, 1.00] |
+| REVENANT, logging-tamper indicators only | 0.75 [0.30, 0.95] / 0.30 [0.11, 0.60] | 1.00 [0.78, 1.00] / 0.82 [0.59, 0.94] |
 
-### B4: Scale (full APT29 day 1 capture)
+The new `logging_stopped` indicator (Event Log service stopped, crashed or restarted outside a
+boot or shutdown, Security 1100, WerFault for the Event Log's svchost) lifts B3 recall from 0.60
+to 0.80, but it was written after seeing B3's misses, so this is not a held-out gain (McNemar
+2/0, p = 0.50). On B3b, written before it was run, REVENANT finds all 17 captures and all 6
+metadata entries, exactly as the Sigma-equivalent rule set does. Precision stays low because
+many captures contain a genuine 1102/104 from the author clearing logs before recording and
+benign Sysmon EID 2 events; restricted to its logging-tamper indicators REVENANT has no false
+positive on B3b. Over both label sources (27 positives) recall is 25/27 [0.77, 0.98] vs 23/27
+[0.68, 0.94] for the Sigma-equivalent rules. Still missed: a remote Event Log crash with no local
+trace and an MRU key delete.
 
-- 196,081 raw rows → **128,095 events**, **93,974 causal edges**, **1,475 cross-artefact
-  corroborations**, 50 stories, 209 tamper or coverage indicators
-- Analysis of pre-parsed events (JSON parsing excluded) in **108 s**, about 1,180 events/s on
-  one laptop core; single run on a machine with other work running. Stage times: ingest 15 s,
-  fusion 7 s, rules 28 s, anti-forensics 31 s, stories 26 s
-- The rule engine's log-log slope fell from **2.18 (v0.1, quadratic)** to **1.03 (v0.2, indexed)**.
+### B4: Scale (full APT29 day 1 capture, GitHub-hosted runner)
+
+- 196,081 raw rows → **128,101 events**, **93,974 causal edges**, 1,475 cross-artefact
+  corroborations, 50 stories, 209 tamper or coverage indicators.
+- Analysis of pre-parsed events: median **11.9 s** (IQR 11.9-12.3 s over 5 runs; about 10,750
+  events/s) on `ubuntu-24.04`, Python 3.12.
+- Rule-engine log-log slope on the common 500-4,000-event range: **2.01 (v0.1, pairwise)** vs
+  **1.09 (v0.2, indexed)**; v0.2 over 500-128,101 events: 1.18 (median of 3 runs per point).
 
 ![B4 scaling](results/scaling.png)
 
 ### B5: Live kernel capture in CI (auditd)
 
-The `live-auditd` CI job (weekly and on every push, ubuntu-24.04) starts auditd inside the
-runner, records benign background load plus a scripted stage → fetch (127.0.0.1 only) →
-archive → delete sequence on dummy files, and reconstructs it with
-`revenant analyze --kind auditd`. Latest run: 63 events; all 7 chain checks pass (spawn,
-dropped file executed, connect to the peer, write, delete attributed, one story covering the
-sequence); that story ranks first with coverage 0.86, grade HIGH; 25/25 inferred edges agree
-with auditd's own pid/ppid fields. That agreement is close to circular (the parser reads the
-same fields), so this is an **end-to-end consistency and regression check**, not an
-independent accuracy measurement.
+The `live-auditd` CI job starts auditd inside the runner, records benign background load plus a
+scripted stage → fetch (127.0.0.1 only) → archive → delete sequence on dummy files, and
+reconstructs it with `revenant analyze --kind auditd`. In run
+[37093169673](https://github.com/rakshit-737/revenant/actions/runs/37093169673)
+([`results/live_auditd.json`](results/live_auditd.json)): 63 events, all 7 chain checks pass,
+the covering story ranks first (coverage 0.857, HIGH), and 25/25 inferred edges agree with
+auditd's pid/ppid fields (95% Clopper-Pearson [0.863, 1]). The parser reads the same fields, so
+this is an **end-to-end consistency and regression check**, not an independent accuracy measure.
 
 ### C: Reproducing the ATLAS paper
 
 ATLAS (Alsaheel et al., USENIX Security 2021) reports entity-level precision/recall/F1 of
-91.06/97.29/93.76% over 10 attacks. The `atlas-repro` workflow downloads the authors'
-release (pinned commit, git-blob and SHA-256 verified, no executables), recomputes every
-attack's P/R/F1 from the released per-attack counts and averages them: **0.9106 / 0.9729 /
-0.9376, identical to the paper** (the pooled micro-average is 0.9040 / 0.9715 / 0.9365; the
-spreadsheet's pooled F1 cell reads 1, a spreadsheet error). It then runs the authors' own
-`evaluate.py` (Python 3.7, offline container) on their released model outputs. Each M-attack has two released runs (h1, h2); the figures use h2 for M-1 to M-6 because `M4_h1` fails inside `evaluate.py` (missing cleaned predicted entities in the release), and h1 sensitivity is not yet reported. Event-level
-P/R/F1 **0.9988 / 0.9989 / 0.9988, identical to the paper**; entity-level **0.879 / 0.963 /
-0.913**, 2.4 F1 points below the paper, because the released script counts unique entities
-differently from the spreadsheet (e.g. 11 vs 22 malicious entities for S-1). Released outputs
-match the spreadsheet's event totals for 7 of 10 attacks (M-2, M-3, M-4 differ by 2-207 events
-out of 258k-334k). Re-running the TensorFlow 2.3 model itself, retraining, and scoring REVENANT
-under the ATLAS protocol are not done yet (see [Roadmap](#roadmap)); details are in
-[`results/atlas_repro.json`](results/atlas_repro.json).
+91.06/97.29/93.76% (abstract, p. 3005; Table 4 Avg row, p. 3016) and event-level 99.88/99.89/99.88%
+(Table 4 Avg row, p. 3016; Table 5, p. 3017). The `atlas-repro` workflow (run
+[37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948)) downloads the
+authors' release (pinned commit, git-blob and SHA-256 verified, no executables) and:
+
+1. **recomputes** each attack's P/R/F1 from the released per-attack counts (which equal Table 4's
+   rows) and averages them unrounded: 0.9106 / 0.9729 / 0.9376 at entity level, the paper's
+   figures; the pooled micro-average is 0.9040 / 0.9715 / 0.9365;
+2. **re-runs the authors' `evaluate.py`** on their released outputs (Python 3.7 container, no
+   network). Each multi-host attack is scored from its h2 folder, where ATLAS's procedure (README:
+   copy the h1 output into the h2 output folder) makes `evaluate.py` read both hosts (M-1: 251,675
+   events in h2 = the paper's total, 121,114 in h1); the h1 folders score host 1 alone, and
+   `M4_h1`'s release has no cleaned predictions, so `evaluate.py` stops there with an error. The
+   macro event P/R/F1 is 0.9988 / 0.9988 / 0.9988: precision and F1 match Table 4's average to 4
+   decimal places, recall is 0.0001 lower, and **per-attack event counts differ for 8 of 10 attacks**
+   (largest: M-3, +220 TP). Entity F1 is 0.913, 2.4 points below the paper, because the script counts
+   unique graph words, not the spreadsheet's entities. Host-1-only figures (not comparable, n = 9)
+   are in `results/atlas_repro.json`;
+3. **re-runs the released `model.h5`** with `atlas.py` in testing mode (TensorFlow 2.3, keras 2.4.3,
+   Python 3.7, offline): it ran on 16/16 test graphs and reproduced the released predictions on 15
+   (`M4_h1` differs on 306 words). Without the authors' manual cleaning step, `evaluate.py` scores the
+   raw predicted words at entity F1 0.523 and event F1 0.950; the paper's figures need the
+   hand-cleaned list, which a re-run cannot regenerate;
+4. probes the **ATLASv2** link (HEAD only): the Box share redirects to Box's web app, which serves
+   HTML and rejects HEAD, so there is no scriptable, checksum-pinned file, and the data is 160 GB
+   uncompressed. ATLASv2 is therefore not used.
+
+### C2: REVENANT under the ATLAS protocol
+
+A new connector (`--kind atlas`) parses ATLAS's preprocessed Windows-Security/DNS/Firefox lines
+after stripping their ground-truth suffix (a test flips every label and gets identical events).
+For each attack and host, REVENANT seeds a story with the symptom entity the authors' code used
+(`malicious_labels[0]`), maps the story's entities to ATLAS's label strings by a
+[documented mapping](https://rakshit-737.github.io/revenant/atlas-mapping/), and the authors'
+`evaluate.py` scores them (run [37090608948](https://github.com/rakshit-737/revenant/actions/runs/37090608948)):
+
+| Method (10 attacks) | entity F1 [95% CI] | event F1 [95% CI] |
+|---|---|---|
+| ATLAS, released and hand-cleaned | 0.913 [0.89, 0.94] | 0.9988 [0.9977, 0.9997] |
+| **REVENANT symptom-seeded story** | **0.556** [0.46, 0.64] | **0.574** [0.49, 0.65] |
+| BackTracker-style reachability (all ancestors and descendants of the symptom events) | 0.521 [0.43, 0.61] | 0.459 [0.38, 0.54] |
+| Symptom (and its DNS aliases) only | 0.623 [0.54, 0.70] | 0.520 [0.49, 0.56] |
+
+REVENANT is worse than ATLAS on all 10 attacks (exact sign test p = 0.002). It beats
+BackTracker-style reachability at event level (+0.115 [+0.072, +0.160], 9 of 10 attacks,
+p = 0.004) but not at entity level (+0.035 [-0.035, +0.101], p = 0.51), and the symptom alone
+scores a higher entity F1. Its recall is high (pooled entity recall 0.83 [0.77, 0.88]); its
+precision is not (0.37 [0.32, 0.41]), because the stories include the exploited browser and its
+helper processes, which ATLAS's labels leave out.
 
 ## Quickstart
 
@@ -258,7 +309,7 @@ python -m pytest -q                                  # committed fixtures; real-
 # analyse a real OTRF capture (committed, MIT, field-trimmed)
 revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --top 3
 
-# HTML report + append-only custody ledger, then verify the ledger (read-only)
+# HTML report + append-only custody ledger (a new store per case), then verify it (read-only)
 revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --format html --out report.html --ledger custody.sqlite
 revenant verify custody.sqlite
 # plaso json_line -> Neo4j Cypher; Linux auditd log -> Markdown
@@ -302,10 +353,10 @@ Exact commands, expected numbers and runtimes are on the
 
 | Step | Command | Notes |
 |---|---|---|
-| Data | `python scripts/download_data.py` | ~100 MB compressed by default into `$REVENANT_DATA` (default `../../datasets/revenant`); every archive pinned by SHA-256 in `data/manifest.json`. Opt-in groups via `--only` (`otrf-lsass`, `otrf-log4shell`, `otrf-apt29-day2`: 43 MB compressed, 1.7 GB of JSON) |
-| Corpus benchmarks | GitHub Actions → `bench-extended` (workflow_dispatch) | B1 on 5 corpora, B2, B3; about 5 min of benchmark time on an ubuntu runner. Locally: `cd benchmarks && python bench_edges.py --extra && python bench_stories.py && python bench_antiforensics.py` (needs `pip install -e ".[bench,evtx]"`) |
-| ATLAS reproduction | GitHub Actions → `atlas-repro` | downloads the pinned ATLAS release (~0.85 GB) on the runner |
-| Figures | `python benchmarks/make_figures.py` | needs the `bench` extra; regenerates `results/*.png`, `RESULTS.md`, `stats.json` |
+| Data | `python scripts/download_data.py` | ~86 MB compressed by default into `$REVENANT_DATA` (default `../../datasets/revenant`); every archive pinned by SHA-256 in `data/manifest.json`. Opt-in groups via `--only` (`otrf-lsass`, `otrf-log4shell`, `otrf-apt29-day2`: ~64 MB compressed, 1.7 GB of JSON) |
+| Corpus benchmarks | GitHub Actions → `bench-extended` (workflow_dispatch) | B1 on 5 corpora with the calibration refit, B2, B3, B3b, B4; results merged with the run id. Locally: `cd benchmarks && python bench_edges.py --extra && python bench_stories.py && python bench_antiforensics.py && python bench_antiforensics_b3b.py` (needs `pip install -e ".[bench,evtx]"`) |
+| ATLAS reproduction and C2 | GitHub Actions → `atlas-repro` | one job per attack: `evaluate.py`, the TF 2.3 model re-run, REVENANT under the protocol; ~0.4 GB download on the runners |
+| Figures and tables | `python benchmarks/make_figures.py` | regenerates `results/*.png`, `RESULTS.md`, `headline.md`, `stats.json` and the README headline table |
 | Real-data tests | `python -m pytest -m realdata` | skipped automatically when data is absent |
 | Demo data | `python scripts/build_demo.py` | regenerates `docs/demo/cases/` (the docs workflow runs it) |
 
@@ -313,96 +364,122 @@ Exact commands, expected numbers and runtimes are on the
 
 | Corpus | Used for | Size | Licence |
 |---|---|---|---|
-| [OTRF Security-Datasets](https://github.com/OTRF/Security-Datasets), atomic Windows captures (commit `d9d40ef`) | B1, B2, calibration | 120 unique captures listed, 102 with scorable effects, 498k events | MIT |
+| [OTRF Security-Datasets](https://github.com/OTRF/Security-Datasets), atomic Windows captures (commit `d9d40ef`) | B1, B2, B3b, calibration | 120 unique captures listed, 102 with scorable effects, 498k events | MIT |
 | OTRF APT29 ATT&CK Evaluations, day 1 and day 2 | B1, B4, calibration | 128k + 381k events | MIT |
 | OTRF LSASS-dump campaign (7 captures, host logs only) and Log4Shell (Sentinel export) | B1, held-out calibration | 257k + 332 events | MIT |
 | [EVTX-ATTACK-SAMPLES](https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES) (commit `4ceed2f`) | B3, `.evtx` parser | 278 files, 61 MB | GPL-3.0 (input only, not redistributed) |
-| [ATLAS](https://github.com/purseclab/ATLAS) release (commit `e46096d`) | C (paper reproduction) | 21 files, ~0.85 GB | Apache-2.0 |
+| [ATLAS](https://github.com/purseclab/ATLAS) release (commit `e46096d`) | C, C2 | 21 files, ~0.85 GB (experiments ~0.35 GB) | Apache-2.0 |
 
 Citations and practical notes (AV quarantine of attack-tool strings, macOS archive junk,
-clock fields) are in [`docs/datasets.md`](docs/datasets.md). The only corpus data in git
-is one field-trimmed OTRF capture used as a test fixture (MIT, attributed).
+clock fields) are in [`docs/datasets.md`](docs/datasets.md). The only corpus data in git is two
+small test fixtures: a field-trimmed OTRF capture (MIT) and 26 lines of ATLAS's S2 test log
+(Apache-2.0), both attributed.
 
 ## What is implemented
 
 | Spec component | Status |
 |---|---|
-| Ingest + per-event SHA-256 + custody | OTRF JSON (incl. Sentinel exports), `.evtx` (python-evtx + defusedxml), plaso `json_line`/`l2tcsv`, Volatility 3 JSON, auth.log, Linux auditd. Links inside evidence are never followed. Append-only SQLite ledger with UPDATE/DELETE triggers, read-only verification and external anchors |
-| Normaliser | Pydantic actor-action-object schema. 21 Sysmon and 23 Security/System/PowerShell event ids. Clock-offset estimation for each capture (ADR 0007) |
+| Ingest + per-event SHA-256 + custody | OTRF JSON (incl. Sentinel exports), `.evtx` (python-evtx + defusedxml), plaso `json_line`/`l2tcsv`, Volatility 3 JSON, auth.log, Linux auditd, ATLAS preprocessed logs. Links inside evidence are never followed. Append-only SQLite ledger with UPDATE/DELETE triggers, read-only verification and external anchors |
+| Normaliser | Pydantic actor-action-object schema. 21 Sysmon and 32 Security/System/PowerShell event ids. Clock-offset estimation for each capture (ADR 0007) |
 | Provenance graph | networkx with an in-memory fallback. Export to JSON, Cypher, or live Neo4j |
-| Causal rule engine | Indexed, O(n log n), with PID-reuse guard and GUID/PID/image/logon tiers, calibrated per rule (ADR 0002) |
+| Causal rule engine | Indexed, O(n log n), with PID-reuse guard and GUID/PID/image/logon/DNS/web tiers, calibrated per rule (ADR 0002) |
 | Cross-artefact fusion | Sysmon 1 ↔ 4688, 5 ↔ 4689, logons, network, memory `pslist`, prefetch |
-| Chain reconstructor | Incident stories (ADR 0004) plus the v0.1 path view, mapped to ATT&CK and the kill chain |
+| Chain reconstructor | Ranked incident stories and symptom-seeded stories (ADR 0004) plus the v0.1 path view, mapped to ATT&CK and the kill chain |
 | Confidence scorer | Weighted sum 0.3 reliability + 0.3 corroboration + 0.2 temporal fit + 0.2 edge strength, minus a tamper penalty; grade cut-offs 0.85 / 0.65 / 0.40 (hand-set) |
-| Anti-forensics | Sysmon 2 timestomp, plaso `$SI`/`$FN` mismatch, 1102/104, audit/logging tamper (incl. PowerShell script-block logging), 4616 clock jumps, record-order checks |
-| Report | Scope with artefact hashes, method, cited findings, tampering, "What remains uncertain", custody head. Markdown, HTML, or PDF (optional WeasyPrint) |
-| API + UI | FastAPI, plus a single page with vis-timeline and vis-network (SRI-pinned). Loopback only, Host/Origin checks, 64 KiB body cap |
+| Anti-forensics | Sysmon 2 timestomp, plaso `$SI`/`$FN` mismatch, 1102/104, audit/logging tamper (incl. PowerShell script-block logging), Event Log service stop/crash/restart and Security 1100, 4616 clock jumps, record-order checks |
+| Report | Scope with artefact hashes, method, cited findings, tampering, "What remains uncertain", custody head. Markdown (evidence escaped), HTML, or PDF (optional WeasyPrint) |
+| API + UI | FastAPI, plus a single page with vis-timeline and vis-network (SRI-pinned). Loopback only, Host/Origin checks, 64 KiB cap on received body bytes (chunked bodies included) |
 
 ## Prior art and how this differs
 
 | Existing | What it does | Where REVENANT differs |
 |---|---|---|
-| plaso / log2timeline | Super-timeline extraction | REVENANT **consumes** plaso output and adds causality, confidence and narratives |
-| Volatility 3 | Memory artefact extraction | Its `pslist`/`netscan` output is fused with the logs as corroboration |
-| Autopsy / TSK | Disk forensics GUI | No automated causal reconstruction |
-| Timesketch | Collaborative timeline analysis with analyzers | Closest tool, and excellent. REVENANT's additions are calibrated causal edges, separate suspicion and confidence scores, and custody hashes on every derived claim |
-| Sigma / Chainsaw / Hayabusa | Rule-based detection over EVTX | Point detections. REVENANT groups them causally and grades evidence strength. It could ingest their hits |
-| ATLAS (Alsaheel et al., USENIX Security 2021) | Sequence-learning attack-story construction from Windows security, DNS and Firefox logs; 91.06% P / 97.29% R entity-level on 10 attacks | ATLAS learns which entities are attack-relevant from labelled attacks; REVENANT uses deterministic, named rules with calibrated confidences and custody hashes. We reproduce ATLAS's event-level numbers from its release (entity level 2.4 F1 points lower); a head-to-head under its protocol is on the roadmap |
-| AIRTAG (Ding et al., USENIX Security 2023) | Unsupervised log-embedding attack investigation, compared with ATLAS on 19 scenarios | Same difference: learned relevance vs explainable rules with evidence hashes |
-| Provenance-graph research (HOLMES, POIROT, NoDoze, BackTracker) | Provenance graphs over kernel audit data | REVENANT ingests auditd too, but its focus is ordinary DFIR artefacts without process GUIDs and courtroom explainability rather than detection |
+| plaso / log2timeline [1] | Super-timeline extraction | REVENANT **consumes** plaso output and adds causality, confidence and narratives |
+| Volatility 3 [2] | Memory artefact extraction | Its `pslist`/`netscan` output is fused with the logs as corroboration |
+| Autopsy / TSK [3] | Disk forensics GUI | No automated causal reconstruction |
+| Timesketch [4] | Collaborative timeline analysis with analyzers | Closest tool, and excellent. REVENANT's additions are calibrated causal edges, separate suspicion and confidence scores, and custody hashes on every derived claim |
+| Sigma / Chainsaw / Hayabusa [5] | Rule-based detection over EVTX | Point detections. REVENANT groups them causally and grades evidence strength; on B3b its tamper detection equals a Sigma-equivalent rule set |
+| ATLAS [6] | Sequence-learning attack-story construction from Windows security, DNS and Firefox logs | ATLAS learns which entities are attack-relevant from labelled attacks and scores far higher under its own protocol (entity F1 0.913 vs REVENANT's 0.556); REVENANT uses deterministic, named rules with calibrated confidences and custody hashes |
+| AIRTAG [7] | Unsupervised log-embedding attack investigation, compared with ATLAS on 19 scenarios | Same difference: learned relevance vs explainable rules with evidence hashes |
+| BackTracker [8], HOLMES [9], POIROT [10], NoDoze [11] | Provenance graphs over kernel audit data: backtracking from a detection point, APT detection via ATT&CK-mapped graph matching, threat hunting by graph alignment, alert triage by anomaly propagation | REVENANT ingests auditd too, but its focus is ordinary DFIR artefacts without process GUIDs and courtroom explainability rather than detection; a BackTracker-style reachability baseline is part of C2 |
+
+## References
+
+1. log2timeline/plaso, https://github.com/log2timeline/plaso
+2. Volatility Foundation, Volatility 3, https://github.com/volatilityfoundation/volatility3
+3. B. Carrier, The Sleuth Kit and Autopsy, https://www.sleuthkit.org/
+4. Google, Timesketch, https://github.com/google/timesketch
+5. SigmaHQ, Sigma, https://github.com/SigmaHQ/sigma; WithSecure Labs, Chainsaw, https://github.com/WithSecureLabs/chainsaw; Yamato Security, Hayabusa, https://github.com/Yamato-Security/hayabusa
+6. A. Alsaheel, Y. Nan, S. Ma, L. Yu, G. Walkup, Z. B. Celik, X. Zhang, D. Xu. ATLAS: A Sequence-based Learning Approach for Attack Investigation. USENIX Security 2021, pp. 3005-3022.
+7. H. Ding, J. Zhai, Y. Nan, S. Ma. AIRTAG: Towards Automated Attack Investigation by Unsupervised Learning with Log Texts. USENIX Security 2023.
+8. S. T. King, P. M. Chen. Backtracking Intrusions. SOSP 2003.
+9. S. M. Milajerdi, R. Gjomemo, B. Eshete, R. Sekar, V. N. Venkatakrishnan. HOLMES: Real-time APT Detection through Correlation of Suspicious Information Flows. IEEE S&P 2019.
+10. S. M. Milajerdi, B. Eshete, R. Gjomemo, V. N. Venkatakrishnan. POIROT: Aligning Attack Behavior with Kernel Audit Records for Cyber Threat Hunting. ACM CCS 2019.
+11. W. U. Hassan, S. Guo, D. Li, Z. Chen, K. Jee, Z. Li, A. Bates. NoDoze: Combatting Threat Alert Fatigue with Automated Provenance Triage. NDSS 2019.
+12. A. Riddle, K. Westfall, A. Bates. ATLASv2: ATLAS Attack Engagements, Version 2. arXiv:2401.01341, 2024.
 
 ## Limitations
 
-- **Story confidence is not calibrated.** Edge constants are calibrated per rule against
-  GUID truth, but story confidence is a hand-weighted sum with hand-set grade cut-offs, and
-  the GUID rules used when Sysmon GUIDs are present keep hand-set confidences (0.95/0.97).
-  No benchmark yet checks that CONFIRMED stories are correct more often than HIGH ones.
-- **Stories do not speed up triage.** Under equal reading budgets they are slightly worse than
-  a suspicion-sorted flat list (B2). B2 also uses REVENANT's own heuristics to decide "found",
-  and the shipped calibration table was fitted on the same atomic captures B2 uses.
-- The B1 gain over PID-nearest is one corpus (OTRF atomic) and comes from image-keyed
-  fallback rules; the other four corpora show no difference. B1 covers process lineage and
-  process→action edges only; cross-entity edges (dropped file executed, logon session) have no
-  public ground truth beyond the live auditd consistency check.
-- B3 has 10 positives and file-name labels; service-crash style log suppression and MRU
-  deletes are not modelled.
-- `.evtx` parsing through python-evtx is slow on Windows. Converting with `evtx_dump` first is
-  much faster.
-- **ATLAS / ATLASv2 are not used to evaluate REVENANT.** Only ATLAS's own numbers are
-  recomputed, from its released outputs; its model was not re-run. Concrete reasons: (1) ATLAS
-  ships its logs as the authors' preprocessed text (Windows Security, DNS, Firefox) whose labels
-  are malicious *entity* names chosen for its sequence model, not cause-effect pairs, so a
-  REVENANT score needs a new parser plus a defensible mapping from stories to labelled entities,
-  which is not written yet; (2) re-running `model.h5` needs a pinned TensorFlow 2.3 / Python 3.7
-  container that has not been built; (3) ATLASv2 is distributed through a Box link that has not
-  been probed from Actions. Story reconstruction (B2) is therefore evaluated on OTRF atomic only;
-  the new corpora (APT29 day 2, LSASS, Log4Shell) feed B1 and calibration only.
-- B1 corpora with fewer than 10 scorable captures (APT29 day 1/2, LSASS, Log4Shell) report no
-  CI; a capture bootstrap over so few clusters is degenerate.
-- Anti-forensics checks on MFT against `$LogFile`/`$UsnJrnl` are limited to plaso's
-  `$SI`/`$FN` fields. There is no raw NTFS parser.
-- **B3 labels are unchanged** (10 positives). The six OTRF atomic captures labelled T1562.002 by
-  the dataset authors are on disk but not yet used as a B3b benchmark; System 7034/7036 and
-  Security 1100 indicators are not modelled.
-- The headline paired-difference CI lower bound (+0.005) sits near zero and uses 2,000
-  resamples; a 10,000-resample run with a recorded seed is not done yet.
-- CI hygiene gaps: no mermaid-cli diagram validation, workflow run IDs are not written into
-  result JSON, and `continue-on-error` in `atlas-repro.yml` has not been reviewed.
-- The LLM report-drafting assistant from the spec is intentionally not built. No claim
-  comes from a model (ADR 0001).
+<!-- limitations:start -->
+- **Causal-edge accuracy is at parity with a careful analyst heuristic, not above it.** On OTRF
+  atomic REVENANT beats PID-nearest (macro F1 difference +0.194 [+0.129, +0.266], sign test
+  p = 4.6e-7), but a PID-then-image-nearest heuristic (REVENANT's fallback idea without its
+  keys, guard or fusion) comes within +0.008 [-0.000, +0.025] (p = 0.29). The other four corpora
+  are easy for every method. B1 hides Sysmon GUIDs as a proxy for GUID-less sources; no
+  4688-only, plaso or memory lineage is scored, and cross-entity edges (dropped file executed,
+  logon session) have no public ground truth beyond the live auditd consistency check.
+- **Calibration lowers ECE but does not improve ranking.** Fitted on APT29 and tested on atomic,
+  ECE falls from 0.233 to 0.098 [0.011, 0.260], but AUROC is 0.66 [0.42, 0.94] vs 0.77 for the
+  hand-set confidences and selective prediction gains nothing (every CI includes 0). 32,191
+  atomic edges come from rules the APT29 table does not cover and keep hand-set confidences.
+  The shipped table, now refitted on all atomic captures, has held-out ECE 0.034-0.057 on LSASS
+  and APT29 (point estimates: under 10 captures each), higher than the stale table it replaces
+  (0.019-0.027).
+- **Story confidence is not calibrated.** It is a hand-weighted sum with hand-set grade
+  cut-offs, and the GUID rules keep hand-set confidences. No benchmark checks that CONFIRMED
+  stories are correct more often than HIGH ones.
+- **Stories do not speed up triage (B2).** Under equal reading budgets hit@1 is 0.28 vs 0.36 for a
+  suspicion-sorted flat list (lower, not significant: McNemar p = 0.064). B2 decides "found" with
+  REVENANT's own heuristics, and the calibration table was fitted on the same captures.
+- **Under the ATLAS protocol REVENANT is far below ATLAS** (entity F1 0.556 vs 0.913, worse on all
+  10 attacks, p = 0.002). Its stories pull in the victim browser and its helpers, which ATLAS's
+  labels exclude, and the entity mapping is a documented choice. Predicting the symptom alone
+  scores entity F1 0.623 [0.545, 0.698]. ATLAS's released predictions were cleaned by hand; REVENANT's are not.
+- **The ATLAS model re-run cannot reproduce the paper by itself.** `model.h5` re-runs and
+  matches the release on 15/16 test graphs, but the paper's figures need the authors' manual
+  cleaning step. ATLASv2 is not used: its Box link serves only an HTML share page (no scriptable,
+  checksum-pinned file) and the data is 160 GB uncompressed. Retraining with seeds is not done.
+- **Anti-forensics labels are still few.** B3 has 10 file-name positives; the new
+  `logging_stopped` indicator was written after seeing B3's misses (recall 0.60 to 0.80, McNemar
+  p = 0.50; not a held-out gain). On the 17 OTRF T1562.002 captures (B3b) REVENANT finds all 17 but so does a
+  Sigma-equivalent rule set; pre-recording log clears and benign Sysmon EID 2 events keep
+  precision at 0.29 [0.19, 0.42]. Remote Event Log crashes without a local trace and MRU deletions are not
+  detected. There is no raw NTFS (`$LogFile`/`$UsnJrnl`) parser.
+- B1 corpora with fewer than 10 scorable captures (APT29 day 1/2, LSASS, Log4Shell) report no CI.
+- `.evtx` parsing through python-evtx is slow (211 records/s on a GitHub runner); converting with
+  `evtx_dump` first is much faster.
+- The LLM report-drafting assistant from the spec is intentionally not built; no claim comes
+  from a model (ADR 0001).
+<!-- limitations:end -->
 
 ## Roadmap
 
-- [ ] Score REVENANT under the ATLAS protocol (symptom-seeded stories, ATLAS's `evaluate.py`), with a BackTracker-style reachability baseline
-- [ ] Re-run ATLAS's released model (TensorFlow 2.3) and retrain with seeds
-- [ ] Probe the ATLASv2 Box link from Actions
-- [ ] B3b anti-forensics benchmark on the OTRF T1562.002-labelled captures, with Wilson CIs
-- [ ] 10k-resample bootstrap with recorded seed for the headline CI
+<!-- roadmap:start -->
+- [x] Score REVENANT under the ATLAS protocol (symptom-seeded stories, the authors' `evaluate.py`), with a BackTracker-style reachability baseline
+- [x] Re-run ATLAS's released model (TensorFlow 2.3) and diff it against the release
+- [x] Probe the ATLASv2 link from Actions (live, but no scriptable file; 160 GB)
+- [x] B3b anti-forensics benchmark on the OTRF T1562.002-labelled captures, with Wilson CIs
+- [x] Event Log service stop/crash/restart and Security 1100 indicators
+- [x] 10,000-resample bootstrap with a recorded seed; paired capture-level tests
+- [ ] Retrain ATLAS with several seeds
+- [ ] A 4688-only (no Sysmon) process-lineage benchmark, using the fused Sysmon GUIDs as truth
 - [ ] Story-level confidence validation against labelled stories
-- [ ] Event-log service-crash and MRU-deletion tamper indicators (the B3 misses)
+- [ ] Context-aware edge confidences that improve ranking, not only ECE
+- [ ] MRU-deletion and remote Event Log crash indicators (the remaining B3 misses)
 - [ ] `evtx_dump` / Hayabusa JSON ingest for fast `.evtx` handling
 - [ ] Timesketch importer/exporter
 - [ ] PostgreSQL custody backend
+<!-- roadmap:end -->
 
 ## Design stance on AI
 
