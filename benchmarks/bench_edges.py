@@ -431,6 +431,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.extra:
         for cname, caps in compound_corpora().items():
             r, smp = evaluate(cname, caps)
+            corpora[cname] = smp
             if "otrf_atomic" in corpora:  # held-out test of the atomic-fitted table
                 r["calibration_heldout_atomic_table"] = calibration(
                     apply_table(smp, fit_rule_table(corpora["otrf_atomic"])))
