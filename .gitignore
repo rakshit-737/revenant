@@ -45,3 +45,10 @@ htmlcov/
 .DS_Store
 .idea/
 .vscode/
+
+# outputs of the README quickstart and docs walkthroughs
+/report.*
+/graph.cypher
+/case.json
+/case.sqlite
+/out/
