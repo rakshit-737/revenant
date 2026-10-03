@@ -26,7 +26,8 @@ Do not use it against systems or data you are not authorized to examine.
   filesystem access, and symlinks/junctions inside evidence are never followed.
   It binds to `127.0.0.1` by default (`serve` refuses other addresses without
   `--allow-remote`), serves only loopback `Host` headers (DNS-rebinding guard),
-  refuses cross-origin POSTs and caps request bodies at 64 KiB. It has no
+  refuses cross-origin POSTs and caps request bodies at 64 KiB of received bytes
+  (chunked bodies included). It has no
   authentication: never expose it on a network; with Docker publish the port
   as `-p 127.0.0.1:8000:8000`.
 - The UI's two CDN scripts are pinned with Subresource Integrity hashes.
