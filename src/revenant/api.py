@@ -22,7 +22,8 @@ Safety: the service only *reads* evidence, and only below
 validated lexically (no absolute, UNC, drive-qualified or ``..`` inputs) before
 the filesystem is touched, and links inside evidence are never followed. Only
 loopback ``Host`` headers are served (DNS-rebinding guard), cross-origin POSTs
-are refused, and request bodies are capped at 64 KiB. It binds to localhost by
+are refused, and request bodies are capped at 64 KiB on the bytes actually
+received (so ``Transfer-Encoding: chunked`` cannot bypass the cap). It binds to localhost by
 default and has no authentication -- lab use only.
 """
 
@@ -52,6 +53,54 @@ MAX_CASES = 20
 MAX_BODY_BYTES = 64 * 1024
 _LOOPBACK = ["127.0.0.1", "localhost", "[::1]", "::1", "testserver"]
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=_LOOPBACK)
+
+
+def _too_large() -> HTTPException:
+    return HTTPException(413, "request body too large")
+
+
+class BodyLimitMiddleware:
+    """Enforce `MAX_BODY_BYTES` on the bytes actually received.
+
+    A ``Content-Length`` check alone is bypassed by ``Transfer-Encoding: chunked``
+    (no length header), so the ASGI ``receive`` channel itself is counted and the
+    request is answered with 413 as soon as the running total exceeds the cap.
+    """
+
+    def __init__(self, app: Any, limit: int = MAX_BODY_BYTES) -> None:
+        self.app, self.limit = app, limit
+
+    async def __call__(self, scope: dict, receive: Any, send: Any) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        received = 0
+        started = False
+
+        async def limited_receive() -> dict:
+            nonlocal received
+            message = await receive()
+            if message["type"] == "http.request":
+                received += len(message.get("body", b""))
+                if received > self.limit:
+                    # an HTTPException passes FastAPI's body parsing untouched and becomes a 413
+                    raise _too_large()
+            return message
+
+        async def tracked_send(message: dict) -> None:
+            nonlocal started
+            started = started or message["type"] == "http.response.start"
+            await send(message)
+
+        try:
+            await self.app(scope, limited_receive, tracked_send)
+        except HTTPException as exc:  # raised outside a route (nothing turned it into a response)
+            if started or exc.status_code != 413:
+                raise
+            await JSONResponse({"detail": exc.detail}, status_code=413)(scope, receive, send)
+
+
+app.add_middleware(BodyLimitMiddleware)
 
 
 @app.middleware("http")

@@ -126,6 +126,18 @@ def test_api_guards(tmp_path, monkeypatch):
     assert c.post("/api/cases/scenario/intrusion", headers={"origin": "https://evil.example"}).status_code == 403
     assert c.post("/api/cases/path", content=b"{" + b" " * 70_000 + b"}",
                   headers={"content-type": "application/json"}).status_code == 413
+
+    def chunked():  # a generator body is sent with Transfer-Encoding: chunked (no Content-Length)
+        yield b'{"path": "'
+        for _ in range(80):
+            yield b"a" * 1024
+        yield b'"}'
+
+    r = c.post("/api/cases/path", content=chunked(), headers={"content-type": "application/json"})
+    assert r.status_code == 413 and r.json() == {"detail": "request body too large"}
+    small = c.post("/api/cases/path", content=iter([b'{"path": "missing.json"}']),
+                   headers={"content-type": "application/json"})
+    assert small.status_code == 404  # under the cap, chunked bodies still work
     for bad in ["\\\\127.0.0.1\\share\\x.json", "//host/share", "C:/Windows", "/etc/passwd", "a/../../x"]:
         r = c.post("/api/cases/path", json={"path": bad})
         assert r.status_code == 403, bad
