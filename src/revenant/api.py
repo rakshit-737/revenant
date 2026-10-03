@@ -71,6 +71,7 @@ class BodyLimitMiddleware:
         self.app, self.limit = app, limit
 
     async def __call__(self, scope: dict, receive: Any, send: Any) -> None:
+        """Run the wrapped app with a byte-counting ``receive``."""
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
