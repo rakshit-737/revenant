@@ -6,6 +6,55 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+- **ATLAS connector** (`--kind atlas`) for ATLAS's preprocessed Windows-Security/DNS/Firefox
+  logs; the ground-truth suffix is stripped before parsing (a test flips every label).
+  Cross-entity rules `dns_resolved_connect`, `dns_web_request`, `web_referer`.
+- **Symptom-seeded stories** (`revenant.stories.seeded_story`) and **REVENANT scored under the
+  ATLAS protocol** with the authors' `evaluate.py` (C2, `results/atlas_revenant.json`), with a
+  documented entity mapping (`docs/atlas-mapping.md`), BackTracker-style reachability and
+  symptom-only baselines, a bootstrap over attacks and exact sign tests.
+- **ATLAS model re-run**: `model.h5` executed by `atlas.py` in a pinned Python 3.7 /
+  TensorFlow 2.3 container, diffed against the release and scored without manual cleaning;
+  `atlas-repro` runs one job per attack plus a combine job; HEAD-only ATLASv2 link probe.
+- **B3b**: anti-forensics on the 17 OTRF captures the dataset authors labelled T1562.002, with a
+  Sigma-equivalent baseline, before/after rows and Wilson CIs.
+- **`logging_stopped` indicator**: Event Log service stopped/crashed/restarted outside a boot or
+  shutdown (System 7034/7036, WerFault for its svchost) and Security 1100; boot/shutdown markers
+  (4608/4609, 6005/6006/6009/1074) are mapped.
+- B1 **PID-then-image-nearest** baseline; capture-bootstrapped ECE/AUROC/selective prediction;
+  paired sign and Wilcoxon tests; 10,000 resamples with a recorded seed; every result file
+  records its workflow run; `results/live_auditd.json` and `results/headline.md` (which also
+  writes the README headline table); README limitations/roadmap generated from
+  `docs/snippets/`; mermaid diagrams rendered in CI; compose `api` service started in CI.
+
+### Changed (published numbers; several are worse)
+- B1: REVENANT is not significantly better than the new PID-then-image heuristic (macro F1
+  +0.008 [-0.000, +0.025], p = 0.29); the "contribution" statement no longer claims accuracy.
+- Calibration constants are capped as loaded when evaluated: APT29 -> atomic ECE 0.098
+  [0.011, 0.260] (was 0.105, uncapped); AUROC 0.66 vs 0.77 hand-set; no selective-prediction gain.
+- The shipped calibration table is refitted in CI on all atomic captures (run id, commit and
+  SHA-256 recorded); its held-out ECE (0.034-0.057 on LSASS/APT29) is higher than the stale
+  table's (0.019-0.027).
+- B3 recall 0.80 (was 0.60) with `logging_stopped`, which was written after seeing B3's misses.
+- B4 now runs on a GitHub runner: median 11.9 s (5 runs); slopes fitted on a common range
+  (v0.1 2.01 vs v0.2 1.09).
+- ATLAS: macro averages use unrounded per-attack values; the event-level figure is cited to
+  Table 4/Table 5 (not the abstract); "identical"/"exactly" claims replaced (per-attack counts
+  differ for 8 of 10 attacks); the h1/h2 rule and the M4_h1 failure are recorded.
+
+### Fixed
+- API: the 64 KiB body cap is enforced on received bytes, so `Transfer-Encoding: chunked`
+  cannot bypass it.
+- CLI: `analyze --ledger` persists the ledger before writing the report; a refused append
+  leaves no report citing an unpersisted head.
+- Report: evidence text can no longer break out of Markdown code spans or inject HTML.
+- `docker compose up api` starts (`--allow-remote` inside the container).
+- Fixtures are byte-exact on every platform (`.gitattributes`); the documented fixture hash
+  is the one the live demo shows.
+- `revenant --version`/`--help` no longer import the engine (lazy package namespace).
+- UI: "1 event", not "1 events"; CHANGELOG 1.1.0 duplicate sections merged.
+
 ## [1.1.0] - 2026-10-02
 
 Republishes the wheel, sdist and GHCR image with the calibration table (v1.0.0 lacked it).
