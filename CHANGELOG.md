@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-10-03
+
 ### Added
 - **ATLAS connector** (`--kind atlas`) for ATLAS's preprocessed Windows-Security/DNS/Firefox
   logs; the ground-truth suffix is stripped before parsing (a test flips every label).
@@ -54,6 +56,8 @@ All notable changes to this project are documented here. The format follows
   is the one the live demo shows.
 - `revenant --version`/`--help` no longer import the engine (lazy package namespace).
 - UI: "1 event", not "1 events"; CHANGELOG 1.1.0 duplicate sections merged.
+- Calibration stats (ECE/Brier/AUROC) are stored unrounded and rounded once at
+  display; double-rounding no longer flips a trailing digit (e.g. 0.106 vs 0.105).
 
 ## [1.1.0] - 2026-10-02
 
