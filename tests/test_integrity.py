@@ -53,3 +53,15 @@ def test_ledger_is_append_only_sequence():
     b = ledger.append("verify", "d2")
     assert a.seq == 0 and b.seq == 1
     assert b.prev_digest == a.record_hash
+
+
+FIXTURE_SHA256 = "d4dd49a4a1d9f179e67ae8033a2d0b11637dcc8e5fb1436a20d33cffcf8f9b65"
+
+
+def test_committed_fixture_bytes_are_platform_independent():
+    """.gitattributes keeps evidence fixtures byte-identical on every checkout (docs cite this hash)."""
+    import hashlib
+    from pathlib import Path
+
+    p = Path(__file__).parent / "fixtures" / "otrf_psexec_lsa_secrets.jsonl"
+    assert hashlib.sha256(p.read_bytes()).hexdigest() == FIXTURE_SHA256

@@ -19,7 +19,7 @@ flowchart LR
 
 The capture is JSON lines exported from Windows Event Log (Sysmon, Security, System,
 PowerShell). Before anything is parsed, the file itself is hashed and an `acquire` record is
-appended to the custody ledger (`sha256 117ffedc…d313`). A row looks like:
+appended to the custody ledger (`sha256 d4dd49a4…9b65`, identical on every platform: `.gitattributes` keeps fixtures byte-exact). A row looks like:
 
 ```json
 {"SourceName":"Microsoft-Windows-Eventlog","TimeCreated":"2020-10-19 03:30:41.104",

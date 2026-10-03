@@ -1,0 +1,6 @@
+# Evidence fixtures are hashed byte-for-byte (custody ledger, docs, tests):
+# never let a checkout rewrite their line endings.
+tests/fixtures/** -text
+*.jsonl -text
+*.log -text
+*.evtx binary
