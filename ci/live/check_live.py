@@ -21,6 +21,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "benchmarks"))
+
+from stats import clopper_pearson, provenance  # noqa: E402
 
 from revenant.models import EventType  # noqa: E402
 from revenant.pipeline import analyze_paths  # noqa: E402
@@ -102,8 +105,14 @@ def main(out_dir: str) -> int:
         "best_story": best,
         "kernel_truth": {"truth_edges": len(truth), "inferred": len(proc_edges), "tp": tp,
                          "precision": round(p, 4), "recall": round(r, 4),
-                         "f1": round(2 * p * r / (p + r), 4) if p + r else 0.0},
+                         "f1": round(2 * p * r / (p + r), 4) if p + r else 0.0,
+                         # exact interval: with k = n a Wilson interval would understate the uncertainty
+                         "precision_clopper_pearson95": clopper_pearson(tp, len(proc_edges)),
+                         "recall_clopper_pearson95": clopper_pearson(tp, len(truth))},
         "custody_records": len(a.ledger.records),
+        "note": "consistency check, not an independent accuracy measurement: the parser reads the same "
+                "pid/ppid fields the truth comes from",
+        "source": provenance("CI / live-auditd"),
     }
     (out / "live_result.json").write_text(json.dumps(result, indent=2, default=str))
     print(json.dumps(result, indent=2, default=str))
