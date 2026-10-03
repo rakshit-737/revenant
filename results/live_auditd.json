@@ -1,0 +1,113 @@
+{
+  "events": 63,
+  "event_types": {
+    "process_start": 49,
+    "file_write": 6,
+    "file_delete": 4,
+    "network_connect": 4
+  },
+  "edges": 26,
+  "stories": 4,
+  "load_stats": {
+    "rows": 195,
+    "mapped": 63,
+    "bad_rows": 0,
+    "coverage": 0.3231,
+    "clock_offsets_s": {},
+    "top_unmapped": [
+      [
+        "auditd:connect",
+        59
+      ],
+      [
+        "auditd:sendto",
+        10
+      ],
+      [
+        "auditd:USER_END",
+        10
+      ],
+      [
+        "auditd:CRED_DISP",
+        10
+      ],
+      [
+        "auditd:USER_ACCT",
+        10
+      ],
+      [
+        "auditd:USER_CMD",
+        10
+      ],
+      [
+        "auditd:CRED_REFR",
+        10
+      ],
+      [
+        "auditd:USER_START",
+        10
+      ],
+      [
+        "auditd:DAEMON_START",
+        1
+      ],
+      [
+        "auditd:SERVICE_START",
+        1
+      ]
+    ],
+    "unreadable_files": []
+  },
+  "timings_s": {
+    "parse": 0.0089,
+    "ingest": 0.0003,
+    "fusion": 0.0005,
+    "rules": 0.002,
+    "antiforensics": 0.0004,
+    "stories": 0.0017,
+    "chains": 0.0004
+  },
+  "checks": {
+    "scenario_start_seen": true,
+    "scenario_spawned_fetcher": true,
+    "dropped_file_executed": true,
+    "fetcher_connected_to_peer": true,
+    "fetcher_wrote_file": true,
+    "delete_attributed": true,
+    "one_story_covers_sequence": true
+  },
+  "best_story": {
+    "rank": 1,
+    "story_id": "story-411b67aa48",
+    "coverage": 0.857,
+    "events": 8,
+    "grade": "HIGH",
+    "techniques": [
+      "T1105"
+    ]
+  },
+  "kernel_truth": {
+    "truth_edges": 25,
+    "inferred": 25,
+    "tp": 25,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "precision_clopper_pearson95": [
+      0.8628,
+      1.0
+    ],
+    "recall_clopper_pearson95": [
+      0.8628,
+      1.0
+    ]
+  },
+  "custody_records": 66,
+  "note": "consistency check, not an independent accuracy measurement: the parser reads the same pid/ppid fields the truth comes from",
+  "source": {
+    "workflow": "CI",
+    "run_id": "37093169673",
+    "run_url": "https://github.com/rakshit-737/revenant/actions/runs/37093169673",
+    "head_sha": "dd482ab1387413d031690811739caf2b14b43fea"
+  }
+}
