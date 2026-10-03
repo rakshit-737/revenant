@@ -1,71 +1,80 @@
 {
- "fitted_on": "OTRF Security-Datasets atomic (Windows host captures)",
- "method": "Laplace-smoothed per-rule precision vs Sysmon GUID ground truth",
+ "fitted_on": {
+  "corpus": "otrf_atomic",
+  "captures": 120,
+  "captures_with_effects": 102,
+  "effects": 142173,
+  "run_id": "37093169942",
+  "commit": "dd482ab1387413d031690811739caf2b14b43fea"
+ },
+ "description": "OTRF Security-Datasets atomic Windows host captures; Sysmon GUIDs hidden at inference",
+ "method": "Laplace-smoothed per-rule precision vs Sysmon GUID ground truth; capped at 0.99 when loaded",
  "min_n": 20,
+ "table_sha256": "7e353c2c7291e4d9700b11dba11a5d66f25b723ce7b9950cb13f64aede76d08e",
  "rules": {
   "process_dns_query": {
-   "n": 81,
-   "confidence": 0.988
+   "n": 121,
+   "confidence": 0.9837
   },
   "process_file_other": {
-   "n": 740,
-   "confidence": 0.9987
+   "n": 1142,
+   "confidence": 0.9974
   },
   "process_file_write": {
-   "n": 1595,
-   "confidence": 0.9994
+   "n": 1665,
+   "confidence": 0.9982
   },
   "process_image_fallback_dns_query": {
-   "n": 31,
-   "confidence": 0.8182
+   "n": 74,
+   "confidence": 0.7763
   },
   "process_image_fallback_file_other": {
-   "n": 141,
-   "confidence": 0.6014
+   "n": 451,
+   "confidence": 0.7329
   },
   "process_image_fallback_file_write": {
-   "n": 147,
-   "confidence": 0.8322
+   "n": 770,
+   "confidence": 0.9003
   },
   "process_image_fallback_net_connect": {
-   "n": 70,
-   "confidence": 0.875
+   "n": 101,
+   "confidence": 0.8544
   },
   "process_image_fallback_pipe": {
-   "n": 69,
-   "confidence": 0.6761
+   "n": 358,
+   "confidence": 0.8361
   },
   "process_image_fallback_process_access": {
-   "n": 265,
-   "confidence": 0.7041
+   "n": 282,
+   "confidence": 0.6761
   },
   "process_image_fallback_registry_set": {
-   "n": 6991,
-   "confidence": 0.7096
+   "n": 30116,
+   "confidence": 0.7826
   },
   "process_image_fallback_spawn": {
-   "n": 26,
-   "confidence": 0.75
+   "n": 39,
+   "confidence": 0.561
   },
   "process_net_connect": {
-   "n": 148,
-   "confidence": 0.9933
+   "n": 184,
+   "confidence": 0.9946
   },
   "process_pipe": {
-   "n": 289,
-   "confidence": 0.9966
+   "n": 380,
+   "confidence": 0.9948
   },
   "process_process_access": {
-   "n": 10930,
-   "confidence": 0.9365
+   "n": 35385,
+   "confidence": 0.8418
   },
   "process_registry_set": {
-   "n": 46031,
-   "confidence": 1.0
+   "n": 70394,
+   "confidence": 0.9999
   },
   "process_spawn": {
-   "n": 299,
-   "confidence": 0.887
+   "n": 711,
+   "confidence": 0.6858
   }
  }
 }

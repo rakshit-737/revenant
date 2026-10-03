@@ -1,0 +1,2163 @@
+{
+  "benchmark": "antiforensics_otrf_t1562_002",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64"
+  },
+  "label": "T1562.002",
+  "captures": 108,
+  "readable_captures": 106,
+  "positives": 17,
+  "negatives": 89,
+  "unreadable_or_empty": [
+    "empire_enable_rdp",
+    "empire_wdigest_downgrade"
+  ],
+  "methods": {
+    "baseline_1102_104": {
+      "tp": 5,
+      "fp": 27,
+      "fn": 12,
+      "precision": 0.1562,
+      "recall": 0.2941,
+      "f1": 0.2041,
+      "precision_wilson95": [
+        0.0686,
+        0.3175
+      ],
+      "recall_wilson95": [
+        0.1328,
+        0.5313
+      ]
+    },
+    "sigma_equivalent": {
+      "tp": 17,
+      "fp": 41,
+      "fn": 0,
+      "precision": 0.2931,
+      "recall": 1.0,
+      "f1": 0.4533,
+      "precision_wilson95": [
+        0.1918,
+        0.4201
+      ],
+      "recall_wilson95": [
+        0.8157,
+        1.0
+      ]
+    },
+    "revenant_v1_1": {
+      "tp": 17,
+      "fp": 41,
+      "fn": 0,
+      "precision": 0.2931,
+      "recall": 1.0,
+      "f1": 0.4533,
+      "precision_wilson95": [
+        0.1918,
+        0.4201
+      ],
+      "recall_wilson95": [
+        0.8157,
+        1.0
+      ]
+    },
+    "revenant": {
+      "tp": 17,
+      "fp": 41,
+      "fn": 0,
+      "precision": 0.2931,
+      "recall": 1.0,
+      "f1": 0.4533,
+      "precision_wilson95": [
+        0.1918,
+        0.4201
+      ],
+      "recall_wilson95": [
+        0.8157,
+        1.0
+      ]
+    },
+    "revenant_high_only": {
+      "tp": 17,
+      "fp": 40,
+      "fn": 0,
+      "precision": 0.2982,
+      "recall": 1.0,
+      "f1": 0.4595,
+      "precision_wilson95": [
+        0.1953,
+        0.4266
+      ],
+      "recall_wilson95": [
+        0.8157,
+        1.0
+      ]
+    },
+    "revenant_excl_log_cleared": {
+      "tp": 17,
+      "fp": 23,
+      "fn": 0,
+      "precision": 0.425,
+      "recall": 1.0,
+      "f1": 0.5965,
+      "precision_wilson95": [
+        0.2851,
+        0.5781
+      ],
+      "recall_wilson95": [
+        0.8157,
+        1.0
+      ]
+    },
+    "revenant_logging_tamper": {
+      "tp": 14,
+      "fp": 0,
+      "fn": 3,
+      "precision": 1.0,
+      "recall": 0.8235,
+      "f1": 0.9032,
+      "precision_wilson95": [
+        0.7847,
+        1.0
+      ],
+      "recall_wilson95": [
+        0.5897,
+        0.9381
+      ]
+    }
+  },
+  "paired_tests": {
+    "revenant_vs_baseline_1102_104_positives": {
+      "revenant_only": 12,
+      "other_only": 0,
+      "mcnemar_p": 0.0004883
+    },
+    "revenant_vs_baseline_1102_104_negatives": {
+      "revenant_only": 14,
+      "other_only": 0,
+      "mcnemar_p": 0.0001221
+    },
+    "revenant_vs_baseline_1102_104_all": {
+      "revenant_only": 26,
+      "other_only": 0,
+      "mcnemar_p": 2.98e-08
+    },
+    "revenant_vs_sigma_equivalent_positives": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    },
+    "revenant_vs_sigma_equivalent_negatives": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    },
+    "revenant_vs_sigma_equivalent_all": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    },
+    "revenant_vs_revenant_v1_1_positives": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    },
+    "revenant_vs_revenant_v1_1_negatives": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    },
+    "revenant_vs_revenant_v1_1_all": {
+      "revenant_only": 0,
+      "other_only": 0,
+      "mcnemar_p": 1.0
+    }
+  },
+  "entry_level": {
+    "baseline_1102_104": {
+      "found": 3,
+      "entries": 6,
+      "recall": 0.5,
+      "recall_wilson95": [
+        0.1876,
+        0.8124
+      ]
+    },
+    "sigma_equivalent": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "revenant_v1_1": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "revenant": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "revenant_high_only": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "revenant_excl_log_cleared": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    },
+    "revenant_logging_tamper": {
+      "found": 6,
+      "entries": 6,
+      "recall": 1.0,
+      "recall_wilson95": [
+        0.6097,
+        1.0
+      ]
+    }
+  },
+  "entries": {
+    "SDWIN-220630130349": [
+      "auditpol_system_user_auditpolicy_modification"
+    ],
+    "SDWIN-220703123711": [
+      "reg_cmd_process_commandline_logging_disabled",
+      "reg_meterpreter_process_commandline_logging_disabled"
+    ],
+    "SDWIN-220705170038": [
+      "cmd_wevtutil_modify_security_eventlog_path"
+    ],
+    "SDWIN-220708104215": [
+      "cmd_disable_eventlog_service_startuptype_modification_via_registry",
+      "psh_disable_eventlog_service_startuptype_modification",
+      "reg_disable_eventlog_service_startuptype_modification_via_registry"
+    ],
+    "SDWIN-220708104300": [
+      "cmd_psh_stop_netprofm_eventlog_after_reboot",
+      "cmd_psh_stop_netprofm_eventlog_before_reboot",
+      "psh_metasploit_stop_netprofm_eventlog_after_reboot",
+      "psh_metasploit_stop_netprofm_eventlog_before_reboot"
+    ],
+    "SDWIN-220803205800": [
+      "cmd_stop_event_logging_controlset001_minint_key",
+      "cmd_stop_event_logging_controlset_minint_key",
+      "psh_stop_event_logging_controlset001_minint_key",
+      "psh_stop_event_logging_controlset_minint_key",
+      "reg_stop_event_logging_controlset001_minint_key",
+      "reg_stop_event_logging_controlset_minint_key"
+    ]
+  },
+  "indicator_counts_positive_captures": {
+    "timestomp_sysmon": 102,
+    "log_cleared": 5,
+    "audit_tamper": 95,
+    "logging_stopped": 1,
+    "clock_change": 1
+  },
+  "indicator_counts_negative_captures": {
+    "timestomp_sysmon": 535,
+    "log_cleared": 48
+  },
+  "missed_positives": [],
+  "rows": [
+    {
+      "capture": "msf_record_mic",
+      "metadata_id": "SDWIN-200609225055",
+      "title": "MSF Record Mic",
+      "positive": false,
+      "events": 4981,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 8
+      }
+    },
+    {
+      "capture": "cmd_dumping_ntds_dit_file_ntdsutil",
+      "metadata_id": "SDWIN-230718151900",
+      "title": "Dumping NTDS.dit using NTDSutil",
+      "positive": false,
+      "events": 9119,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "cmd_lsass_memory_dumpert_syscalls",
+      "metadata_id": "SDWIN-201018225619",
+      "title": "Lsass Memory Dump via Syscalls",
+      "positive": false,
+      "events": 79,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "cmd_psexec_lsa_secrets_dump",
+      "metadata_id": "SDWIN-201019033054",
+      "title": "Psexec Reg LSA Secrets Dump",
+      "positive": false,
+      "events": 126,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "cmd_sam_copy_esentutl",
+      "metadata_id": "SDWIN-201019002900",
+      "title": "SAM Copy via Esentutl VSS",
+      "positive": false,
+      "events": 663,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "covenant_dcsync_dcerpc_drsuapi_DsGetNCChanges",
+      "metadata_id": "SDWIN-200805020926",
+      "title": "Covenant DCSync",
+      "positive": false,
+      "events": 704,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_dcsync_dcerpc_drsuapi_DsGetNCChanges",
+      "metadata_id": "SDWIN-190301174830",
+      "title": "Empire DCSync",
+      "positive": false,
+      "events": 553,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_mimikatz_backupkeys_dcerpc_smb_lsarpc",
+      "metadata_id": "SDWIN-190518235535",
+      "title": "Empire Mimikatz Backup Keys",
+      "positive": false,
+      "events": 223,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_mimikatz_extract_keys",
+      "metadata_id": "SDWIN-190518230752",
+      "title": "Empire Mimikatz Extract Kerberos Keys",
+      "positive": false,
+      "events": 4165,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_mimikatz_logonpasswords",
+      "metadata_id": "SDWIN-190518202151",
+      "title": "Empire Mimikatz LogonPasswords",
+      "positive": false,
+      "events": 797,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_mimikatz_lsadump_patch",
+      "metadata_id": "SDWIN-200807103913",
+      "title": "Empire Mimikatz Lsadump LSA Patch",
+      "positive": false,
+      "events": 831,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_mimikatz_sam_access",
+      "metadata_id": "SDWIN-190625103712",
+      "title": "Empire Mimikatz SAM Extract Hashes",
+      "positive": false,
+      "events": 5017,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_ninjacopy_dumping_ntds_dit_file",
+      "metadata_id": "SDWIN-230720004300",
+      "title": "Dumping NTDS.dit using NinjaCopy",
+      "positive": false,
+      "events": 9791,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 2,
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "empire_over_pth_patch_lsass",
+      "metadata_id": "SDWIN-190319131123",
+      "title": "Empire Over-Pass-The-Hash",
+      "positive": false,
+      "events": 593,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_powerdump_sam_access",
+      "metadata_id": "SDWIN-200922042230",
+      "title": "Empire Powerdump Extract Hashes",
+      "positive": false,
+      "events": 354,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1
+      }
+    },
+    {
+      "capture": "empire_shell_reg_dump_sam",
+      "metadata_id": "SDWIN-190625133822",
+      "title": "Empire Reg Dump SAM Hive",
+      "positive": false,
+      "events": 480,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_rubeus_asktgt_createnetonly",
+      "metadata_id": "SDWIN-200921230246",
+      "title": "Rubeus Elevated ASKTGT CreateNetOnly",
+      "positive": false,
+      "events": 1770,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 4
+      }
+    },
+    {
+      "capture": "empire_shell_rubeus_asktgt_ptt",
+      "metadata_id": "SDWIN-190319145126",
+      "title": "Rubeus Userland ASKTGT PTT",
+      "positive": false,
+      "events": 505,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "psh_input_capture_promptforcreds",
+      "metadata_id": "SDWIN-201020013208",
+      "title": "UI Prompt For Credentials Function",
+      "positive": false,
+      "events": 144,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_lsass_memory_dump_comsvcs",
+      "metadata_id": "SDWIN-201018195009",
+      "title": "Lsass Memory Dump via Comsvcs.dll",
+      "positive": false,
+      "events": 126,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "psh_windows_vault_web_credentials",
+      "metadata_id": "SDWIN-201028191914",
+      "title": "Windows Vault Web Credentials",
+      "positive": false,
+      "events": 104,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "rdp_interactive_taskmanager_lsass_dump",
+      "metadata_id": "SDWIN-191027055035",
+      "title": "RDP TaskManager LSASS Dump",
+      "positive": false,
+      "events": 3994,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "auditpol_system_user_auditpolicy_modification",
+      "metadata_id": "SDWIN-220630130349",
+      "title": "Disabling Windows Event Logging via Audit Policy Modification",
+      "positive": true,
+      "events": 12517,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 2,
+        "log_cleared": 1,
+        "audit_tamper": 75
+      }
+    },
+    {
+      "capture": "cmd_bitsadmin_download_psh_script",
+      "metadata_id": "SDWIN-201023023651",
+      "title": "Bitsadmin Download Malicious File",
+      "positive": false,
+      "events": 210,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 3
+      }
+    },
+    {
+      "capture": "cmd_disable_eventlog_service_startuptype_modification_via_registry",
+      "metadata_id": "SDWIN-220708104215",
+      "title": "Stopping Event Log Service via Modification of Start Up Type",
+      "positive": true,
+      "events": 6751,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "cmd_mshta_javascript_getobject_sct",
+      "metadata_id": "SDWIN-201022022144",
+      "title": "Mshta Javascript GetObject Sct",
+      "positive": false,
+      "events": 686,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 3
+      }
+    },
+    {
+      "capture": "cmd_mshta_vbscript_execute_psh",
+      "metadata_id": "SDWIN-201022025808",
+      "title": "Mshta VBScript Execute PowerShell",
+      "positive": false,
+      "events": 662,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 3
+      }
+    },
+    {
+      "capture": "cmd_process_herpaderping_snippingtool",
+      "metadata_id": "SDWIN-201026235835",
+      "title": "Process Herpaderping Mimikatz",
+      "positive": false,
+      "events": 163,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "cmd_psh_stop_netprofm_eventlog_after_reboot",
+      "metadata_id": "SDWIN-220708104300",
+      "title": "Stopping Event Log Service after Stopping Depending Services",
+      "positive": true,
+      "events": 10495,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1,
+        "logging_stopped": 1
+      }
+    },
+    {
+      "capture": "cmd_psh_stop_netprofm_eventlog_before_reboot",
+      "metadata_id": "SDWIN-220708104300",
+      "title": "Stopping Event Log Service after Stopping Depending Services",
+      "positive": true,
+      "events": 6637,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1
+      }
+    },
+    {
+      "capture": "cmd_stop_event_logging_controlset001_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 14141,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 12,
+        "audit_tamper": 2,
+        "clock_change": 1
+      }
+    },
+    {
+      "capture": "cmd_stop_event_logging_controlset_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 5050,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 3,
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "cmd_wevtutil_modify_security_eventlog_path",
+      "metadata_id": "SDWIN-220705170038",
+      "title": "Modifying Security Event Log File Path via Modification of Log Configuration",
+      "positive": true,
+      "events": 23218,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 43,
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "covenant_installutil",
+      "metadata_id": "SDWIN-191027223020",
+      "title": "Covenant ShellCmd InstallUtil",
+      "positive": false,
+      "events": 1082,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_lolbin_wuauclt_createremotethread",
+      "metadata_id": "SDWIN-201012183248",
+      "title": "Covenant Wuauclt CreateRemoteThread Execution",
+      "positive": false,
+      "events": 680,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_dllinjection_LoadLibrary_CreateRemoteThread",
+      "metadata_id": "SDWIN-190518221344",
+      "title": "Empire Invoke DLLInjection",
+      "positive": false,
+      "events": 6021,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_enable_rdp",
+      "metadata_id": "SDWIN-190518203650",
+      "title": "Empire Enable RDP",
+      "positive": false,
+      "events": 0,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_launcher_sct_regsvr32",
+      "metadata_id": "SDWIN-200721232741",
+      "title": "Empire Regsvr32 Execution",
+      "positive": false,
+      "events": 1452,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 2
+      }
+    },
+    {
+      "capture": "empire_monologue_netntlm_downgrade",
+      "metadata_id": "SDWIN-191225045202",
+      "title": "Empire Invoke InternalMonologue",
+      "positive": false,
+      "events": 1098,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_powerview_ldap_ntsecuritydescriptor",
+      "metadata_id": "SDWIN-190301125905",
+      "title": "Empire Powerview Add-DomainObjectAcl",
+      "positive": false,
+      "events": 2073,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_psinject_PEinjection",
+      "metadata_id": "SDWIN-190518200432",
+      "title": "Empire PSInject",
+      "positive": false,
+      "events": 1158,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_wdigest_downgrade",
+      "metadata_id": "SDWIN-190518201922",
+      "title": "Empire WDigest Downgrade",
+      "positive": false,
+      "events": 0,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_wmic_add_user_backdoor",
+      "metadata_id": "SDWIN-200914080546",
+      "title": "Empire Remote WMIC Add User",
+      "positive": false,
+      "events": 4817,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 4
+      }
+    },
+    {
+      "capture": "psh_cmstp_execution_bypassuac",
+      "metadata_id": "SDWIN-201022015432",
+      "title": "CMSTP Proxy Execution",
+      "positive": false,
+      "events": 605,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_control_panel_execution",
+      "metadata_id": "SDWIN-201022013121",
+      "title": "Control Panel Execution",
+      "positive": false,
+      "events": 725,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_disable_eventlog_service_startuptype_modification",
+      "metadata_id": "SDWIN-220708104215",
+      "title": "Stopping Event Log Service via Modification of Start Up Type",
+      "positive": true,
+      "events": 5643,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "psh_hh_local_html_payload",
+      "metadata_id": "SDWIN-201022002145",
+      "title": "HH Execution of Local Compiled HTML Payload",
+      "positive": false,
+      "events": 718,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_mavinject_dll_notepad",
+      "metadata_id": "SDWIN-201019232515",
+      "title": "Mavinject Process DLL Injection",
+      "positive": false,
+      "events": 375,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_metasploit_stop_netprofm_eventlog_after_reboot",
+      "metadata_id": "SDWIN-220708104300",
+      "title": "Stopping Event Log Service after Stopping Depending Services",
+      "positive": true,
+      "events": 9053,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "psh_metasploit_stop_netprofm_eventlog_before_reboot",
+      "metadata_id": "SDWIN-220708104300",
+      "title": "Stopping Event Log Service after Stopping Depending Services",
+      "positive": true,
+      "events": 21712,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 29
+      }
+    },
+    {
+      "capture": "psh_mshta_html_application_execution",
+      "metadata_id": "SDWIN-201022035214",
+      "title": "Mshta HTML Application (HTA) Execution",
+      "positive": false,
+      "events": 851,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 3
+      }
+    },
+    {
+      "capture": "psh_register_cimprovider_execute_dll",
+      "metadata_id": "SDWIN-201023020513",
+      "title": "Register-CimProvider Execute Dll",
+      "positive": false,
+      "events": 847,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 2,
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "psh_stop_event_logging_controlset001_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 7204,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 5,
+        "audit_tamper": 1
+      }
+    },
+    {
+      "capture": "psh_stop_event_logging_controlset_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 5571,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "audit_tamper": 1
+      }
+    },
+    {
+      "capture": "purplesharp_pe_injection_createremotethread",
+      "metadata_id": "SDWIN-201023031210",
+      "title": "PurpleSharp PE Injection CreateRemoteThread",
+      "positive": false,
+      "events": 337,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 3
+      }
+    },
+    {
+      "capture": "reg_cmd_process_commandline_logging_disabled",
+      "metadata_id": "SDWIN-220703123711",
+      "title": "Disabling Process Command Line Logging via Registry Modification",
+      "positive": true,
+      "events": 8120,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1,
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "reg_disable_eventlog_service_startuptype_modification_via_registry",
+      "metadata_id": "SDWIN-220708104215",
+      "title": "Stopping Event Log Service via Modification of Start Up Type",
+      "positive": true,
+      "events": 3213,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "reg_meterpreter_process_commandline_logging_disabled",
+      "metadata_id": "SDWIN-220703123711",
+      "title": "Disabling Process Command Line Logging via Registry Modification",
+      "positive": true,
+      "events": 12134,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1,
+        "audit_tamper": 2
+      }
+    },
+    {
+      "capture": "reg_stop_event_logging_controlset001_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 4240,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "audit_tamper": 1
+      }
+    },
+    {
+      "capture": "reg_stop_event_logging_controlset_minint_key",
+      "metadata_id": "SDWIN-220803205800",
+      "title": "Stopping Event Logging via Creation of MiniNt Registry Key",
+      "positive": true,
+      "events": 5462,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": true,
+      "indicators": {
+        "timestomp_sysmon": 2,
+        "audit_tamper": 1
+      }
+    },
+    {
+      "capture": "wmic_remote_xsl_jscript",
+      "metadata_id": "SDWIN-201017061100",
+      "title": "WMIC Remote XSL Jscript Execution",
+      "positive": false,
+      "events": 787,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1,
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "cmd_discover_iexplorer_version_registry",
+      "metadata_id": "SDWIN-201021232814",
+      "title": "Internet Explorer Version Discovery",
+      "positive": false,
+      "events": 53,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "cmd_seatbelt_group_user",
+      "metadata_id": "SDWIN-201102163918",
+      "title": "Seatbelt Group User Discovery",
+      "positive": false,
+      "events": 223,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "covenant_getdomaingroup_ldap_searchrequest_domain_admins",
+      "metadata_id": "SDWIN-200806130039",
+      "title": "Covenant GetDomainGroup Domain Admins",
+      "positive": false,
+      "events": 380,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_find_localadmin_smb_svcctl_OpenSCManager",
+      "metadata_id": "SDWIN-190518224039",
+      "title": "Empire Find Local Admin Access",
+      "positive": false,
+      "events": 2277,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1
+      }
+    },
+    {
+      "capture": "empire_getsession_dcerpc_smb_srvsvc_NetSessEnum",
+      "metadata_id": "SDWIN-190519005224",
+      "title": "Empire Remote Get Session",
+      "positive": false,
+      "events": 799,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_net_local_users",
+      "metadata_id": "SDWIN-190319020729",
+      "title": "Empire Net Local Users",
+      "positive": false,
+      "events": 1119,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_net_localgroup_administrators",
+      "metadata_id": "SDWIN-190319020147",
+      "title": "Empire Net Local Administrators Group",
+      "positive": false,
+      "events": 479,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_rpc_samr_smb_group_domain_admins_standard_user",
+      "metadata_id": "SDWIN-190518201207",
+      "title": "Empire Shell Net Domain Admins",
+      "positive": false,
+      "events": 1213,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_samr_EnumDomainUsers",
+      "metadata_id": "SDWIN-190319021158",
+      "title": "Empire Net Domain Users",
+      "positive": false,
+      "events": 398,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "cmd_sharpview_pcre_net",
+      "metadata_id": "SDWIN-201029202324",
+      "title": "SharpView PCRE.NET",
+      "positive": false,
+      "events": 101,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "empire_launcher_vbs",
+      "metadata_id": "SDWIN-190518182022",
+      "title": "Empire VBS Execution",
+      "positive": false,
+      "events": 910,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "psh_powershell_httplistener",
+      "metadata_id": "SDWIN-201102041306",
+      "title": "PowerShell HTTP Listener",
+      "positive": false,
+      "events": 98,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "psh_python_webserver",
+      "metadata_id": "SDWIN-201029001615",
+      "title": "Python HTTP Server",
+      "positive": false,
+      "events": 520,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 1
+      }
+    },
+    {
+      "capture": "aadinternals_export_adfsdatabaseconfig_remotely",
+      "metadata_id": "SDWIN-210427020247",
+      "title": "Export ADFS Database Configuration Remotely",
+      "positive": false,
+      "events": 82,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_copy_smb_CreateRequest",
+      "metadata_id": "SDWIN-200806015757",
+      "title": "Covenant Remote File Copy",
+      "positive": false,
+      "events": 442,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_dcom_executeexcel4macro_allowed",
+      "metadata_id": "SDWIN-200917174542",
+      "title": "DCOM ExecuteExcel4macro",
+      "positive": false,
+      "events": 6115,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 57
+      }
+    },
+    {
+      "capture": "covenant_dcom_iertutil_dll_hijack",
+      "metadata_id": "SDWIN-201009183000",
+      "title": "Covenant Remote DCOM Iertutil DLL Hijacking",
+      "positive": false,
+      "events": 31209,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 116
+      }
+    },
+    {
+      "capture": "covenant_dcom_registerxll",
+      "metadata_id": "SDWIN-200918145959",
+      "title": "DCOM RegisterXLL",
+      "positive": false,
+      "events": 2111,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_psremoting_command",
+      "metadata_id": "SDWIN-200806115603",
+      "title": "Covenant PowerShell Remoting Command",
+      "positive": false,
+      "events": 3048,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sc_query_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-200805034820",
+      "title": "Covenant SC.exe Utility Query",
+      "positive": false,
+      "events": 492,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sharpsc_create_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-200806022635",
+      "title": "Covenant SharpSC Create",
+      "positive": false,
+      "events": 2348,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sharpsc_query_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-200806012009",
+      "title": "Covenant SharpSC Query",
+      "positive": false,
+      "events": 181,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sharpsc_start_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-200806030120",
+      "title": "Covenant SharpSC Start",
+      "positive": false,
+      "events": 3121,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sharpsc_stop_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-200806031938",
+      "title": "Covenant SharpSC Stop Service",
+      "positive": false,
+      "events": 723,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_sharpwmi_create_dcerpc_wmi",
+      "metadata_id": "SDWIN-200806035621",
+      "title": "Covenant SharpWMI Exec",
+      "positive": false,
+      "events": 1615,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_wmi_remote_event_subscription_ActiveScriptEventConsumers",
+      "metadata_id": "SDWIN-200724174200",
+      "title": "Covenant Remote WMI Eventing ActiveScriptEventConsumers",
+      "positive": false,
+      "events": 2841,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "covenant_wmi_wbemcomn_dll_hijack",
+      "metadata_id": "SDWIN-201009173318",
+      "title": "Covenant Remote WMI Wbemcomn DLL Hijacking",
+      "positive": false,
+      "events": 5453,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_dcom_shellwindows_stager",
+      "metadata_id": "SDWIN-190518211052",
+      "title": "Empire Invoke DCOM ShellWindows",
+      "positive": false,
+      "events": 25980,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 2
+      }
+    },
+    {
+      "capture": "empire_msbuild_dcerpc_wmi_smb",
+      "metadata_id": "SDWIN-190518213907",
+      "title": "Empire Invoke Execute MSBuild",
+      "positive": false,
+      "events": 2398,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_psexec_dcerpc_tcp_svcctl",
+      "metadata_id": "SDWIN-190518210652",
+      "title": "Empire Invoke PsExec",
+      "positive": false,
+      "events": 2690,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_psremoting_stager",
+      "metadata_id": "SDWIN-190518211456",
+      "title": "Empire Invoke PSRemoting",
+      "positive": false,
+      "events": 1376,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_shell_dcerpc_smb_service_dll_hijack",
+      "metadata_id": "SDWIN-190403133337",
+      "title": "IKEEXT Remote Service DLL Hijack",
+      "positive": false,
+      "events": 1936,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_smbexec_dcerpc_smb_svcctl",
+      "metadata_id": "SDWIN-190518210125",
+      "title": "Empire Invoke SMBExec",
+      "positive": false,
+      "events": 5674,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_wmi_dcerpc_wmi_IWbemServices_ExecMethod",
+      "metadata_id": "SDWIN-200921001437",
+      "title": "Empire Invoke WMI",
+      "positive": false,
+      "events": 1769,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "mimikatz_CVE-2020-1472_Unauthenticated_NetrServerAuthenticate2",
+      "metadata_id": "SDWIN-200916232559",
+      "title": "Mimikatz Netlogon Unauthenticated NetrServerAuthenticate2",
+      "positive": false,
+      "events": 411,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "purplesharp_ad_playbook_I",
+      "metadata_id": "SDWIN-201022042947",
+      "title": "PurpleSharp Active Directory Playbook I",
+      "positive": false,
+      "events": 20794,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "schtask_create",
+      "metadata_id": "SDWIN-201219070027",
+      "title": "Remote Scheduled Task Creation",
+      "positive": false,
+      "events": 547,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "schtask_modification",
+      "metadata_id": "SDWIN-201219075059",
+      "title": "Remote Scheduled Task Modification",
+      "positive": false,
+      "events": 1627,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1
+      }
+    },
+    {
+      "capture": "cmd_userinitmprlogonscript_batch",
+      "metadata_id": "SDWIN-201019224718",
+      "title": "Logon Scripts via UserInitMprLogonScript",
+      "positive": false,
+      "events": 105,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "empire_persistence_registry_modification_run_keys_elevated_user",
+      "metadata_id": "SDWIN-200722001847",
+      "title": "Empire Elevated Registry Run Keys",
+      "positive": false,
+      "events": 311,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_persistence_registry_modification_run_keys_standard_user",
+      "metadata_id": "SDWIN-190319023812",
+      "title": "Empire Userland Registry Run Keys",
+      "positive": false,
+      "events": 18128,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 137
+      }
+    },
+    {
+      "capture": "empire_schtasks_creation_execution_elevated_user",
+      "metadata_id": "SDWIN-200921175806",
+      "title": "Empire Elevated Scheduled Tasks",
+      "positive": false,
+      "events": 29097,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 50
+      }
+    },
+    {
+      "capture": "empire_schtasks_creation_standard_user",
+      "metadata_id": "SDWIN-190319024742",
+      "title": "Empire Userland Scheduled Tasks",
+      "positive": false,
+      "events": 751,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "empire_wmi_local_event_subscriptions_elevated_user",
+      "metadata_id": "SDWIN-190518184306",
+      "title": "Empire Elevated WMI Eventing",
+      "positive": false,
+      "events": 55736,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 140
+      }
+    },
+    {
+      "capture": "proxylogon_ssrf_rce_poc",
+      "metadata_id": "SDWIN-210314014019",
+      "title": "Exchange ProxyLogon SSRF RCE Vuln POC",
+      "positive": false,
+      "events": 4386,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": false,
+      "revenant_v1_1": false,
+      "revenant": false,
+      "revenant_high_only": false,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {}
+    },
+    {
+      "capture": "cmd_service_mod_fax",
+      "metadata_id": "SDWIN-201021204544",
+      "title": "Service Modification Fax",
+      "positive": false,
+      "events": 255,
+      "unreadable": false,
+      "baseline_1102_104": true,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": false,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "log_cleared": 2
+      }
+    },
+    {
+      "capture": "empire_uac_shellapi_fodhelper",
+      "metadata_id": "SDWIN-200904032946",
+      "title": "Invoke BypassUAC FodHelper",
+      "positive": false,
+      "events": 2166,
+      "unreadable": false,
+      "baseline_1102_104": false,
+      "sigma_equivalent": true,
+      "revenant_v1_1": true,
+      "revenant": true,
+      "revenant_high_only": true,
+      "revenant_excl_log_cleared": true,
+      "revenant_logging_tamper": false,
+      "indicators": {
+        "timestomp_sysmon": 1
+      }
+    }
+  ],
+  "source": {
+    "workflow": "bench-extended",
+    "run_id": "37093169942",
+    "run_url": "https://github.com/rakshit-737/revenant/actions/runs/37093169942",
+    "head_sha": "dd482ab1387413d031690811739caf2b14b43fea"
+  }
+}

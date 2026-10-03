@@ -1,24 +1,36 @@
 {
   "benchmark": "scale_apt29_day1",
   "environment": {
-    "python": "3.14.3",
-    "platform": "Windows-11-10.0.26200-SP0",
-    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel"
+    "python": "3.12.14",
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64"
   },
   "end_to_end": {
-    "events": 128095,
+    "events": 128101,
     "raw_rows": 196081,
     "mapping_coverage": 0.6533,
-    "load_s_cached": 2.77,
-    "stage_s": {
-      "ingest": 14.9797,
-      "fusion": 7.285,
-      "rules": 28.0202,
-      "antiforensics": 31.15,
-      "stories": 26.3879
+    "load_s_cached": 19.11,
+    "repetitions": 5,
+    "analysis_s": {
+      "median": 11.916,
+      "q1": 11.884,
+      "q3": 12.347,
+      "runs": [
+        12.347,
+        11.884,
+        11.849,
+        12.674,
+        11.916
+      ]
     },
-    "analysis_s": 108.35,
-    "events_per_s": 1182.3,
+    "stage_s": {
+      "ingest": 1.38,
+      "fusion": 0.508,
+      "rules": 3.608,
+      "antiforensics": 3.631,
+      "stories": 2.695
+    },
+    "events_per_s": 10749.9,
     "edges": 93974,
     "corroborations": 1475,
     "stories": 50,
@@ -35,7 +47,7 @@
           "T1071.001"
         ],
         "suspicion": 0.9363,
-        "confidence": 0.9084,
+        "confidence": 0.9083,
         "grade": "CONFIRMED",
         "events": 13,
         "hosts": [
@@ -63,7 +75,7 @@
           "T1071.001"
         ],
         "suspicion": 0.7748,
-        "confidence": 0.8989,
+        "confidence": 0.8983,
         "grade": "CONFIRMED",
         "events": 14,
         "hosts": [
@@ -87,7 +99,7 @@
           "T1547.001"
         ],
         "suspicion": 0.7528,
-        "confidence": 0.8773,
+        "confidence": 0.8753,
         "grade": "CONFIRMED",
         "events": 3,
         "hosts": [
@@ -160,64 +172,131 @@
     "v01_pairwise": [
       {
         "n": 500,
-        "seconds": 1.371,
+        "seconds": 0.125,
+        "runs": [
+          0.124,
+          0.125,
+          0.127
+        ],
         "edges": 24
       },
       {
         "n": 1000,
-        "seconds": 5.498,
+        "seconds": 0.505,
+        "runs": [
+          0.509,
+          0.505,
+          0.504
+        ],
         "edges": 36
       },
       {
         "n": 2000,
-        "seconds": 24.089,
+        "seconds": 2.027,
+        "runs": [
+          2.027,
+          2.009,
+          2.05
+        ],
         "edges": 36
       },
       {
         "n": 4000,
-        "seconds": 127.812,
+        "seconds": 8.098,
+        "runs": [
+          8.148,
+          8.062,
+          8.098
+        ],
         "edges": 50
       }
     ],
     "v02_indexed": [
       {
         "n": 500,
-        "seconds": 0.281,
+        "seconds": 0.004,
+        "runs": [
+          0.004,
+          0.004,
+          0.004
+        ],
         "edges": 13
       },
       {
         "n": 1000,
-        "seconds": 0.221,
+        "seconds": 0.009,
+        "runs": [
+          0.01,
+          0.009,
+          0.009
+        ],
         "edges": 323
       },
       {
         "n": 2000,
-        "seconds": 0.527,
+        "seconds": 0.02,
+        "runs": [
+          0.021,
+          0.02,
+          0.02
+        ],
         "edges": 1101
       },
       {
         "n": 4000,
-        "seconds": 0.996,
+        "seconds": 0.038,
+        "runs": [
+          0.038,
+          0.038,
+          0.038
+        ],
         "edges": 1600
       },
       {
         "n": 16000,
-        "seconds": 11.51,
+        "seconds": 0.158,
+        "runs": [
+          0.163,
+          0.158,
+          0.158
+        ],
         "edges": 6561
       },
       {
         "n": 64000,
-        "seconds": 20.411,
+        "seconds": 1.059,
+        "runs": [
+          1.046,
+          1.726,
+          1.059
+        ],
         "edges": 41108
       },
       {
-        "n": 128095,
-        "seconds": 49.705,
+        "n": 128101,
+        "seconds": 3.436,
+        "runs": [
+          3.436,
+          3.534,
+          2.841
+        ],
         "edges": 94922
       }
     ],
-    "loglog_slope_v01": 2.176,
-    "loglog_slope_v02": 1.033,
-    "v01_extrapolated_full_capture_s": 241256.5
+    "repetitions_per_point": 3,
+    "loglog_slope_v01": 2.006,
+    "loglog_slope_v02_common_range": 1.09,
+    "loglog_slope_v02": 1.183,
+    "common_range": [
+      500,
+      4000
+    ],
+    "v01_extrapolated_full_capture_s": 8480.0
+  },
+  "source": {
+    "workflow": "bench-extended",
+    "run_id": "37093169942",
+    "run_url": "https://github.com/rakshit-737/revenant/actions/runs/37093169942",
+    "head_sha": "dd482ab1387413d031690811739caf2b14b43fea"
   }
 }
