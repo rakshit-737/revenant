@@ -42,3 +42,19 @@ def test_cli_analyze_and_verify(tmp_path, capsys):
     assert main(["verify", str(f)]) == 0
     out = capsys.readouterr().out
     assert "tamper-evident chain intact: True" in out
+
+
+def test_refused_ledger_append_leaves_no_report(tmp_path, capsys):
+    """A report must never cite a ledger head the store did not persist."""
+    from pathlib import Path
+
+    fix = str(Path(__file__).parent / "fixtures" / "otrf_psexec_lsa_secrets.jsonl")
+    store, first, second = tmp_path / "case.sqlite", tmp_path / "r1.md", tmp_path / "r2.md"
+    assert main(["analyze", fix, "--ledger", str(store), "--out", str(first)]) == 0
+    assert first.exists()
+    head = next(ln for ln in first.read_text(encoding="utf-8").splitlines() if "Ledger head" in ln)
+    assert main(["analyze", fix, "--ledger", str(store), "--out", str(second)]) == 2  # another case's history
+    assert not second.exists()
+    assert "refusing to append" in capsys.readouterr().err
+    digest = head.split("`")[1] if "`" in head else head.rsplit(" ", 1)[-1]
+    assert main(["verify", str(store), "--expect-head", digest.strip()]) == 0

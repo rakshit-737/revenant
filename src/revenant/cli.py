@@ -84,7 +84,8 @@ def build_parser() -> argparse.ArgumentParser:
                    help="output format (default: md)")
     a.add_argument("--out", help="write the output here instead of stdout")
     a.add_argument("--pdf", help="also render the report to this PDF (needs WeasyPrint)")
-    a.add_argument("--ledger", help="append the custody ledger to this SQLite store")
+    a.add_argument("--ledger", help="persist the custody ledger to a new SQLite store (or one created "
+                   "from this same ledger); a store holding another case is refused before any report is written")
     a.add_argument("--top", type=int, default=5, help="number of stories in the report (default: 5)")
     a.add_argument("--include-noisy", action="store_true", help="also ingest Sysmon 7 image loads")
 
@@ -130,12 +131,12 @@ def _analyze(args: argparse.Namespace) -> int:
         from .export import to_cypher
 
         text = to_cypher(analysis, top=max(args.top, 20))
-    _emit(text, args.out)
-    if args.ledger:
+    if args.ledger:  # persist custody first: a report must never cite an unpersisted ledger head
         from .custody_store import append_ledger
 
-        n = append_ledger(analysis.ledger, args.ledger)
+        n = append_ledger(analysis.ledger, args.ledger)  # ValueError (exit 2, no report) on a foreign store
         print(f"custody: appended {n} records to {args.ledger}", file=sys.stderr)
+    _emit(text, args.out)
     if args.pdf:
         from .report import write_pdf
 

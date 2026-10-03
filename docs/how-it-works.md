@@ -80,11 +80,12 @@ Story confidence is a documented, hand-weighted sum (not a calibrated probabilit
 
 The report cites every claim with its event id and hash, lists the two `log_cleared`
 indicators (the dataset author cleared the Security and System logs before recording) and
-ends with the custody head. Persist and verify it:
+ends with the custody head. Persist and verify it (each case gets its own store: an
+existing store holding another case's ledger is refused, and then no report is written):
 
 ```bash
-revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --ledger custody.sqlite --out report.md
-revenant verify custody.sqlite --expect-count 129 --expect-head <"Ledger head" from the report>
+revenant analyze tests/fixtures/otrf_psexec_lsa_secrets.jsonl --ledger case.sqlite --out report.md
+revenant verify case.sqlite --expect-count 129 --expect-head <"Ledger head" from the report>
 ```
 
 The same case is the default in the [live demo](demo/index.html):
