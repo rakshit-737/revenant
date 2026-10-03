@@ -300,11 +300,11 @@ def calibration_bootstrap(rows) -> dict:
     W = rng.multinomial(len(rows), [1 / len(rows)] * len(rows), size=BOOT_REPS).astype(float)  # reps x captures
     out: dict = {}
     hb = _bins_array(rows, "handset_bins")
-    out["handset_ece"] = round(float(_ece(hb.sum(0))), 4)
+    out["handset_ece"] = float(_ece(hb.sum(0)))  # unrounded: displays round once
     out["handset_ece_ci95"] = _ci(_ece(np.einsum("rc,cbk->rbk", W, hb)))
     if "fit_apt29_bins" in rows[0]["calibration"]:
         fb = _bins_array(rows, "fit_apt29_bins")
-        out["fit_apt29_ece"] = round(float(_ece(fb.sum(0))), 4)
+        out["fit_apt29_ece"] = float(_ece(fb.sum(0)))
         out["fit_apt29_ece_ci95"] = _ci(_ece(np.einsum("rc,cbk->rbk", W, fb)))
         out["ece_difference_ci95"] = _ci(_ece(np.einsum("rc,cbk->rbk", W, fb)) - _ece(np.einsum("rc,cbk->rbk", W, hb)))
     for key, label in (("fit_apt29_hist", "fit_apt29"), ("handset_hist2", "handset")):
@@ -312,10 +312,10 @@ def calibration_bootstrap(rows) -> dict:
             continue
         values, pos, neg = _cap_arrays(rows, key)
         bp, bn = W @ pos, W @ neg
-        out[f"{label}_auroc"] = round(float(_auroc(values, pos.sum(0), neg.sum(0))), 4)
+        out[f"{label}_auroc"] = float(_auroc(values, pos.sum(0), neg.sum(0)))
         out[f"{label}_auroc_ci95"] = _ci(_auroc(values, bp, bn))
         for q in (0.5, 0.8, 0.9, 1.0):
-            out[f"{label}_precision_at_coverage_{q}"] = round(float(_precision_at(values, pos.sum(0), neg.sum(0), q)), 4)
+            out[f"{label}_precision_at_coverage_{q}"] = float(_precision_at(values, pos.sum(0), neg.sum(0), q))
             out[f"{label}_precision_at_coverage_{q}_ci95"] = _ci(_precision_at(values, bp, bn, q))
     if "fit_apt29_hist" in rows[0]["calibration"]:
         vf, pf, nf = _cap_arrays(rows, "fit_apt29_hist")
@@ -367,24 +367,25 @@ def fig_calibration(d, md):
         fit = k.split("_test_")[0].removeprefix("fit_")
         hs = next(c for c in d["corpora"] if c["corpus"] == test)["revenant_calibration_handset"]
         t, tr = v["test"], v.get("test_table_rules_only", {})
-        md.append(f"| {test} | {fit} | {hs['ece']:.3f} | {t['ece']:.3f} | {tr.get('ece', '-')} | "
-                  f"{v.get('test_edges_left_handset', '-')} | {t.get('brier', '-')} | "
+        md.append(f"| {test} | {fit} | {hs['ece']:.3f} | {t['ece']:.3f} | "
+                  f"{tr['ece']:.3f} | " if tr else f"| {test} | {fit} | {hs['ece']:.3f} | {t['ece']:.3f} | - | ")
+        md[-1] += (f"{v.get('test_edges_left_handset', '-')} | {t.get('brier', 0):.3f} | "
                   f"{t.get('auroc') if t.get('auroc') is not None else 'n/a (all correct)'} | {t.get('accuracy', '-')} |")
     if boot:
         md += ["", "Capture bootstrap on OTRF atomic (102 captures, APT29-fitted table vs hand-set): "
-               f"ECE {boot.get('fit_apt29_ece')} {fmt_ci(boot.get('fit_apt29_ece_ci95'))} vs "
-               f"{boot['handset_ece']} {fmt_ci(boot['handset_ece_ci95'])} (difference "
-               f"{fmt_ci(boot.get('ece_difference_ci95'), signed=True)}); AUROC {boot.get('fit_apt29_auroc')} "
-               f"{fmt_ci(boot.get('fit_apt29_auroc_ci95'))} vs hand-set {boot.get('handset_auroc')} "
-               f"{fmt_ci(boot.get('handset_auroc_ci95'))}.", "",
+               f"ECE {boot.get('fit_apt29_ece', float('nan')):.3f} {fmt_ci(boot.get('fit_apt29_ece_ci95'))} vs "
+               f"{boot['handset_ece']:.3f} {fmt_ci(boot['handset_ece_ci95'])} (difference "
+               f"{fmt_ci(boot.get('ece_difference_ci95'), signed=True)}); AUROC "
+               f"{boot.get('fit_apt29_auroc', float('nan')):.3f} {fmt_ci(boot.get('fit_apt29_auroc_ci95'))} vs "
+               f"hand-set {boot.get('handset_auroc', float('nan')):.3f} {fmt_ci(boot.get('handset_auroc_ci95'))}.", "",
                "**Selective prediction** (keep only the highest-confidence edges; precision at a given share of "
                "edges kept):", "",
                "| edges kept | hand-set confidences | APT29-fitted constants | gain [95% CI] |", "|---|---|---|---|"]
         for q in (0.5, 0.8, 0.9, 1.0):
             g = boot.get(f"precision_gain_at_coverage_{q}_ci95")
-            md.append(f"| {q:.0%} | {boot.get(f'handset_precision_at_coverage_{q}')} "
+            md.append(f"| {q:.0%} | {boot.get(f'handset_precision_at_coverage_{q}', float('nan')):.3f} "
                       f"{fmt_ci(boot.get(f'handset_precision_at_coverage_{q}_ci95'))} | "
-                      f"{boot.get(f'fit_apt29_precision_at_coverage_{q}')} "
+                      f"{boot.get(f'fit_apt29_precision_at_coverage_{q}', float('nan')):.3f} "
                       f"{fmt_ci(boot.get(f'fit_apt29_precision_at_coverage_{q}_ci95'))} | "
                       f"{fmt_ci(g, signed=True) if g else '-'} |")
     shipped = [(c["corpus"], c.get("calibration_shipped_table"), c.get("calibration_previous_shipped_table"))
@@ -755,7 +756,7 @@ def headline(data: dict) -> list[str]:
     boot = cal.get("atomic_capture_bootstrap", {})
     if boot.get("fit_apt29_ece") is not None:
         rows.append(f"| Edge calibration, fit APT29 -> test atomic | ECE {boot['fit_apt29_ece']:.3f} "
-                    f"{fmt_ci(boot.get('fit_apt29_ece_ci95'))}, AUROC {boot.get('fit_apt29_auroc')} "
+                    f"{fmt_ci(boot.get('fit_apt29_ece_ci95'))}, AUROC {boot.get('fit_apt29_auroc', float('nan')):.2f} "
                     f"{fmt_ci(boot.get('fit_apt29_auroc_ci95'), 2)} | hand-set ECE {boot['handset_ece']:.3f} "
                     f"{fmt_ci(boot.get('handset_ece_ci95'))} | improved, not solved | {run_ref(e)} |")
     s = data.get("stories.json")

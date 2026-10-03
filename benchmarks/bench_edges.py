@@ -282,7 +282,9 @@ def calibration(samples: list[tuple[float, bool]], bins: int = 10) -> dict:
         rows.append({"bin": f"{i / bins:.1f}-{(i + 1) / bins:.1f}", "n": len(b),
                      "mean_confidence": round(mc, 4), "accuracy": round(acc, 4)})
     brier = sum((c - ok) ** 2 for c, ok in samples) / n if n else 0.0
-    return {"ece": round(ece, 4), "brier": round(brier, 4), "auroc": auroc(samples), "n": n,
+    # ECE and Brier stay unrounded: displays round once (rounding 0.10544 to 0.1054 and then to
+    # 0.105 is fine, but storing 0.1055 had turned it into 0.106)
+    return {"ece": ece, "brier": brier, "auroc": auroc(samples), "n": n,
             "accuracy": round(sum(ok for _, ok in samples) / n, 4) if n else None, "bins": rows}
 
 
